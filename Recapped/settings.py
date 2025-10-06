@@ -26,11 +26,13 @@ SECRET_KEY = "django-insecure-e90g=&wbe(*@ki#id_)$ujzn)_@*8y9q@u*%6af)l#*u-xnjdl
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+# changed the usermodel
+AUTH_USER_MODEL = "users.User"
 
 # Application definition
 
 INSTALLED_APPS = [
+    "users",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -74,8 +76,12 @@ WSGI_APPLICATION = "Recapped.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "recapped",
+        "USER": "root",
+        "PASSWORD": "2025007diditb@d",
+        "HOST": "localhost",
+        "PORT": "3306"
     }
 }
 
