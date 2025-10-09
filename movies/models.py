@@ -1,18 +1,6 @@
 from django.db import models
 
 
-class Movies(models.Model):
-    """ stores data for movies """
-    name = models.CharField(max_length=255)
-    country = models.CharField(max_length=100)
-    year = models.IntegerField()
-    is_movie = models.BooleanField()
-    is_series = models.BooleanField()
-
-    def __str__(self):
-        return f"{self.name} | {self.country} | {self.year}"
-    
-
 class Genre(models.Model):
     """ stores genre for movie """
     GENRE_OPTIONS = [
@@ -30,16 +18,29 @@ class Genre(models.Model):
         ("sci-fi", "Sci-fi"),
     ]
 
-    genre = models.CharField(max_length=100, choices=GENRE_OPTIONS)
-    movies = models.ForeignKey(Movies, on_delete=models.CASCADE, related_name="movie_genre")
+    name = models.CharField(max_length=100, choices=GENRE_OPTIONS)
 
     def __str__(self):
-        return f"{self.genre}"
+        return f"{self.name}"
 
+
+class Movies(models.Model):
+    """ stores data for movies """
+    name = models.CharField(max_length=255)
+    country = models.CharField(max_length=100)
+    year = models.IntegerField()
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name="movies")
+    is_movie = models.BooleanField()
+    is_series = models.BooleanField()
+    poster_url = models.URLField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} | {self.country} | {self.year}"
+    
 
 class Youtube(models.Model):
     """ store youtube data related to a movie"""
-    movie = models.ForeignKey(Movies, on_delete=models.CASCADE, related_name="movie_yt")
+    movie = models.ForeignKey(Movies, on_delete=models.CASCADE, related_name="youtube_details")
     source_channel = models.CharField(max_length=100)
     source_channel_id = models.CharField(max_length=100)
     video_id = models.CharField(max_length=100)
