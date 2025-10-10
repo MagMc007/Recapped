@@ -45,12 +45,15 @@ def normalize_genre(omdb_genre):
 
 
 def fallback_title_from_yt(title):
-    """Remove words like recap, summary, trailer to get movie title."""
+    """Clean YouTube title to extract probable movie/series title."""
     import re
     t = re.sub(r"\(.*?\)|\[.*?\]", "", title)  # remove brackets
-    t = re.sub(r"(?i)\b(recap|full recap|summary|trailer)\b", "", t)
+    t = re.sub(r"(?i)\b(recap|full recap|summary|trailer)\b", "", t)  # remove recap words
     t = re.sub(r"[-–—|].*$", "", t)  # remove trailing suffixes
+    t = t.replace(":", "")  # remove colons
+    t = re.sub(r"\s+", " ", t)  # normalize whitespace
     return t.strip()
+
 
 # ------------ Management Command ------------
 
@@ -64,10 +67,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         CHANNELS = [
             # Series Channels
-            {"name": "Man of Recaps", "id": "UCyXD1jAZBdZ4u0K-GLYC77Q", "handle": "@ManofRecaps"},
-            # {"name": "Series Recap", "handle": "@SeriesRecapEng"},
+            # {"name": "Man of Recaps", "id": "UCNCTxLZ3EKKry-oWgLlsYsw", "handle": "@ManofRecaps"},
+            #{"name": "Series Recaped", "id": "UCkIsEaii5bDIvg4MhdsefNQ", "handle": "@SeriesRecapEng"},
             # # Normal Movies Channels
-            # {"name": "Film Recaps Here", "handle": "@FilmRecapsHere"},
+            {"name": "Film Recaps Here", "id": "UCjyv8n7SQOXD75SW0EiAYxA", "handle": "@FilmRecapsHere"},
             # {"name": "DiTi Recap", "handle": "@DiTiRecap96"},
             # {"name": "5 Star Movie Reviews", "handle": "@5starmoviereviews"},
             # {"name": "TheCutFrame", "id": "Not Found", "handle": "@ThecutFrame"},
@@ -106,7 +109,15 @@ class Command(BaseCommand):
 
                 # Step 3: Query OMDb
                 try:
-                    omdb_data = query_omdb(movie_title, year_hint)
+                    omdb_query_title = movie_title
+                    # Remove "season X" if present
+                    if "season" in omdb_query_title.lower():
+                        omdb_query_title = re.split(r"(?i)season\s*\d+", omdb_query_title)[0].strip()
+                    # Remove colon suffix
+                    if ":" in omdb_query_title:
+                        omdb_query_title = omdb_query_title.split(":")[0].strip()
+
+                    omdb_data = query_omdb(omdb_query_title, year_hint)
                 except Exception as e:
                     self.stderr.write(f"OMDb query failed for '{movie_title}': {e}")
                     continue

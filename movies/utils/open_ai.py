@@ -1,73 +1,52 @@
-# yourapp/utils/openai_parser.py
 import os
 import json
-from openai import OpenAI
+import google.generativeai as genai
 
-# Initialize the OpenAI client
-client = OpenAI(api_key=os.getenv("OPEN_AI_API_KEY"))  # load from .env
+# Load your API key (set it in your .env)
+# genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+GENAI_KEYS = [
+    os.getenv("GEMINI_API_KEY_1"),
+    os.getenv("GEMINI_API_KEY_2"),
+    os.getenv("GEMINI_API_KEY_3"),
+    os.getenv("GEMINI_API_KEY_4"),
+    os.getenv("GEMINI_API_KEY_5"),
+]
+
 
 def extract_movie_info(video_title, video_description):
-    """
-    Given a video title and description, ask OpenAI to extract movie info.
-    Returns a dictionary: {movie_title, year, country, genres, confidence}
-    """
     combined_text = f"{video_title}\n\n{video_description}"
 
-    # Define a function schema for structured output
-    functions = [
-        {
-            "name": "extract_movie",
-            "description": "Extract canonical movie title and metadata from YouTube video",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "movie_title": {"type": "string", "description": "Canonical movie title"},
-                    "year": {"type": "string", "description": "Year of release if known"},
-                    "country": {"type": "string", "description": "Country of origin if known"},
-                    "genres": {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "description": "List of probable genres"
-                    },
-                    "confidence": {"type": "number", "description": "Confidence score 0-1"}
-                },
-                "required": ["movie_title"]
-            }
-        }
-    ]
+    model = genai.GenerativeModel("gemini-2.5-pro")  # or gemini-1.5-flash (faster & free)
 
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You are a parser that extracts movie info from YouTube video titles and descriptions. "
-                "The movie names are explicitly mentioned in either the title or the description. "
-                "Focus on those fields first and return only valid movie information. "
-                "Return the data in JSON format with keys: movie_title, year, country, genres, confidence."
-            )
-        },
-        {"role": "user", "content": combined_text}
-    ]
+    prompt = (
+        "Extract movie or series information from the provided YouTube title and description. "
+        "Return JSON with: `movie_title` (exact name of the movie or show), `year` (release year, if available), "
+        "`country` (primary production country, if known), `genres` (list of genres, if identifiable), "
+        "`confidence` (0-1 score for extraction accuracy). "
+        "The title or description explicitly contains the movie/show name, often embedded with extra text like 'recap','season.' or others "
+        "Use prior knowledge to identify the correct name, ignoring irrelevant phrases. "
+        f"Input:\n{combined_text}"
+    )
 
-    try:
-        # NEW syntax
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            functions=functions,
-            function_call={"name": "extract_movie"},
-            temperature=0.0
-        )
-    except Exception as e:
-        print(f"OpenAI API error: {e}")
-        return None
+    for key in GENAI_KEYS:
+        genai.configure(api_key=key)
+        model = genai.GenerativeModel("gemini-2.5-pro")
+        try:
+            response = model.generate_content(prompt)
+            text = response.text.strip()
+            
+            # Extract JSON safely
+            json_start = text.find("{")
+            json_end = text.rfind("}") + 1
+            if json_start == -1 or json_end == -1:
+                continue  # try next key
 
-    # Parse function call response
-    func_call = response.choices[0].message.get("function_call")
-    if not func_call:
-        return None
+            parsed = json.loads(text[json_start:json_end])
+            return parsed
 
-    try:
-        return json.loads(func_call["arguments"])
-    except json.JSONDecodeError:
-        return None
+        except Exception as e:
+            print(f"Gemini API error with key {key}: {e}")
+            continue  # try next key
+
+    # if all keys fail
+    return None
