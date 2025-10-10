@@ -64,16 +64,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         CHANNELS = [
             # Series Channels
-            {"name": "Man of Recaps", "handle": "@ManofRecaps"},
-            {"name": "Series Recap", "handle": "@SeriesRecapEng"},
-            # Normal Movies Channels
-            {"name": "Film Recaps Here", "handle": "@FilmRecapsHere"},
-            {"name": "DiTi Recap", "handle": "@DiTiRecap96"},
-            {"name": "5 Star Movie Reviews", "handle": "@5starmoviereviews"},
-            {"name": "TheCutFrame", "id": "Not Found", "handle": "@ThecutFrame"},
-            {"name": "PRO Movie Recap", "handle": "@PROMovieRecapp"},
-            {"name": "RecapRecap", "handle": "@recaprecap99"},
-            {"name": "Show Time", "handle": "@Itsshowtimerecaps"}
+            {"name": "Man of Recaps", "id": "UCyXD1jAZBdZ4u0K-GLYC77Q", "handle": "@ManofRecaps"},
+            # {"name": "Series Recap", "handle": "@SeriesRecapEng"},
+            # # Normal Movies Channels
+            # {"name": "Film Recaps Here", "handle": "@FilmRecapsHere"},
+            # {"name": "DiTi Recap", "handle": "@DiTiRecap96"},
+            # {"name": "5 Star Movie Reviews", "handle": "@5starmoviereviews"},
+            # {"name": "TheCutFrame", "id": "Not Found", "handle": "@ThecutFrame"},
+            # {"name": "PRO Movie Recap", "handle": "@PROMovieRecapp"},
+            # {"name": "RecapRecap", "handle": "@recaprecap99"},
+            # {"name": "Show Time", "handle": "@Itsshowtimerecaps"}
         ]
 
         if options.get("channels"):

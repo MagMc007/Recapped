@@ -1,10 +1,10 @@
 # yourapp/utils/openai_parser.py
 import os
 import json
-import openai
+from openai import OpenAI
 
-openai.api_key = os.getenv("OPEN_AI_API_KEY")  # load from .env
-
+# Initialize the OpenAI client
+client = OpenAI(api_key=os.getenv("OPEN_AI_API_KEY"))  # load from .env
 
 def extract_movie_info(video_title, video_description):
     """
@@ -50,7 +50,8 @@ def extract_movie_info(video_title, video_description):
     ]
 
     try:
-        response = openai.ChatCompletion.create(
+        # NEW syntax
+        response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
             functions=functions,
@@ -62,7 +63,7 @@ def extract_movie_info(video_title, video_description):
         return None
 
     # Parse function call response
-    func_call = response["choices"][0]["message"].get("function_call")
+    func_call = response.choices[0].message.get("function_call")
     if not func_call:
         return None
 
