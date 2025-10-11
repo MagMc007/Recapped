@@ -158,7 +158,7 @@ class YearFilterMovies(ListAPIView):
         serializer = self.get_serializer(queryset)
 
         return Response(serializer.data)
-    
+
 
 class YearFilterSeries(ListAPIView):
     """filters series based on year"""
@@ -177,6 +177,55 @@ class YearFilterSeries(ListAPIView):
         if not queryset.exists():
             return Response(
                 {"message": f"No series from the year: `{year}`."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serilaizer = self.get_serializer(queryset)
+
+        return Response(serilaizer.data)
+
+
+class CountryFilterMovies(ListAPIView):
+    """filters movies based on country"""
+
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        country = self.request.query_params.get("y", "")
+        return Movies.objects.filter(country__icontains=country, is_movies=True)
+
+    def list(self, request, *args, **kwargs):
+        country = request.query_params.get("y", "")
+        queryset = self.get_queryset()
+
+        if not queryset.exists():
+            return Response(
+                {"message": f"No movies from the country: `{country}`."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        serializer = self.get_serializer(queryset)
+
+        return Response(serializer.data)
+
+
+class CountryFilterSeries(ListAPIView):
+    """filters series based on coutry"""
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        country = self.request.query_params("c", "")
+        return Movies.objects.filter(country__icontains=country, is_series=True)
+
+    def list(self, request, *args, **kwargs):
+        country = request.query_params.get("c", "")
+        queryset = self.get_queryset()
+
+        if not queryset.exists():
+            return Response(
+                {"message": f"No series from the country: `{country}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 

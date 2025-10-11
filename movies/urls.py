@@ -13,4 +13,6 @@ urlPatterns = [
     path("series/filter/genre/", views.GenreFilterMovies.as_view(), name="filter-series-by-genre"),
     path("movies/filter/year/", views.YearFilterMovies.as_view(), name="filter-movies-by-year"),
     path("series/filter/year/", views.YearFilterMovies.as_view(), name="filter-series-by-year"),
+    path("movies/filter/country/", views.CountryFilterMovies.as_view(), name="filter-movies-by-country"),
+    path("series/filter/country/", views.CountryFilterSeries.as_view(), name="filter-series-by-country"),
 ]
