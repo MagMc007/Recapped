@@ -60,4 +60,14 @@ class SearchMovieView(ListAPIView):
         serilizer = self.get_serializer()
         return Response(serilizer.data)
 
+class RecentMovies(ListAPIView):
+    """gets uset the mosst recent movies"""
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Movies.objects.filter(is_movie=True).order_by("-year")
 
+class RecentSeries(ListAPIView):
+    """gets the recent series"""
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Movies.objects.filter(is_series=True).order_by("-year")
