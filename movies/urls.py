@@ -9,5 +9,6 @@ urlPatterns = [
     path("movies/search/", views.SearchMovieView.as_view(), name="search-movie-view"),
     path("movies/recents/", views.RecentMovies.as_view(), name="recent-movies-view"),
     path("series/recents/", views.RecentSeries.as_view(), name="recent-series-view"),
+    path("movies/filter/", views.GenreFilterMovies.as_view(), name="filter-movies-by-genre"),
+    path("series/filter/", views.GenreFilterMovies.as_view(), name="filter-series-by-genre")
 ]
-
