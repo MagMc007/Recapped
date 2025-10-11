@@ -33,6 +33,7 @@ def parse_year(year_str):
     if not year_str:
         return 0
     import re
+
     match = re.match(r"(\d{4})", str(year_str))
     return int(match.group(1)) if match else 0
 
@@ -47,8 +48,11 @@ def normalize_genre(omdb_genre):
 def fallback_title_from_yt(title):
     """Clean YouTube title to extract probable movie/series title."""
     import re
+
     t = re.sub(r"\(.*?\)|\[.*?\]", "", title)  # remove brackets
-    t = re.sub(r"(?i)\b(recap|full recap|summary|trailer)\b", "", t)  # remove recap words
+    t = re.sub(
+        r"(?i)\b(recap|full recap|summary|trailer)\b", "", t
+    )  # remove recap words
     t = re.sub(r"[-–—|].*$", "", t)  # remove trailing suffixes
     t = t.replace(":", "")  # remove colons
     t = re.sub(r"\s+", " ", t)  # normalize whitespace
@@ -68,15 +72,19 @@ class Command(BaseCommand):
         CHANNELS = [
             # Series Channels
             # {"name": "Man of Recaps", "id": "UCNCTxLZ3EKKry-oWgLlsYsw", "handle": "@ManofRecaps"},
-            #{"name": "Series Recaped", "id": "UCkIsEaii5bDIvg4MhdsefNQ", "handle": "@SeriesRecapEng"},
+            # {"name": "Series Recaped", "id": "UCkIsEaii5bDIvg4MhdsefNQ", "handle": "@SeriesRecapEng"},
             # # Normal Movies Channels
-            {"name": "Film Recaps Here", "id": "UCjyv8n7SQOXD75SW0EiAYxA", "handle": "@FilmRecapsHere"},
-            # {"name": "DiTi Recap", "handle": "@DiTiRecap96"},
-            # {"name": "5 Star Movie Reviews", "handle": "@5starmoviereviews"},
-            # {"name": "TheCutFrame", "id": "Not Found", "handle": "@ThecutFrame"},
-            # {"name": "PRO Movie Recap", "handle": "@PROMovieRecapp"},
-            # {"name": "RecapRecap", "handle": "@recaprecap99"},
-            # {"name": "Show Time", "handle": "@Itsshowtimerecaps"}
+            {
+                "name": "Film Recaps Here",
+                "id": "UCjyv8n7SQOXD75SW0EiAYxA",
+                "handle": "@FilmRecapsHere",
+            },
+            # {"name": "DiTi Recap", "id": "UCXCMsg0nxg2LhMd6xo4X6cQ", "handle": "@DiTiRecap96"},
+            # {"name": "5 Star Movie Reviews", "id": "UCzH26iTdfnAhJDvK1BW7ntQ", "handle": "@5starmoviereviews"},
+            # {"name": "TheCutFrame", "id": "UCBlOaRIEDAE55yPcdTVeVlg", "handle": "@ThecutFrame"},
+            # {"name": "PRO Movie Recap","id": "UCexI9V_LWVL6pb1V-0cvOuw",  "handle": "@PROMovieRecapp"},
+            # {"name": "RecapRecap","id": "UCnO4gbApZNUu_ekkEeyXsdA",  "handle": "@recaprecap99"},
+            # {"name": "Show Time", "id": "UCMKeaq0NVkOTQjyMVz-EG3Q", "handle": "@Itsshowtimerecaps"}
         ]
 
         if options.get("channels"):
@@ -105,14 +113,18 @@ class Command(BaseCommand):
                     movie_title = fallback_title_from_yt(yt_title)
                     year_hint = None
 
-                self.stdout.write(f"Candidate title: {movie_title} (year hint: {year_hint})")
+                self.stdout.write(
+                    f"Candidate title: {movie_title} (year hint: {year_hint})"
+                )
 
                 # Step 3: Query OMDb
                 try:
                     omdb_query_title = movie_title
                     # Remove "season X" if present
                     if "season" in omdb_query_title.lower():
-                        omdb_query_title = re.split(r"(?i)season\s*\d+", omdb_query_title)[0].strip()
+                        omdb_query_title = re.split(
+                            r"(?i)season\s*\d+", omdb_query_title
+                        )[0].strip()
                     # Remove colon suffix
                     if ":" in omdb_query_title:
                         omdb_query_title = omdb_query_title.split(":")[0].strip()
@@ -136,14 +148,14 @@ class Command(BaseCommand):
                     "genre": genre_obj,
                     "is_movie": omdb_data.get("Type", "movie").lower() != "series",
                     "is_series": omdb_data.get("Type", "movie").lower() == "series",
-                    "poster_url": omdb_data.get("Poster", "")
+                    "poster_url": omdb_data.get("Poster", ""),
                 }
 
                 # Save Movie
                 movie_obj, created = Movies.objects.get_or_create(
                     name=omdb_data.get("Title", movie_title),
                     year=year_val,
-                    defaults=movie_defaults
+                    defaults=movie_defaults,
                 )
 
                 # Save YouTube data
@@ -153,10 +165,12 @@ class Command(BaseCommand):
                         video_id=video_id,
                         defaults={
                             "source_channel": snippet.get("channelTitle", ch["name"]),
-                            "source_channel_id": ch["id"]
-                        }
+                            "source_channel_id": ch["id"],
+                        },
                     )
 
-                self.stdout.write(self.style.SUCCESS(f"Saved: {movie_obj.name} ({movie_obj.year})"))
+                self.stdout.write(
+                    self.style.SUCCESS(f"Saved: {movie_obj.name} ({movie_obj.year})")
+                )
 
         self.stdout.write(self.style.SUCCESS("All done!"))
