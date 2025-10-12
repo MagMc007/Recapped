@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Movies
 from .serializers import MovieSerializer
+from rest_framework.pagination import PageNumberPagination
 
 
 class AllMoviesView(ListAPIView):
@@ -12,6 +13,7 @@ class AllMoviesView(ListAPIView):
     queryset = Movies.objects.filter(is_movie=True)
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
 
 class AllSeriesView(ListAPIView):
@@ -20,6 +22,7 @@ class AllSeriesView(ListAPIView):
     queryset = Movies.objects.filter(is_series=True)
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
 
 class MovieDetailView(RetrieveAPIView):
@@ -27,6 +30,7 @@ class MovieDetailView(RetrieveAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
     lookup_field = "name"
 
     def get_queryset(self):
@@ -38,6 +42,7 @@ class SeriesDetailView(RetrieveAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
     lookup_field = "name"
 
     def get_queryset(self):
@@ -49,6 +54,7 @@ class SearchMovieView(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     # set queryset to filter the search value
     def get_queryset(self):
@@ -75,6 +81,7 @@ class RecentMovies(ListAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     queryset = Movies.objects.filter(is_movie=True).order_by("-year")
+    pagination_class = PageNumberPagination
 
 
 class RecentSeries(ListAPIView):
@@ -83,6 +90,7 @@ class RecentSeries(ListAPIView):
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     queryset = Movies.objects.filter(is_series=True).order_by("-year")
+    pagination_class = PageNumberPagination
 
 
 class GenreFilterMovies(ListAPIView):
@@ -90,6 +98,7 @@ class GenreFilterMovies(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         genre = self.request.query_params.get("f", "")
@@ -115,6 +124,7 @@ class GenreFilterSeries(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         genre = self.request.query_params("f", "")
@@ -140,6 +150,7 @@ class YearFilterMovies(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         year = self.request.query_params.get("y", "")
@@ -165,6 +176,7 @@ class YearFilterSeries(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         year = self.request.query_params("y", "")
@@ -190,6 +202,7 @@ class CountryFilterMovies(ListAPIView):
 
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         country = self.request.query_params.get("y", "")
@@ -214,6 +227,7 @@ class CountryFilterSeries(ListAPIView):
     """filters series based on coutry"""
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         country = self.request.query_params("c", "")
