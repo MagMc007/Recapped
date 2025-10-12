@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path("all/", views.AllMoviesView.as_view(), name="all-movies-view"),
     path("series/", views.AllSeriesView.as_view(), name="all-series-view"),

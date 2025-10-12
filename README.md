@@ -51,9 +51,13 @@ response: 200 OK
  ===========================================================
 
 ## MOVIES
+```
+All the endpoints below require Authentication via jwt so make sure u log in and obtain the jwt token
+to include in the headers
+```
 ### 1. All Movies
 
-ENDPOINT: api/movies/all/
+ENDPOINT: api/movies/all/ or api/movies/series/
 method: GET
 
 request body: 
@@ -64,24 +68,44 @@ None
 response: 200 OK
 ```json
 [
-    {
-        "id": 1,
-        "name": "Harry Potter and the Deathly Hallows: Part 2",
-        "country": "United Kingdom, United States",
-        "year": 2011,
-        "genre": {
-            "name": "adventure"
+    "count": 25,
+    "next": "http://127.0.0.1:8000/api/movies/series/?page=3",
+    "previous": "http://127.0.0.1:8000/api/movies/series/",
+    "results": [
+        {
+            "id": 11,
+            "name": "Wednesday",
+            "country": "United States",
+            "year": 2022,
+            "genre": {
+                "name": "comedy"
+            },
+            "is_movie": false,
+            "is_series": true,
+            "poster_url": "https://m.media-amazon.com/images/M/MV5BMDE1NjNmZjgtZTg0OC00NjkxLWEzYzItMDNkMTc3YjgxZWQyXkEyXkFqcGc@._V1_SX300.jpg",
+            "youtube_details": [
+                {
+                    "source_channel": "Man of Recaps",
+                    "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
+                    "video_id": "ROgUFPA8A6k"
+                },
+                {
+                    "source_channel": "Man of Recaps",
+                    "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
+                    "video_id": "0PJ3van5yds"
+                },
+                {
+                    "source_channel": "Series Recap",
+                    "source_channel_id": "UCkIsEaii5bDIvg4MhdsefNQ",
+                    "video_id": "ykjI5czhT_o"
+                },
+                {
+                    "source_channel": "Series Recap",
+                    "source_channel_id": "UCkIsEaii5bDIvg4MhdsefNQ",
+                    "video_id": "mjdSTYrrYzs"
+                }
+            ]
         },
-        "is_movie": true,
-        "is_series": false,
-        "poster_url": "https://m.media-amazon.com/images/M/MV5BOTA1Mzc2N2ItZWRiNS00MjQzLTlmZDQtMjU0NmY1YWRkMGQ4XkEyXkFqcGc@._V1_SX300.jpg",
-        "youtube_details": [
-            {
-                "source_channel": "Man of Recaps",
-                "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
-                "video_id": "GE6WKfIrmks"
-            }
-        ]
-    }, ....
+        ...
 ]
 ```

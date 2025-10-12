@@ -6,14 +6,14 @@ class YTSerializer(serializers.ModelSerializer):
     """ serilizes YT data related to object """
     class Meta:
         model = Youtube
-        fields = ['source_channel', 'source_channel_id', 'video_id']
+        fields = ['id', 'source_channel', 'source_channel_id', 'video_id']
 
 
 class GenreSerializer(serializers.ModelSerializer):
     """ serilizies genre """
     class Meta:
         model = Genre
-        fields = ["name",]
+        fields = ["id", "name",]
 
 
 class MovieSerializer(serializers.ModelSerializer):

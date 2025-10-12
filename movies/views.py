@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 class AllMoviesView(ListAPIView):
     """view to list all movies"""
 
-    queryset = Movies.objects.filter(is_movie=True)
+    queryset = Movies.objects.filter(is_movie=True).prefetch_related('youtube_details').distinct()
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
@@ -19,7 +19,7 @@ class AllMoviesView(ListAPIView):
 class AllSeriesView(ListAPIView):
     """view to list all series"""
 
-    queryset = Movies.objects.filter(is_series=True)
+    queryset = Movies.objects.filter(is_series=True).prefetch_related('youtube_details').distinct()
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
