@@ -1,6 +1,8 @@
 ## AUTHENTICATION
-### 1. Register
+#### The url documentation below are for user authentication and security.
 
+### 1. Register
+#### This endpoint registers user to the DB.
 ENDPOINT: api/auth/register/
 
 
@@ -27,7 +29,7 @@ response: 201 CREATED
 }
 ```
 ### 2. Login
-
+#### This Endpoint is for logging users in.
 ENDPOINT: api/auth/login/
 
 
@@ -55,13 +57,15 @@ response: 200 OK
 _______________________________________________________________________
 
 ## MOVIES
+#### The url documentation below are for movie related functionalities included in the project.
 ```
-All the endpoints below require Authentication via jwt so make sure u log in and obtain the jwt token to include in the headers like 
+All the endpoints below require Authentication via jwt so make sure you log in and obtain the jwt token to include in the headers like 
 Authorization: Bearer <Your Token here>
 ```
 ### 1. All Movies/ All Series
+#### Gets all the movies/ series.
 
-ENDPOINT: api/movies/or api/series/
+ENDPOINT: api/movies/ or api/series/
 
 
 method: GET
@@ -104,10 +108,10 @@ response: 200 OK
 
 ```
 
-### 2. Series / Movie Detial view
+### 2. Series / Movie Detail view
+#### Gets the details for a single movie/series.
 
-
-ENDPOINT: api/movies/<moviename>/ or api/series/<seriesname>/
+ENDPOINT: api/movies/movie_name/ or api/series/series_name/
 
 
 method: GET
@@ -156,7 +160,7 @@ response: 404 Not Found
 
 
 ### 3. Series / Movie Searching
-
+#### This endpoint is for searching a movie/series.
 
 ENDPOINT: api/movies/search/ or api/series/search/
 
@@ -213,7 +217,7 @@ response: 404 Not Found
 
 
 ### 4. Recent Series or Movies
-
+#### Gets all the recent movies in order of the year
 
 ENDPOINT: api/movies/recents/ or api/series/recents/
 
@@ -260,7 +264,7 @@ response: 200 OK
 
 
 ### 5.  Filter Series or Movies by genre
-
+#### Returns the filtered movie/series based on the given genre.
 
 ENDPOINT: api/movies/filter/genre/ or api/series/filter/genre/
 
@@ -322,7 +326,7 @@ Response: 404 Not found
 
 
 ### 6.  Filter Series or Movies by year
-
+#### Returns the movies/series filtered for the specific year provided
 
 ENDPOINT: api/movies/filter/year/ or api/series/filter/year/
 
@@ -381,7 +385,7 @@ response: 404 Not Found
 ```
 
 ### 7.  Filter Series or Movies by Country
-
+#### Returns movies/series from the provided country.
 
 ENDPOINT: api/movies/filter/country/ or api/series/filter/country/
 
@@ -428,7 +432,7 @@ response: 200 OK
     ]
 }
 ```
-Incase of No movies from a year
+Incase of no movies from a year
 
 response: 404 Not Found
 
