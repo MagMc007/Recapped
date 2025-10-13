@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 class AllMoviesView(ListAPIView):
     """view to list all movies"""
 
-    queryset = Movies.objects.filter(is_movie=True).prefetch_related('youtube_details').distinct()
+    queryset = Movies.objects.filter(is_movie=True)
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
@@ -19,7 +19,7 @@ class AllMoviesView(ListAPIView):
 class AllSeriesView(ListAPIView):
     """view to list all series"""
 
-    queryset = Movies.objects.filter(is_series=True).prefetch_related('youtube_details').distinct()
+    queryset = Movies.objects.filter(is_series=True)
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
@@ -51,15 +51,15 @@ class SeriesDetailView(RetrieveAPIView):
 
 class SearchMovieView(ListAPIView):
     """view to respond to searches"""
-
     serializer_class = MovieSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
 
     # set queryset to filter the search value
     def get_queryset(self):
-        query = self.request.query_parmas.get("q", "")
-        return Movies.objects.filter(name__icontains=query)
+        query = self.request.query_params.get("q", "")
+        queryset = Movies.objects.filter(name__icontains=query)
+        return queryset
 
     # handle case if no such movie is found
     def list(self, request, *args, **kwargs):
@@ -71,7 +71,13 @@ class SearchMovieView(ListAPIView):
                 {"message": f"No results for `{query}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        serializer = self.get_serializer(queryset)
+        # apply pagination
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -101,11 +107,11 @@ class GenreFilterMovies(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        genre = self.request.query_params.get("f", "")
+        genre = self.request.query_params.get("g", "")
         return Movies.objects.filter(genre__name__icontains=genre, is_movie=True)
 
     def list(self, request, *args, **kwargs):
-        genre = request.query_params.get("q", "")
+        genre = request.query_params.get("g", "")
         queryset = self.get_queryset()
 
         if not queryset.exists():
@@ -113,6 +119,10 @@ class GenreFilterMovies(ListAPIView):
                 {"message": f"No movies with genre: `{genre}` yet."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset)
 
@@ -127,11 +137,11 @@ class GenreFilterSeries(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        genre = self.request.query_params("f", "")
+        genre = self.request.query_params("g", "")
         return Movies.objects.filter(genre__name__icontains=genre, is_series=True)
 
     def list(self, request, *args, **kwargs):
-        genre = request.query_params.get("q", "")
+        genre = request.query_params.get("g", "")
         queryset = self.get_queryset()
 
         if not queryset.exists():
@@ -139,7 +149,11 @@ class GenreFilterSeries(ListAPIView):
                 {"message": f"No movies with genre: `{genre}` yet."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
         serializer = self.get_serializer(queryset)
 
         return Response(serializer.data)
@@ -154,7 +168,11 @@ class YearFilterMovies(ListAPIView):
 
     def get_queryset(self):
         year = self.request.query_params.get("y", "")
-        return Movies.objects.filter(year=int(year), is_movies=True)
+
+        if not year or not year.isdigit():
+            return Movies.objects.none()
+        
+        return Movies.objects.filter(year=int(year), is_movie=True)
 
     def list(self, request, *args, **kwargs):
         year = request.query_params.get("y", "")
@@ -165,7 +183,11 @@ class YearFilterMovies(ListAPIView):
                 {"message": f"No movies from the year: `{year}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
         serializer = self.get_serializer(queryset)
 
         return Response(serializer.data)
@@ -180,6 +202,10 @@ class YearFilterSeries(ListAPIView):
 
     def get_queryset(self):
         year = self.request.query_params("y", "")
+
+        if not year or year.isdigit():
+            return Movies.objects.none()
+        
         return Movies.objects.filter(year=int(year), is_series=True)
 
     def list(self, request, *args, **kwargs):
@@ -191,6 +217,11 @@ class YearFilterSeries(ListAPIView):
                 {"message": f"No series from the year: `{year}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serilaizer = self.get_serializer(queryset)
 
@@ -205,11 +236,11 @@ class CountryFilterMovies(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        country = self.request.query_params.get("y", "")
-        return Movies.objects.filter(country__icontains=country, is_movies=True)
+        country = self.request.query_params.get("c", "")
+        return Movies.objects.filter(country__icontains=country, is_movie=True)
 
     def list(self, request, *args, **kwargs):
-        country = request.query_params.get("y", "")
+        country = request.query_params.get("c", "")
         queryset = self.get_queryset()
 
         if not queryset.exists():
@@ -217,6 +248,11 @@ class CountryFilterMovies(ListAPIView):
                 {"message": f"No movies from the country: `{country}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset)
 
@@ -242,6 +278,11 @@ class CountryFilterSeries(ListAPIView):
                 {"message": f"No series from the country: `{country}`."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serilaizer = self.get_serializer(queryset)
 
