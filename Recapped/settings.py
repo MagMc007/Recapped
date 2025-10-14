@@ -41,6 +41,7 @@ AUTH_USER_MODEL = "users.User"
 # Application definition
 
 INSTALLED_APPS = [
+    "reviews",
     "movies",
     "rest_framework",
     "users",
