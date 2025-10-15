@@ -34,6 +34,13 @@ class Movies(models.Model):
     is_series = models.BooleanField()
     poster_url = models.URLField(max_length=1000, blank=True, null=True)
 
+    @property
+    def average_rating(self):
+        ratings = self.ratings.all()
+        if ratings.exists():
+            return round(sum(r.score for r in ratings) / ratings.count(), 1)
+        return None
+
     def __str__(self):
         return f"{self.name} | {self.country} | {self.year}"
     
