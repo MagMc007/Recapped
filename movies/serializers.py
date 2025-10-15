@@ -21,6 +21,7 @@ class MovieSerializer(serializers.ModelSerializer):
     # prepare modelSers to nest
     youtube_details = YTSerializer(read_only=True, many=True)
     genre = GenreSerializer(read_only=True)
+    average_rating = serializers.ReadOnlyField()
 
     class Meta:
         model = Movies
@@ -34,4 +35,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "is_series",
             "poster_url",
             "youtube_details",
+            "average_rating"
         ]
