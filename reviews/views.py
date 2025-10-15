@@ -4,11 +4,11 @@ from .serializers import ReviewSerializer
 from .models import Rating, Movies
 
 
-class ListCreateRating(generics.ListCreateAPIView):
+class ListCreateRatingView(generics.ListCreateAPIView):
     """Allows user to rate a movie"""
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
-      
+    
     def get_queryset(self):
         movie_name = self.kwargs["movie_name"]
         return Rating.objects.filter(movie__name=movie_name)
@@ -17,3 +17,4 @@ class ListCreateRating(generics.ListCreateAPIView):
         movie_name = self.kwargs['movie_name']
         movie = Movies.objects.get(name=movie_name)
         serializer.save(user=self.request.user, movie=movie)
+

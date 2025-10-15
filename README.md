@@ -3,7 +3,7 @@
 
 ### 1. Register
 #### This endpoint registers user to the DB.
-ENDPOINT: api/auth/register/
+#### ENDPOINT: api/auth/register/
 
 
 method: POST
@@ -30,7 +30,7 @@ response: 201 CREATED
 ```
 ### 2. Login
 #### This Endpoint is for logging users in.
-ENDPOINT: api/auth/login/
+#### ENDPOINT: api/auth/login/
 
 
 method: POST
@@ -65,7 +65,7 @@ Authorization: Bearer <Your Token here>
 ### 1. All Movies/ All Series
 #### Gets all the movies/ series.
 
-ENDPOINT: api/movies/ or api/series/
+#### ENDPOINT: api/movies/ or api/series/
 
 
 method: GET
@@ -101,7 +101,8 @@ response: 200 OK
                     "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
                     "video_id": "GE6WKfIrmks"
                 }
-            ]
+            ],
+            "average_rating": 4.0
         },
          ...]
     }
@@ -111,7 +112,7 @@ response: 200 OK
 ### 2. Series / Movie Detail view
 #### Gets the details for a single movie/series.
 
-ENDPOINT: api/movies/movie_name/ or api/series/series_name/
+#### ENDPOINT: api/movies/movie_name/ or api/series/series_name/
 
 
 method: GET
@@ -142,7 +143,8 @@ response: 200 OK
             "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
             "video_id": "W6U-iB3HY1w"
         }
-    ]
+    ],
+    "average_rating": null
 }
 ```
 Incase the movie or series is not found
@@ -162,7 +164,7 @@ response: 404 Not Found
 ### 3. Series / Movie Searching
 #### This endpoint is for searching a movie/series.
 
-ENDPOINT: api/movies/search/ or api/series/search/
+#### ENDPOINT: api/movies/search/ or api/series/search/
 
 
 In query params
@@ -202,7 +204,8 @@ response: 200 OK
                     "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
                     "video_id": "W6U-iB3HY1w"
                 }
-            ]
+            ],
+            "average_rating": null
         }
     ]
 }
@@ -219,7 +222,7 @@ response: 404 Not Found
 ### 4. Recent Series or Movies
 #### Gets all the recent movies in order of the year
 
-ENDPOINT: api/movies/recents/ or api/series/recents/
+#### ENDPOINT: api/movies/recents/ or api/series/recents/
 
 
 method: GET
@@ -255,7 +258,8 @@ response: 200 OK
                     "source_channel_id": "UCjyv8n7SQOXD75SW0EiAYxA",
                     "video_id": "6I0d1CjpgNA"
                 }
-            ]
+            ],
+            "average_rating": null
         }, 
         ....
         ]
@@ -266,7 +270,7 @@ response: 200 OK
 ### 5.  Filter Series or Movies by genre
 #### Returns the filtered movie/series based on the given genre.
 
-ENDPOINT: api/movies/filter/genre/ or api/series/filter/genre/
+#### ENDPOINT: api/movies/filter/genre/ or api/series/filter/genre/
 
 
 In the query params
@@ -307,7 +311,8 @@ response: 200 OK
                     "source_channel_id": "UCNCTxLZ3EKKry-oWgLlsYsw",
                     "video_id": "B7YH9WCJgPk"
                 }
-            ]
+            ], 
+            "average_rating": 4.0
         },
         ...
     ]
@@ -328,7 +333,7 @@ Response: 404 Not found
 ### 6.  Filter Series or Movies by year
 #### Returns the movies/series filtered for the specific year provided
 
-ENDPOINT: api/movies/filter/year/ or api/series/filter/year/
+#### ENDPOINT: api/movies/filter/year/ or api/series/filter/year/
 
 
 In the query params
@@ -369,7 +374,8 @@ response: 200 OK
                     "source_channel_id": "UCjyv8n7SQOXD75SW0EiAYxA",
                     "video_id": "3OqPkYQdU38"
                 }
-            ]
+            ],
+            "average_rating": 4.0
         }
     ]
 }
@@ -387,7 +393,7 @@ response: 404 Not Found
 ### 7.  Filter Series or Movies by Country
 #### Returns movies/series from the provided country.
 
-ENDPOINT: api/movies/filter/country/ or api/series/filter/country/
+#### ENDPOINT: api/movies/filter/country/ or api/series/filter/country/
 
 In the query params
 ```
@@ -427,9 +433,11 @@ response: 200 OK
                     "source_channel_id": "UCjyv8n7SQOXD75SW0EiAYxA",
                     "video_id": "YRdwA-1lPgI"
                 }
-            ]
+            ],
+            "average_rating": 4.0
         }, ...
     ]
+    
 }
 ```
 Incase of no movies from a year
@@ -442,8 +450,58 @@ response: 404 Not Found
 }
 
 ```
+_______________________________________________________________________
 
+## Reviews
 
+### 1. Rate a movie or series
+#### Rates movies/series from with a provided score.
+
+#### ENDPOINT: api/reviews/movies/movie_name/ratings/ or api/reviews/series/series_name/ratings/
+
+method: POST
+
+request body: 
+```json
+ {
+    "score": 4
+ }
+```
+
+response: 201 CREATED
+
+### 2. Get the rating of a movie or series
+#### provides the rating of a movie from users
+
+#### ENDPOINT: api/reviews/moviesmovie_name/ratings/ or api/reviews/series/series_name/ratings/
+
+method: GET
+
+request body: 
+```json
+None
+```
+
+response: 200 OK
+```json
+    {
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "user": {
+                "id": 2,
+                "username": "mag2",
+                "email": "mag2@mag.com"
+            },
+            "movie": "Harry Potter and the Deathly Hallows: Part 2 | United Kingdom, United States | 2011",
+            "score": 4
+        }
+    ]
+    }
+```
 
 
 
