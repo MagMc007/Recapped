@@ -1,15 +1,19 @@
 .navbar-cont {
-    width: 100vw;
-    height: 10vh;
-    background-color: rgb(22, 3, 3);
+    width: 99vw;
+    height: 15vh;
+    background-color: rgb(0, 0, 0);
     display: flex;
     justify-content: space-between;
     gap: 10px;
     padding: 5px;
+    border-bottom: 1px solid rgba(0, 0, 255, 0.546);
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    color: white;
 }
 
 .navbar-cont .logo-cont {
-
     width: 10%;
     height: 100%;
     background-color: black;
@@ -19,7 +23,7 @@
     width: 100%;
     height: 100%;
     object-position:center;
-    object-fit: contain;
+    object-fit: cover;
     max-width: 100%;
 
 }
@@ -27,11 +31,85 @@
 .navbar-cont .links-cont {
     width: 70%;
     height: 100%;
-    background-color: rgb(193, 58, 58); 
 }
+
+.links-cont .links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 10px; 
+}
+
+.links-cont .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.links-cont .search-bar input {
+    width: 45vw;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 255, 0.649);
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.links-cont .search-bar input::placeholder {
+    color: rgba(195, 195, 195, 0.405);
+    opacity: 2;
+    text-align: center;
+}
+
+
+.links-cont .search-bar input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.293);
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.293) inset;
+}
+
+
+.links-cont .search-bar button {
+    border: 1px solid  rgba(0, 0, 255, 0.293);
+    background-color: rgb(23, 5, 184);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    right: 50px;
+}
+
 
 .navbar-cont .user-cont {
      width: 20%;
     height: 100%;
-    background-color: rgb(65, 56, 56);
+}
+
+
+.user-cont {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-cont {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 255, 0.432);
+    border-radius: 5px;
+}
+.signup-cont {
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 255, 0.432);
+    border-radius: 5px;
+    max-width: 100px;
+}
+
+.mode {
+    background-color: red;
+    width: 10px;
+    height: 10px;
 }
