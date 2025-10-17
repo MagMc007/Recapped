@@ -1,25 +1,37 @@
 .navbar-cont {
     width: 100vw;
     height: 10vh;
-    background-color: rgb(236, 231, 231);
+    background-color: rgb(22, 3, 3);
     display: flex;
     justify-content: space-between;
+    gap: 10px;
+    padding: 5px;
 }
 
 .navbar-cont .logo-cont {
+
     width: 10%;
     height: 100%;
     background-color: black;
 }
 
+.navbar-cont .logo-cont img{
+    width: 100%;
+    height: 100%;
+    object-position:center;
+    object-fit: contain;
+    max-width: 100%;
+
+}
+
 .navbar-cont .links-cont {
-    width: 10%;
+    width: 70%;
     height: 100%;
     background-color: rgb(193, 58, 58); 
 }
 
 .navbar-cont .user-cont {
-     width: 10%;
+     width: 20%;
     height: 100%;
     background-color: rgb(65, 56, 56);
 }

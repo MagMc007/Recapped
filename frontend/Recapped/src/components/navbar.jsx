@@ -5,7 +5,9 @@ export default function NavBar() {
         <>
         <nav>
             <div className="navbar-cont">
-                <div className="logo-cont"></div>
+                <div className="logo-cont">
+                    <img src="blackLogo.png" alt="logo" />
+                </div>
                 <div className="links-cont"></div>
                 <div className="user-cont"></div>
             </div>
