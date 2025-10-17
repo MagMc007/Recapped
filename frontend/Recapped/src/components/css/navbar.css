@@ -1,0 +1,25 @@
+.navbar-cont {
+    width: 100vw;
+    height: 10vh;
+    background-color: rgb(236, 231, 231);
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-cont .logo-cont {
+    width: 10%;
+    height: 100%;
+    background-color: black;
+}
+
+.navbar-cont .links-cont {
+    width: 10%;
+    height: 100%;
+    background-color: rgb(193, 58, 58); 
+}
+
+.navbar-cont .user-cont {
+     width: 10%;
+    height: 100%;
+    background-color: rgb(65, 56, 56);
+}
