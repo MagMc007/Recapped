@@ -1,16 +1,24 @@
+.darkmode {
+    background-color: black;
+    color: white;
+}
+
+.lightmode {
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
 .navbar-cont {
     width: 99vw;
     height: 15vh;
-    background-color: rgb(0, 0, 0);
     display: flex;
     justify-content: space-between;
     gap: 10px;
     padding: 5px;
     border-bottom: 1px solid rgba(0, 0, 255, 0.546);
     font-family: "Bebas Neue", sans-serif;
-    font-weight: 200;
-    font-style: normal;
-    color: white;
+    font-weight: 300;
+    font-style: normal;  
 }
 
 .navbar-cont .logo-cont {
@@ -25,7 +33,6 @@
     object-position:center;
     object-fit: cover;
     max-width: 100%;
-
 }
 
 .navbar-cont .links-cont {
@@ -49,24 +56,32 @@
 }
 
 .links-cont .search-bar input {
-    width: 45vw;
+    width: 35vw;
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid rgba(0, 0, 255, 0.649);
     padding: 5px;
     border-radius: 5px;
-    color: white;
+    font-weight: 100;
 }
 
 .links-cont .search-bar input::placeholder {
-    color: rgba(195, 195, 195, 0.405);
     opacity: 2;
     text-align: center;
+    color:  rgb(35, 23, 167);
+}
+
+.dark input{
+    color: white;
+}
+
+.light input {
+    color: black;
 }
 
 
-.links-cont .search-bar input:focus {
+.links-cont .search-bar  input:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.293);
+    box-shadow: 0 0 15px rgba(0, 0, 255, 0.293);
     box-shadow: 0 0 10px rgba(0, 0, 255, 0.293) inset;
 }
 
@@ -74,13 +89,15 @@
 .links-cont .search-bar button {
     border: 1px solid  rgba(0, 0, 255, 0.293);
     background-color: rgb(23, 5, 184);
-    color: white;
     padding: 5px;
     border-radius: 5px;
     position: relative;
     right: 50px;
 }
 
+.links-cont .search-bar button:hover {
+    background-color: rgb(81, 64, 238);
+}
 
 .navbar-cont .user-cont {
      width: 20%;
@@ -89,27 +106,50 @@
 
 
 .user-cont {
-    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
+.auth {
+    background-color: rgb(23, 5, 184);
+    border: 1px solid rgba(0, 0, 255, 0.457);
+    cursor: pointer;
+} 
+
+.auth:hover {
+    background-color: rgb(81, 64, 238);
+}
+
 .login-cont {
     padding: 10px;
-    border: 1px solid rgba(0, 0, 255, 0.432);
-    border-radius: 5px;
+    border-radius: 5px;  
 }
+
 .signup-cont {
     padding: 10px;
-    border: 1px solid rgba(0, 0, 255, 0.432);
     border-radius: 5px;
     max-width: 100px;
 }
 
 .mode {
-    background-color: red;
-    width: 10px;
-    height: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mode i {
+    font-size: 1.5rem;
+}
+
+
+/*Just for the button*/
+.light {
+    color:black;
+}
+.dark {
+    color:white;
 }

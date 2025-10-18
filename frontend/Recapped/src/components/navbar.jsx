@@ -1,35 +1,44 @@
 import './css/navbar.css'
 // import { Link } from "react-router-dom"
+import {useState} from 'react';
 
 
 export default function NavBar() {
+    const [light, setLight] = useState(false);
+    //localStorage.save(light);
+
     return (
         <>
         <nav>
-            <div className="navbar-cont">
+            <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
                 <div className="logo-cont">
-                    <img src="blackLogo.png" alt="logo" />
+                    <img src={light ? "whiteLogo.png":"blackLogo.png"} alt="logo" />
                 </div>
                 <div className="links-cont">
+                    <div className={light? "search-bar light":"search-bar dark"}>
+                        <form action="">
+                            <input type="text" placeholder="Search Your Movie Here ..." />
+                            <button className={light? "light": "dark"}>Search</button>
+                        </form>
+                    </div>
+
                     <div className="links">
                         <a>Home</a>
                         <a>Geners</a>
                         <a>Country</a>
                         <a>Year</a>
                     </div>
-                    <div className="search-bar">
-                        <form action="">
-                            <input type="text" placeholder="Search Your Movie Here ..." />
-                            <button>Search</button>
-                        </form>
-                    </div>
+                    
                 </div>
                 <div className="user-cont">
-                    <div className="mode"></div>
-                    <div className="login-cont">
+                    <div className="mode" onClick={() => {setLight(!light);}}>
+                        <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>
+                        <span>{light? "light": "dark"}</span>
+                    </div>
+                    <div className="auth login-cont">
                         Login
                     </div>
-                    <div className="signup-cont">
+                    <div className="auth signup-cont">
                         Sign Up
                     </div>
                 </div>
