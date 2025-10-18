@@ -1,11 +1,18 @@
 import './css/navbar.css'
 // import { Link } from "react-router-dom"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 
 export default function NavBar() {
-    const [light, setLight] = useState(false);
-    //localStorage.save(light);
+    const [light, setLight] = useState(() => {
+        const saved = localStorage.getItem("light");
+        return saved ? JSON.parse(saved) : false; 
+    });
+
+    useEffect(() => {
+        localStorage.setItem("light", JSON.stringify(light));
+    }, [light]);
+
 
     return (
         <>
