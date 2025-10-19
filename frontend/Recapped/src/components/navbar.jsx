@@ -15,6 +15,9 @@ export default function NavBar() {
         localStorage.setItem("light", JSON.stringify(light));
     }, [light]);
 
+    useEffect(() => {
+        document.body.className = light ? "lightmode": "darkmode"
+    })
 
     return (
         <>
