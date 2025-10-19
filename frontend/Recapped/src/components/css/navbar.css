@@ -9,7 +9,7 @@
 }
 
 .navbar-cont {
-    width: 99vw;
+    width: 100vw;
     height: 15vh;
     display: flex;
     justify-content: space-between;
@@ -82,7 +82,7 @@
 .links-cont .search-bar  input:focus {
     outline: none;
     box-shadow: 0 0 15px rgba(0, 0, 255, 0.293);
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.293) inset;
+    box-shadow: 0 0 10px rgba(123, 123, 233, 0.495) inset;
 }
 
 
@@ -124,7 +124,8 @@
 
 .login-cont {
     padding: 10px;
-    border-radius: 5px;  
+    border-radius: 5px; 
+    max-width: 100px; 
 }
 
 .signup-cont {
@@ -133,12 +134,27 @@
     max-width: 100px;
 }
 
+
+.humburger {
+    width: 5%;
+    height: 100%;
+    display: none;
+}
+
+.humburger i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
 .mode {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-right: -30px;
+    z-index: 100;
 }
 
 .mode i {
@@ -150,6 +166,69 @@
 .light {
     color:black;
 }
+
 .dark {
     color:white;
+}
+
+.menu-open {
+    background-color: rgb(91, 79, 231);
+    width: 20vw;
+    height: 30vh;
+    display: none;
+    position:absolute;
+    top: 150px;
+    right: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    padding-left: 1vw;
+}
+
+.menu-open .mode {
+    flex-direction:row;
+    gap: 10px;
+}
+
+
+/* Responsiveness for screen size*/
+@media (max-width:810px) {
+    .navbar-cont .user-cont {
+        width: 25%;
+    }
+    .navbar-cont .links-cont {
+        width:60%;
+    }
+    .navbar-cont .logo-cont {
+        width: 15%;
+    }
+}
+
+@media (max-width:660px) {
+    .navbar-cont .user-cont {
+        display: none;
+    }
+    .navbar-cont .links-cont {
+        width: 75%;
+    }
+    .navbar-cont .logo-cont {
+        width: 20%;
+    }
+    .links-cont .search-bar input::placeholder {
+        text-align: left;
+    }
+    .mode {
+        margin: 0px;
+    }
+    .humburger {
+        width: 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .menu-open {
+         display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 }

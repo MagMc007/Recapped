@@ -4,6 +4,8 @@ import {useState, useEffect} from 'react';
 
 
 export default function NavBar() {
+    const [menuOpen, setMenuOpen] = useState(false);
+
     const [light, setLight] = useState(() => {
         const saved = localStorage.getItem("light");
         return saved ? JSON.parse(saved) : false; 
@@ -37,11 +39,32 @@ export default function NavBar() {
                     </div>
                     
                 </div>
-                <div className="user-cont">
-                    <div className="mode" onClick={() => {setLight(!light);}}>
+                
+                <div className="mode" onClick={() => {setLight(!light);}}>
                         <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>
                         <span>{light? "light": "dark"}</span>
-                    </div>
+                </div>
+
+                <div className="humburger" onClick={() => {setMenuOpen(!menuOpen)}}>
+                    <i className={menuOpen ? "bi bi-x-lg": "bi bi-list" }></i>
+                </div>
+
+                {
+                    menuOpen ? (
+                        <div className="menu-open">
+                            <div className="auth login-cont">
+                                Login
+                            </div>
+                            <div className="auth signup-cont">
+                                Sign Up
+                            </div>
+                        </div>
+                    ): ("")
+                }
+                
+
+                <div className="user-cont">
+                    
                     <div className="auth login-cont">
                         Login
                     </div>
