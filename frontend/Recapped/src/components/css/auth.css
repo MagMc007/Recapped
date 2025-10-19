@@ -1,0 +1,18 @@
+.auth-cont {
+    margin-top: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-cont {
+    width: 50%;   
+    
+}
+
+.image-cont {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

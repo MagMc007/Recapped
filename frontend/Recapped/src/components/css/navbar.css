@@ -10,6 +10,8 @@
 
 .navbar-cont {
     position: fixed;
+    top: 0px;
+    right: 0px;
     z-index: 100;
     width: 100vw;
     height: 15vh;
@@ -20,12 +22,15 @@
     font-weight: 300;
     font-style: normal;  
     box-shadow: 0px 0px 10px black;
+    border-radius: 10px;
 }
 
 .navbar-cont .logo-cont {
     width: 10%;
     height: 100%;
     background-color: black;
+    border-radius: 10px;
+
 }
 
 .navbar-cont .logo-cont img{
@@ -34,6 +39,8 @@
     object-position:center;
     object-fit: cover;
     max-width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    border: 0px;
 }
 
 .navbar-cont .links-cont {
@@ -119,6 +126,7 @@
     background-color: blue;
     border: 1px solid rgba(0, 0, 255, 0.457);
     cursor: pointer;
+    text-decoration: none;
 } 
 
 .auth:hover {

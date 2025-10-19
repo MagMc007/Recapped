@@ -1,12 +1,10 @@
 import './css/navbar.css'
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import {useState, useEffect} from 'react';
 
 
 export default function NavBar({light, setLight}) {
     const [menuOpen, setMenuOpen] = useState(false);
-
-    
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
@@ -36,7 +34,7 @@ export default function NavBar({light, setLight}) {
                     
                 </div>
                 
-                <div className="mode" onClick={() => {setLight(!light);}}>
+                <div className="mode" onClick={() => {setLight(!light)}}>
                         <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>
                         <span>{light? "light": "dark"}</span>
                 </div>
@@ -48,25 +46,24 @@ export default function NavBar({light, setLight}) {
                 {
                     menuOpen ? (
                         <div className="menu-open">
-                            <div className="auth login-cont">
+                            <Link to="/login" className="auth login-cont">
                                 Login
-                            </div>
-                            <div className="auth signup-cont">
+                            </Link>
+                            <Link to="/signup" className="auth signup-cont">
                                 Sign Up
-                            </div>
+                            </Link>
                         </div>
                     ): ("")
                 }
                 
 
                 <div className="user-cont">
-                    
-                    <div className="auth login-cont">
+                    <Link to="/login" className={light? "auth login-cont light": "auth login-cont dark"}>
                         Login
-                    </div>
-                    <div className="auth signup-cont">
+                    </Link>
+                    <Link to="/signup" className={light? "auth signup-cont light": "auth signup-cont dark"}>
                         Sign Up
-                    </div>
+                    </Link>
                 </div>
             </div>
         </nav>  

@@ -1,7 +1,9 @@
 import './App.css'
-import NavBar from './components/navbar.jsx'
 import HomePage from './components/homepage.jsx'
+import SignUp from './components/signup.jsx'
+import Login from './components/login.jsx'
 import {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
 
 function App() {
   const [light, setLight] = useState(() => {
@@ -15,7 +17,13 @@ function App() {
 
   return (
     <>
-    <HomePage light={light} setLight={setLight} />
+    <Router>
+      <Routes>
+        <Route path="/" exact element={<HomePage light={light} setLight={setLight} />}></Route>
+        <Route path="/login" exact element={<Login light={light} setLight={setLight} />}></Route>
+        <Route path="/signup" exact element={<SignUp  light={light} setLight={setLight} />}></Route>
+      </Routes>
+    </Router>
     </>
   );
 }
