@@ -3,17 +3,10 @@ import './css/navbar.css'
 import {useState, useEffect} from 'react';
 
 
-export default function NavBar() {
+export default function NavBar({light, setLight}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const [light, setLight] = useState(() => {
-        const saved = localStorage.getItem("light");
-        return saved ? JSON.parse(saved) : false; 
-    });
-
-    useEffect(() => {
-        localStorage.setItem("light", JSON.stringify(light));
-    }, [light]);
+    
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
@@ -29,7 +22,7 @@ export default function NavBar() {
                 <div className="links-cont">
                     <div className={light? "search-bar light":"search-bar dark"}>
                         <form action="">
-                            <input type="text" placeholder="Search Your Movie Here ..." />
+                            <input  autoCapitalize="off" autoComplete="off" type="text" placeholder="Search Your Movie Here ..." name="q" />
                             <button className={light? "light": "dark"}>Search</button>
                         </form>
                     </div>
