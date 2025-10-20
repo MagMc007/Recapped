@@ -2,6 +2,9 @@ import './css/auth.css'
 import NavBar from './navbar.jsx'
 import {Link} from 'react-router-dom'
 
+
+
+
 export default function SignUp({light, setLight}){
     return (
         <>

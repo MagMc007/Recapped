@@ -1,5 +1,6 @@
 import './css/homepage.css'
 import NavBar from './navbar.jsx'
+import {Link} from 'react-router-dom'
 
 
 export default function HomePage({light, setLight}) {
@@ -12,12 +13,12 @@ export default function HomePage({light, setLight}) {
                     <h1>Welcome to <span>Recapped</span></h1><br />
                     <p>Redefine recaps and experience stories unfolding in seconds.</p>
                     <div className="user-redirs">
-                        <div className="auth redirs get-started">
+                        <Link to="/login" className="auth redirs get-started">
                             Get statrted  &rarr;
-                        </div>
-                        <div className="auth redirs login">
+                        </Link>
+                        <Link to="/signup" className="auth redirs login">
                             Login
-                        </div>
+                        </Link>
                     </div>
                 </div>
                 <div className="image-cont">
