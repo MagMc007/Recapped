@@ -55,7 +55,7 @@ export default function SignUp({light, setLight}){
                         <input type="email" autoComplete="off" required placeholder="Email" name="email" className={light? "light":"dark"} />
                         <input type="password" autoComplete="off" required placeholder="Password" name="password" className={light? "light":"dark"} />
                         <input type="password" autoComplete="off" required placeholder="Confirmation" name="password2" className={light? "light":"dark"} />
-                        <button className={light? "auth light": "auth dark"}>Sign Up</button>
+                        <button className={light? "auth light": "auth dark"} type="submit">Sign Up</button>
                     </form>
                     <p>Already have an account, <Link to="/login">Login</Link></p>
                 </div>
