@@ -1,15 +1,24 @@
 import './css/navbar.css'
 import { Link } from "react-router-dom"
 import {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom'
 
 
 export default function NavBar({light, setLight}) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const Token = sessionStorage.getItem("Token");
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
     })
 
+    function logout() {
+        sessionStorage.clear();
+        navigate("/");
+        console.log("Logged out");
+    }
     return (
         <>
         <nav>
@@ -31,7 +40,6 @@ export default function NavBar({light, setLight}) {
                         <a>Country</a>
                         <a>Year</a>
                     </div>
-                    
                 </div>
                 
                 <div className="mode" onClick={() => {setLight(!light)}}>
@@ -42,9 +50,15 @@ export default function NavBar({light, setLight}) {
                 <div className="humburger" onClick={() => {setMenuOpen(!menuOpen)}}>
                     <i className={menuOpen ? "bi bi-x-lg": "bi bi-list" }></i>
                 </div>
-
                 {
                     menuOpen ? (
+                        Token ? (
+                            <div className="menu-open">
+                                <div className="auth logout-cont" onClick={() => {logout()}}>
+                                    Logout
+                                </div>  
+                            </div>
+                        ):(
                         <div className="menu-open">
                             <Link to="/login" className="auth login-cont">
                                 Login
@@ -52,19 +66,29 @@ export default function NavBar({light, setLight}) {
                             <Link to="/signup" className="auth signup-cont">
                                 Sign Up
                             </Link>
-                        </div>
+                        </div>)
                     ): ("")
                 }
-                
 
-                <div className="user-cont">
-                    <Link to="/login" className={light? "auth login-cont light": "auth login-cont dark"}>
-                        Login
-                    </Link>
-                    <Link to="/signup" className={light? "auth signup-cont light": "auth signup-cont dark"}>
-                        Sign Up
-                    </Link>
-                </div>
+                {
+                    Token ? (
+                        <div className="user-cont">
+                            <div className="auth logout-cont" onClick={() => {logout()}}>
+                                Logout
+                            </div>  
+                        </div>
+                    ): (
+                        <div className="user-cont">
+                            <Link to="/login" className={light? "auth login-cont light": "auth login-cont dark"}>
+                                Login
+                            </Link>
+                            <Link to="/signup" className={light? "auth signup-cont light": "auth signup-cont dark"}>
+                                Sign Up
+                            </Link>
+                        </div>
+                    )
+                }
+                
             </div>
         </nav>  
         </>

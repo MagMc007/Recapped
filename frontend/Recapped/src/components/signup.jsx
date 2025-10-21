@@ -34,6 +34,7 @@ export default function SignUp({light, setLight}){
                 console.log(response);
                 // store token in session, pretection reason
                 sessionStorage.setItem("Token", response.data.access_token);
+                sessionStorage.setItem("Username", response.data.user.username)
                 navigate("/home");
             } catch (error) {
                 //console.log(error.response.data["username"][0]);

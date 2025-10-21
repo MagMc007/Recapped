@@ -30,7 +30,6 @@
     height: 100%;
     background-color: black;
     border-radius: 10px;
-
 }
 
 .navbar-cont .logo-cont img{
@@ -110,7 +109,7 @@
 }
 
 .navbar-cont .user-cont {
-     width: 20%;
+    width: 20%;
     height: 100%;
 }
 
@@ -144,6 +143,13 @@
     padding: 10px;
     border-radius: 5px;
     max-width: 100px;
+}
+
+.logout-cont {
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 100px;
+    text-align: center;
 }
 
 
