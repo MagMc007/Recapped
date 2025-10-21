@@ -43,4 +43,19 @@
 }
 
 
+.message {
+    background-color: rgba(230, 2, 2, 0.549);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    color: rgb(246, 241, 241);
+    text-align: center;
+}
 
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
