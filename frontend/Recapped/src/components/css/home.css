@@ -1,3 +1,11 @@
 .home-cont {
-    margin-top: 15vh;
+    margin: 16vh 5px 0px 5px;
+    height: 80vh;
 }
+
+.home-choices {
+    display: flex;
+    justify-content: center;
+    height: 4vh;
+}
+
