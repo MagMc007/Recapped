@@ -10,28 +10,35 @@ export default function SignUp({light, setLight}){
     // init vars for data handling and redirs
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
-    const [alert, setAlert] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setMessage("");
         
         const username = e.target.username.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
+        const password2 = e.target.password2.value;
+
 
         const formData = { username, email, password};
-
-        //console.log(formData);
-
-        // try sending the data
-        try {
-            const response = await api.post("api/auth/register/", formData);
-            console.log(response);
-        } catch (error) {
-            //console.log(error.response.data["username"][0]);
-            setMessage(error.response.data["username"][0])
+        if (password !== password2) {
+            setMessage("Passwords must match");
+        } else {
+            // try sending the data
+            try {
+                const response = await api.post("api/auth/register/", formData);
+                console.log(response);
+                navigate("/dummy")
+            } catch (error) {
+                //console.log(error.response.data["username"][0]);
+                setMessage(error.response.data["username"][0])
+            }finally {
+                e.target.reset();
+                
+            }
         }
-
+  
     }
 
     return (
