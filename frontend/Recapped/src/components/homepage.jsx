@@ -13,10 +13,10 @@ export default function HomePage({light, setLight}) {
                     <h1>Welcome to <span>Recapped</span></h1><br />
                     <p>Redefine recaps and experience stories unfolding in seconds.</p>
                     <div className="user-redirs">
-                        <Link to="/login" className="auth redirs get-started">
+                        <Link to="/signup"  className="auth redirs get-started">
                             Get statrted  &rarr;
                         </Link>
-                        <Link to="/signup" className="auth redirs login">
+                        <Link to="/login" className="auth redirs login">
                             Login
                         </Link>
                     </div>

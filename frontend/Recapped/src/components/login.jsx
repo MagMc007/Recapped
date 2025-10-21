@@ -13,6 +13,7 @@ export default function Login({light, setLight}){
 
     async function handleSubmit(e) {
         setMessage("");
+        sessionStorage.setItem("Token", "");
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
@@ -23,7 +24,8 @@ export default function Login({light, setLight}){
         try {
             const response = await api.post("api/auth/login/", formData)
             console.log(response);
-            navigate("/dummy");
+            sessionStorage.setItem("Token", response.data.access_token)
+            navigate("/home");
         } catch (error) {
             //console.log(error.response.data.non_field_errors[0]);
             setMessage(error.response.data.non_field_errors[0]);

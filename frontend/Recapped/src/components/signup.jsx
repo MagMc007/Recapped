@@ -12,7 +12,9 @@ export default function SignUp({light, setLight}){
     const [message, setMessage] = useState("");
     const [showing, setShowing] =  useState(false);
 
+
     async function handleSubmit(e) {
+        sessionStorage.setItem("Token","");
         e.preventDefault();
         setMessage("");
         
@@ -24,22 +26,22 @@ export default function SignUp({light, setLight}){
 
         const formData = { username, email, password};
         if (password !== password2) {
-            setMessage("Passwords must match");
+            setMessage("Password and Confirmation must match");
         } else {
             // try sending the data
             try {
                 const response = await api.post("api/auth/register/", formData);
                 console.log(response);
-                navigate("/dummy")
+                // store token in session, pretection reason
+                sessionStorage.setItem("Token", response.data.access_token);
+                navigate("/home");
             } catch (error) {
                 //console.log(error.response.data["username"][0]);
-                setMessage(error.response.data["username"][0])
+                setMessage(error.response.data["username"][0]);
             }finally {
                 e.target.reset();
-                
             }
         }
-  
     }
 
     return (
@@ -55,7 +57,7 @@ export default function SignUp({light, setLight}){
                         <input type="text" autoComplete="off" required placeholder="Username" name="username" className={light? "light":"dark"} />
                         <input type="email" autoComplete="off" required placeholder="Email" name="email" className={light? "light":"dark"} />
                         <div className="show-pwd">
-                            <input type={showing ? "text": "password"} autoComplete="off" required placeholder="Password" name="password" className={light? "light":"dark"} id="no border" />
+                            <input type={showing ? "text": "password"} autoComplete="off" required placeholder="Password" name="password" className={light? "light":"dark"} id="no-border" />
                             <i onClick={() => {setShowing(!showing)}} className={showing? "bi bi-eye":"bi bi-eye-slash"}></i>
                         </div>
                         <input type="password" autoComplete="off" required placeholder="Confirmation" name="password2" className={light? "light":"dark"} id="pull-up" />
