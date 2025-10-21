@@ -59,3 +59,17 @@
 .show {
     display: block;
 }
+
+.show-pwd {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    gap: 5px;
+    padding-right: 2px;
+}
+
+.show-pwd i {
+    padding: 9px;
+    border: 1px solid rgb(41, 7, 235);
+    border-radius: 5px;
+}

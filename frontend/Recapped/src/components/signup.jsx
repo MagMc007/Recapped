@@ -10,6 +10,7 @@ export default function SignUp({light, setLight}){
     // init vars for data handling and redirs
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
+    const [showing, setShowing] =  useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -53,8 +54,11 @@ export default function SignUp({light, setLight}){
                     <form action="" onSubmit={handleSubmit}>
                         <input type="text" autoComplete="off" required placeholder="Username" name="username" className={light? "light":"dark"} />
                         <input type="email" autoComplete="off" required placeholder="Email" name="email" className={light? "light":"dark"} />
-                        <input type="password" autoComplete="off" required placeholder="Password" name="password" className={light? "light":"dark"} />
-                        <input type="password" autoComplete="off" required placeholder="Confirmation" name="password2" className={light? "light":"dark"} />
+                        <div className="show-pwd">
+                            <input type={showing ? "text": "password"} autoComplete="off" required placeholder="Password" name="password" className={light? "light":"dark"} id="no border" />
+                            <i onClick={() => {setShowing(!showing)}} className={showing? "bi bi-eye":"bi bi-eye-slash"}></i>
+                        </div>
+                        <input type="password" autoComplete="off" required placeholder="Confirmation" name="password2" className={light? "light":"dark"} id="pull-up" />
                         <button className={light? "auth light": "auth dark"} type="submit">Sign Up</button>
                     </form>
                     <p>Already have an account, <Link to="/login">Login</Link></p>

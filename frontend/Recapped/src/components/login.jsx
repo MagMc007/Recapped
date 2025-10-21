@@ -7,7 +7,7 @@ import api from '../api/axios.jsx'
 
 export default function Login({light, setLight}){
     document.title = "Login";
-
+    const [showing, setShowing] =  useState(false);
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ export default function Login({light, setLight}){
         //console.log(formData);
         try {
             const response = await api.post("api/auth/login/", formData)
-            //console.log(response);
+            console.log(response);
             navigate("/dummy");
         } catch (error) {
             //console.log(error.response.data.non_field_errors[0]);
@@ -43,7 +43,10 @@ export default function Login({light, setLight}){
                     </div>
                     <form action="" onSubmit={handleSubmit}>
                         <input type="text" required autoComplete="off" name="username" placeholder="Username"className={light? "light":"dark"} />
-                        <input type="password" required name="password" autoComplete="off" placeholder="Password"className={light? "light":"dark"} />
+                        <div className="show-pwd">
+                            <input type={showing ? "text": "password"} required name="password" autoComplete="off" placeholder="Password"className={light? "light":"dark"} />
+                            <i onClick={() => {setShowing(!showing)}}  className={showing? "bi bi-eye":"bi bi-eye-slash"}></i>
+                        </div>
                         <button className={light? "auth light": "auth dark"} type="submit">Login</button>
                     </form>
                     <p>Don't have an account, <Link to="/signup">Sign Up</Link></p>
