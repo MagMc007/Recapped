@@ -59,7 +59,7 @@ export default function Movies() {
                             <img src={item.poster_url} alt="image" />
                         </div>
                         <div className="movie-detail-cont">
-                            <span>{item.name}</span>
+                            <span>{item.name.slice(0,20)}...</span>
                         </div>
                     </div>
                 )
