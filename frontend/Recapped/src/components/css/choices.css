@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     height: 100%;
-    border: 1px solid white;
+    border: 1px solid rgba(0, 0, 255, 0.768);
     border-radius: 5px;
     width: 70%;
 }
@@ -14,5 +14,5 @@
 }
 
 .series {
-    border-left: 1px solid rgb(228, 228, 232);
+    border-left: 1px solid rgba(0, 0, 255, 0.844);
 }

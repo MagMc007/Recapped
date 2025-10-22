@@ -36,7 +36,7 @@ export default function NavBar({light, setLight}) {
 
                     <div className="links">
                         <a>Home</a>
-                        <a>Geners</a>
+                        <a>Genres</a>
                         <a>Country</a>
                         <a>Year</a>
                     </div>

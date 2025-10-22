@@ -1,6 +1,7 @@
 import NavBar from './navbar.jsx'
 import  Choices from './choices.jsx'
 import './css/home.css'
+import Movies from './movies.jsx'
 
 
 export default function Home({ light, setLight}) {
@@ -14,7 +15,7 @@ export default function Home({ light, setLight}) {
                 <div className="home-choices">
                    <Choices />
                 </div>
-             
+                <Movies />
             </div> 
         </>
     )

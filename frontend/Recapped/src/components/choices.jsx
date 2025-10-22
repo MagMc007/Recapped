@@ -1,6 +1,7 @@
 //import {Link} from 'react-router-dom'
 import './css/choices.css'
 
+
 export default function Choices() {
     return (
         <>
@@ -11,6 +12,7 @@ export default function Choices() {
                 <div className="choice series">
                     <p>Series</p>
                 </div>
+               
             </div>
         </>
     )
