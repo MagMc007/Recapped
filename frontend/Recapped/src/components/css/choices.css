@@ -11,8 +11,13 @@
 .choice {
     width: 50%;
     text-align: center;
+    cursor: pointer;
 }
 
 .series {
     border-left: 1px solid rgba(0, 0, 255, 0.844);
+}
+
+.selected {
+    border-bottom: 2px solid white;
 }

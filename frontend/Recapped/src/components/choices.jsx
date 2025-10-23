@@ -2,17 +2,16 @@
 import './css/choices.css'
 
 
-export default function Choices() {
+export default function Choices({ onSelect, choice }) {
     return (
         <>
             <div className="choices-cont">
-                <div className="choice movies">
+                <div className={choice === "movies" ? "choice movies selected":"choice movies"} onClick={() => onSelect("movies")}>
                     <p>Movies</p>
                 </div>
-                <div className="choice series">
+                <div className={choice === "series" ? "choice series selected":"choice series"} onClick={() => onSelect("series")}>
                     <p>Series</p>
                 </div>
-               
             </div>
         </>
     )
