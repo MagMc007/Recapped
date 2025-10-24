@@ -1,6 +1,8 @@
 import './css/movieDetail.css'
 import NavBar from './navbar.jsx'
 import YouTube from "react-youtube"
+import { useState, useEffect } from 'react'
+import api from '../api/axios.jsx'
 
 export default function MovieDetail({ light, setLight}) {
     const opts = {
@@ -8,7 +10,52 @@ export default function MovieDetail({ light, setLight}) {
         width: "640",
         playerVars: { autoplay: 0 },
     };
-    return (
+
+    const [loading, setLoading] = useState(true);
+    const [ message, setMessage ] = useState("");
+    const [ movie, setMovie] = useState([]);
+
+    const Token = sessionStorage.getItem("Token");
+
+    useEffect(() => {
+        async function fetchMovie() {
+            try {
+                const response = await api.get("api/moives/Alien/", {headers:{ Authorization: `Bearer ${Token}`}})
+                //console.log(response);
+                if (response){
+                    setMovie(response.data.results);
+                    //console.log(response.data.results);
+                    setLoading(false);   
+                }   
+            } catch(error){
+                console.log(error)
+                setMessage("Sorry, Something went wrong")
+            }
+        }
+        fetchMovie();
+    }, [])
+
+    if (loading) {
+        return (
+            <>
+                <div className="other-cont">
+                    <div className="loader"></div>
+                </div>
+            </>
+        )
+    }
+
+    if (message) {
+        return (
+            <>
+                <div className="other-cont">
+                    <p>{message}</p>
+                </div>
+            </>
+        )
+    }
+    //console.log("movies", movies)
+    return ( 
         <>
         <NavBar light={light} setLight={setLight} />
         <div className="detail-movie-cont">

@@ -35,7 +35,6 @@ function App() {
         <Route path="/" exact element={<HomePage light={light} setLight={setLight} />}></Route>
         <Route path="/login" exact element={<Login light={light} setLight={setLight} />}></Route>
         <Route path="/signup" exact element={<SignUp  light={light} setLight={setLight} />}></Route>
-        <Route path="/moviedet" exact element={<MovieDetail light={light} setLight={setLight}/>}></Route>
 
        {/* protected Routes */}
         <Route path="/home" exact element=
@@ -44,7 +43,14 @@ function App() {
                 <Home light={light} setLight={setLight} />
           </ProtectRoute>
           }
-          />
+        />
+        <Route path="/movie" exact element=
+        {
+          <ProtectRoute>
+            <MovieDetail light={light} setLight={setLight}/>
+          </ProtectRoute>
+        }
+        />
       </Routes>
     </Router>
     </>
