@@ -20,10 +20,10 @@ export default function MovieDetail({ light, setLight}) {
     useEffect(() => {
         async function fetchMovie() {
             try {
-                const response = await api.get("api/moives/Alien/", {headers:{ Authorization: `Bearer ${Token}`}})
-                //console.log(response);
+                const response = await api.get("api/series/You/", {headers:{ Authorization: `Bearer ${Token}`}})
+                console.log(response);
                 if (response){
-                    setMovie(response.data.results);
+                    setMovie(response.data);
                     //console.log(response.data.results);
                     setLoading(false);   
                 }   
@@ -61,15 +61,20 @@ export default function MovieDetail({ light, setLight}) {
         <div className="detail-movie-cont">
             <div className="video-cont">
                 <div className="video">
-                    <YouTube videoId="GE6WKfIrmks" opts={opts}/>
+                     <YouTube videoId={movie.youtube_details[1].video_id} opts={opts}/> 
                 </div>
             </div>
             <div className="detail-exp-cont">
                 <div className="movie-img-cont">
-                    <img src="https://m.media-amazon.com/images/M/MV5BOTA1Mzc2N2ItZWRiNS00MjQzLTlmZDQtMjU0NmY1YWRkMGQ4XkEyXkFqcGc@._V1_SX300.jpg" alt="" />
+                     <img src={movie.poster_url} alt="" /> 
                 </div>
                 <div className="detail-movie">
-
+                    <h5>{movie.name}</h5>
+                    <hr />
+                    <h6>Country: {movie.country}</h6>
+                    <h6>Genre: {movie.genre.name.toUpperCase()}</h6>
+                    <h6>Year: {movie.year}</h6>
+                    <h6>Average Rating: {movie.average_rating ? movie.average_rating: "_"}</h6>
                 </div>
             </div>
         </div>

@@ -29,7 +29,7 @@
 }
 
 .detail-exp-cont {
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.307);
     height: 40%;
     width: 95%;
     border-radius: 5px;
@@ -41,7 +41,7 @@
 
 
 .detail-exp-cont .movie-img-cont {
-    width: 30%;
+    width: 20%;
     height: 100%;
 }
 
@@ -51,9 +51,11 @@
     object-position: center;
 }
 .detail-exp-cont .detail-movie {
-    border: 1px solid white;
-    width: 70%;
+    border: 1px solid rgba(255, 255, 255, 0.165);
+    border-radius: 5px;
+    width: 80%;
     height: 100%;
+    padding: 10px;
 }
 
 .other-cont {
