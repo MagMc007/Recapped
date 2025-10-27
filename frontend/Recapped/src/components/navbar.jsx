@@ -24,7 +24,7 @@ export default function NavBar({light, setLight}) {
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
                 <div className="logo-cont">
-                    <img src={light ? "whiteLogo.png":"blackLogo.png"} alt="logo" />
+                    <img src={light ? "/whiteLogo.png":"/blackLogo.png"} alt="logo" />
                 </div>
                 <div className="links-cont">
                     <div className={light? "search-bar light":"search-bar dark"}>

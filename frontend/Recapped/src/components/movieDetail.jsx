@@ -11,6 +11,11 @@ export default function MovieDetail({ light, setLight}) {
         playerVars: { autoplay: 0 },
     };
 
+    // get the category and name 
+    const path = window.location.pathname;
+    const parts = path.split("/").filter(Boolean);
+    const [category, name] = parts;
+
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movie, setMovie] = useState([]);
@@ -20,7 +25,7 @@ export default function MovieDetail({ light, setLight}) {
     useEffect(() => {
         async function fetchMovie() {
             try {
-                const response = await api.get("api/series/You/", {headers:{ Authorization: `Bearer ${Token}`}})
+                const response = await api.get(`api/${category}/${name}`, {headers:{ Authorization: `Bearer ${Token}`}})
                 console.log(response);
                 if (response){
                     setMovie(response.data);
@@ -38,6 +43,7 @@ export default function MovieDetail({ light, setLight}) {
     if (loading) {
         return (
             <>
+                <NavBar light={light} setLight={setLight} />
                 <div className="other-cont">
                     <div className="loader"></div>
                 </div>
@@ -48,12 +54,14 @@ export default function MovieDetail({ light, setLight}) {
     if (message) {
         return (
             <>
+                <NavBar light={light} setLight={setLight} />
                 <div className="other-cont">
                     <p>{message}</p>
                 </div>
             </>
         )
     }
+
     //console.log("movies", movies)
     return ( 
         <>
@@ -61,7 +69,7 @@ export default function MovieDetail({ light, setLight}) {
         <div className="detail-movie-cont">
             <div className="video-cont">
                 <div className="video">
-                     <YouTube videoId={movie.youtube_details[1].video_id} opts={opts}/> 
+                     <YouTube videoId={movie.youtube_details[0].video_id} opts={opts}/> 
                 </div>
             </div>
             <div className="detail-exp-cont">

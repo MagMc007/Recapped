@@ -44,7 +44,7 @@ function App() {
           </ProtectRoute>
           }
         />
-        <Route path="/movie" exact element=
+        <Route path="/:category/:name" exact element=
         {
           <ProtectRoute>
             <MovieDetail light={light} setLight={setLight}/>

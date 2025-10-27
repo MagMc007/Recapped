@@ -1,12 +1,14 @@
 import './css/movies.css'
 import api from '../api/axios.jsx'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Movies({ category }) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState([]);
+    const navigate = useNavigate();
 
     const Token = sessionStorage.getItem("Token");
 
@@ -50,12 +52,16 @@ export default function Movies({ category }) {
     }
     //console.log("movies", movies)
 
+    function goToMovie(category, name) {
+        navigate(`/${category}/${name}`)
+    }
+
     return (
         <>
             <div className="movies-cont">
                 {  
                 movies.map((item) => (
-                    <div className="single-movie" key={item.id}>
+                    <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
                         <div className="movie-img-cont">
                             <img src={item.poster_url} alt="image" />
                         </div>
