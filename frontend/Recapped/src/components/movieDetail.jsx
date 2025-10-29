@@ -20,6 +20,8 @@ export default function MovieDetail({ light, setLight}) {
     const [ message, setMessage ] = useState("");
     const [ movie, setMovie] = useState([]);
 
+    const [currentVid, setCurrentVid] = useState("");
+
     const Token = sessionStorage.getItem("Token");
 
     useEffect(() => {
@@ -83,6 +85,11 @@ export default function MovieDetail({ light, setLight}) {
                     <h6>Genre: {movie.genre.name.toUpperCase()}</h6>
                     <h6>Year: {movie.year}</h6>
                     <h6>Average Rating: {movie.average_rating ? movie.average_rating: "_"}</h6>
+                    <div className="options">
+                        <div className="single-option" onClick={() => console.log("clicked")}></div>
+                        <div className="single-option" onClick={() => console.log("clicked")}></div>
+                        <div className="single-option" onClick={() => console.log("clicked")}></div>
+                    </div>
                 </div>
             </div>
         </div>

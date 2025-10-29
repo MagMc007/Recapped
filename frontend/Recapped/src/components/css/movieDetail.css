@@ -81,3 +81,17 @@
           mask-composite: subtract;
   animation: l3 1s infinite linear;
 }
+
+.options {
+    height: 30px;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.single-option {
+    width: 30%;
+    height: 80%;
+    border: 1px solid white;
+    border-radius: 5px;
+}
