@@ -83,19 +83,19 @@ export default function MovieDetail({ light, setLight}) {
                 <div className="detail-movie">
                     <h5>{movie.name}</h5>
                     <hr />
-                    <h6>Country: {movie.country}</h6>
-                    <h6>Genre: {movie.genre.name.toUpperCase()}</h6>
-                    <h6>Year: {movie.year}</h6>
-                    <h6>Average Rating: {movie.average_rating ? movie.average_rating: "_"}</h6>
+                    <p>Country: {movie.country}</p>
+                    <p>Genre: {movie.genre.name.toUpperCase()}</p>
+                    <p>Year: {movie.year}</p>
+                    <p>Average Rating: {movie.average_rating ? movie.average_rating: "_"}</p>
                     <div className="options">
-                        <div className="other-sources">Sources: </div>
+                        <p>Sources: </p>
                         {
                             movie.youtube_details.map((source) => (
                                 <div className="single-option" 
                                     onClick={() => setCurrentVid(source.video_id)}
                                     key={source.id}
                                     >
-                                        {source.source_channel}
+                                        <span>{source.source_channel}</span>
                                 </div>
                                 )
                             )
