@@ -19,7 +19,7 @@ export default function MovieDetail({ light, setLight}) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movie, setMovie] = useState([]);
-
+    // manip youtube to dislay different YT 
     const [currentVid, setCurrentVid] = useState("");
 
     const Token = sessionStorage.getItem("Token");
@@ -31,6 +31,7 @@ export default function MovieDetail({ light, setLight}) {
                 console.log(response);
                 if (response){
                     setMovie(response.data);
+                    setCurrentVid(response.data.youtube_details[0].video_id);
                     //console.log(response.data.results);
                     setLoading(false);   
                 }   
@@ -64,14 +65,15 @@ export default function MovieDetail({ light, setLight}) {
         )
     }
 
-    //console.log("movies", movies)
+    //console.log(movie.youtube_details.slice(1));
+
     return ( 
         <>
         <NavBar light={light} setLight={setLight} />
         <div className="detail-movie-cont">
             <div className="video-cont">
                 <div className="video">
-                     <YouTube videoId={movie.youtube_details[0].video_id} opts={opts}/> 
+                     <YouTube videoId={currentVid} opts={opts}/> 
                 </div>
             </div>
             <div className="detail-exp-cont">
@@ -86,9 +88,19 @@ export default function MovieDetail({ light, setLight}) {
                     <h6>Year: {movie.year}</h6>
                     <h6>Average Rating: {movie.average_rating ? movie.average_rating: "_"}</h6>
                     <div className="options">
-                        <div className="single-option" onClick={() => console.log("clicked")}></div>
-                        <div className="single-option" onClick={() => console.log("clicked")}></div>
-                        <div className="single-option" onClick={() => console.log("clicked")}></div>
+                        <div className="other-sources">Sources: </div>
+                        {
+                            movie.youtube_details.map((source) => (
+                                <div className="single-option" 
+                                    onClick={() => setCurrentVid(source.video_id)}
+                                    key={source.id}
+                                    >
+                                        {source.source_channel}
+                                </div>
+                                )
+                            )
+                        }
+                        
                     </div>
                 </div>
             </div>

@@ -85,13 +85,19 @@
 .options {
     height: 30px;
     display: flex;
-    gap: 30px;
+    gap: 10px;
     align-items: center;
 }
 
+.other-sources {
+    width: 20%;
+}
 .single-option {
     width: 30%;
     height: 80%;
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.253);
     border-radius: 5px;
+    max-width: 30%;
+    cursor: pointer;
+    text-align: center;
 }
