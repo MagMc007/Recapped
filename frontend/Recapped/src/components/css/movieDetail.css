@@ -133,3 +133,12 @@
         width: 100%;
     }
 }
+
+@media (max-height: 600px) {
+    .detail-exp-cont {
+        margin-top: 100px;
+    }
+    .video-cont {
+        background-color: rgba(255, 255, 255, 0) ;
+    }
+}

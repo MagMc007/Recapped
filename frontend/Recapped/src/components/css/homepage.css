@@ -35,7 +35,6 @@
 .user-redirs {
     display: flex;
     gap: 20px;
-
 }
 
 .redirs {
@@ -86,4 +85,10 @@
         align-items: center;
         justify-content: center;
     }  
+}
+
+@media (max-height: 600px) {
+    .homepage-cont {
+        margin-top: 13vh;
+    }
 }

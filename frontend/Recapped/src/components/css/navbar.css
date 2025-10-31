@@ -268,13 +268,14 @@
     top: 16vh;
     left: 30vw;
     border-radius: 5px;
-    background-color: rgb(105, 103, 103);
+    background-color: white;
+    color: black;
     z-index: 1001;
     box-shadow: 0px 0px 10px black;
 }
 
 .single-genre {
-    border: 1px solid rgba(255, 255, 255, 0.405);
+    border: 1px solid rgba(39, 14, 150, 0.405);
     text-align: center;
     cursor: pointer;
 }
