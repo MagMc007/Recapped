@@ -259,9 +259,12 @@
 
 
 .filters-cont {
-    position: absolute;
-    width: 200px;
-    height: 250px;
+    position: fixed;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 5px;
+
     top: 16vh;
     left: 30vw;
     border-radius: 5px;
@@ -270,5 +273,24 @@
     box-shadow: 0px 0px 10px black;
 }
 
+.single-genre {
+    border: 1px solid rgba(255, 255, 255, 0.405);
+    text-align: center;
+    cursor: pointer;
+}
+
+
+.single-genre:hover {
+    background-color: rgba(135, 133, 133, 0.411);
+}
+
+
+.gen-hidden {
+    display: none;
+}
+
+gen-visible {
+    display: block;
+}
 
 

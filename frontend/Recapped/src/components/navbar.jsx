@@ -6,9 +6,23 @@ import { useNavigate } from 'react-router-dom'
 
 export default function NavBar({light, setLight}) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [hoveron, setHoveron ] = useState(true);
+    const [hoveron, setHoveron ] = useState(false);
     const Token = sessionStorage.getItem("Token");
     const navigate = useNavigate();
+    const GENRE_OPTIONS = [
+        { value: "action", label: "Action" },
+        { value: "horror", label: "Horror" },
+        { value: "drama", label: "Drama" },
+        { value: "adventure", label: "Adventure" },
+        { value: "comedy", label: "Comedy" },
+        { value: "crime", label: "Crime" },
+        { value: "slasher", label: "Slasher" },
+        { value: "western", label: "Western" },
+        { value: "war", label: "War" },
+        { value: "mystery", label: "Mystery" },
+        { value: "romance", label: "Romance" },
+        { value: "sci-fi", label: "Sci-fi" },
+    ];
 
 
     useEffect(() => {
@@ -23,8 +37,12 @@ export default function NavBar({light, setLight}) {
     
     return (
         <>
-        <div className={hoveron? "filters-cont genres visible": "filters-cont genres hidden"}>
-                        hello there
+        <div className={hoveron? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"}>
+            {GENRE_OPTIONS.map((gen) => (
+                <div className="single-genre" key={gen.value}>
+                    {gen.label}
+                </div>
+            ))}    
         </div>
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
@@ -41,7 +59,7 @@ export default function NavBar({light, setLight}) {
 
                     <div className="links">
                         <a>Home</a>
-                        <a className="genre">Genres</a>
+                        <a className="genre"  onClick={() => {setHoveron(!hoveron)}}>Genres</a>
                         <a>Country</a>
                         <a>Year</a>
                     </div>
