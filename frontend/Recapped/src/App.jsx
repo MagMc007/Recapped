@@ -7,6 +7,7 @@ import MovieDetail from './components/movieDetail.jsx'
 import {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
 
+// this is to manipulate genres into fetching movies of some genre
 
 function ProtectRoute({children}){
   const Token = sessionStorage.getItem("Token");
@@ -18,7 +19,10 @@ function ProtectRoute({children}){
   return children
 
 }
+
+
 function App() {
+  const [genre, setGenre] = useState("");
   const [light, setLight] = useState(() => {
         const saved = localStorage.getItem("light");
         return saved ? JSON.parse(saved) : false; 
@@ -40,14 +44,14 @@ function App() {
         <Route path="/home" exact element=
         {
           <ProtectRoute>
-                <Home light={light} setLight={setLight} />
+                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} />
           </ProtectRoute>
           }
         />
         <Route path="/:category/:name" exact element=
         {
           <ProtectRoute>
-            <MovieDetail light={light} setLight={setLight}/>
+            <MovieDetail light={light} setLight={setLight} />
           </ProtectRoute>
         }
         />

@@ -3,8 +3,9 @@ import api from '../api/axios.jsx'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+// used category to signify series/ movie category
 
-export default function Movies({ category }) {
+export default function Movies({ category, genre }) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState([]);
@@ -12,11 +13,23 @@ export default function Movies({ category }) {
 
     const Token = sessionStorage.getItem("Token");
 
+    // save the genre here to do a callback
+    useEffect(() => {
+        const params = {"g":genre};
+    }, [genre])
+
     useEffect(() => {
         async function fetchMovies() {
+            let endpoint = "";
             try {
-                const endpoint = category === "movies" ? "api/movies/": "api/series"
-                const response = await api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
+                if (genre) {
+                     endpoint = category === "movies" ? "api/movies/filter/genre": "api/series/filter/genre";
+                }
+                else{
+                     endpoint = category === "movies" ? "api/movies/": "api/series";
+                }
+
+                const response = await api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}, params : genre ? { g: genre } : {}})
                 //console.log(response);
                 if (response){
                     setMovies(response.data.results);
@@ -29,7 +42,7 @@ export default function Movies({ category }) {
             }
         }
         fetchMovies();
-    }, [category])
+    }, [category, genre])
 
     if (loading) {
         return (

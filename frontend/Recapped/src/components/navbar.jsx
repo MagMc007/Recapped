@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
-export default function NavBar({light, setLight}) {
+export default function NavBar({light, setLight, genre, setGenre}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoveron, setHoveron ] = useState(false);
     const Token = sessionStorage.getItem("Token");
@@ -27,7 +27,12 @@ export default function NavBar({light, setLight}) {
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
-    }) 
+    }, []); 
+
+    useEffect(() => {
+        console.log("Genre changed to:", genre);
+    }, [genre]);
+
 
     function logout() {
         sessionStorage.clear();
@@ -39,11 +44,17 @@ export default function NavBar({light, setLight}) {
         <>
         <div className={hoveron? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"}>
             {GENRE_OPTIONS.map((gen) => (
-                <div className="single-genre" key={gen.value}>
+                <div className="single-genre" key={gen.value} onClick={() => {
+                    setGenre(gen.value)
+                    
+
+                }}>
                     {gen.label}
                 </div>
             ))}    
         </div>
+
+
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
                 <div className="logo-cont">
