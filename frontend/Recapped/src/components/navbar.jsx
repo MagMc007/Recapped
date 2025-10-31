@@ -6,21 +6,26 @@ import { useNavigate } from 'react-router-dom'
 
 export default function NavBar({light, setLight}) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [hoveron, setHoveron ] = useState(true);
     const Token = sessionStorage.getItem("Token");
     const navigate = useNavigate();
 
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
-    })
+    }) 
 
     function logout() {
         sessionStorage.clear();
         navigate("/");
         console.log("Logged out");
     }
+    
     return (
         <>
+        <div className={hoveron? "filters-cont genres visible": "filters-cont genres hidden"}>
+                        hello there
+        </div>
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
                 <div className="logo-cont">
@@ -36,12 +41,14 @@ export default function NavBar({light, setLight}) {
 
                     <div className="links">
                         <a>Home</a>
-                        <a>Genres</a>
+                        <a className="genre">Genres</a>
                         <a>Country</a>
                         <a>Year</a>
                     </div>
                 </div>
-                
+
+
+
                 <div className="mode" onClick={() => {setLight(!light)}}>
                         <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>
                         <span>{light? "light": "dark"}</span>
