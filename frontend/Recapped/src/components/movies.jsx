@@ -9,6 +9,7 @@ export default function Movies({ category, genre }) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState([]);
+    const [filters, setFilters] = useState({ category: "", genre: "" }); // for genre and 
     const navigate = useNavigate();
 
     const Token = sessionStorage.getItem("Token");
@@ -17,6 +18,7 @@ export default function Movies({ category, genre }) {
     useEffect(() => {
         const params = {"g":genre};
     }, [genre])
+
 
     useEffect(() => {
         async function fetchMovies() {
@@ -32,13 +34,16 @@ export default function Movies({ category, genre }) {
                 const response = await api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}, params : genre ? { g: genre } : {}})
                 //console.log(response);
                 if (response){
+                    setMessage("");  
                     setMovies(response.data.results);
+
                     //console.log(response.data.results);
-                    setLoading(false);   
+                    setLoading(false);
+                     
                 }   
             } catch(error){
-                console.log(error)
-                setMessage("Sorry, Something went wrong")
+                // console.log(error.response.data.message);
+                setMessage(error.response.data.message);
             }
         }
         fetchMovies();
@@ -63,7 +68,7 @@ export default function Movies({ category, genre }) {
             </>
         )
     }
-    //console.log("movies", movies)
+    // console.log("movies", movies)
 
     function goToMovie(category, name) {
         navigate(`/${category}/${name}`)

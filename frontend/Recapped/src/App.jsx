@@ -28,6 +28,8 @@ function App() {
         return saved ? JSON.parse(saved) : false; 
     });
 
+    
+
     useEffect(() => {
         localStorage.setItem("light", JSON.stringify(light));
     }, [light]);

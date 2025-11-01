@@ -4,7 +4,7 @@ import {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
-export default function NavBar({light, setLight, genre, setGenre}) {
+export default function NavBar({light, setLight, setGenre}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoveron, setHoveron ] = useState(false);
     const Token = sessionStorage.getItem("Token");
@@ -31,11 +31,7 @@ export default function NavBar({light, setLight, genre, setGenre}) {
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
-    }, []); 
-
-    useEffect(() => {
-        console.log("Genre changed to:", genre);
-    }, [genre]);
+    }, [light]); 
 
 
     function logout() {

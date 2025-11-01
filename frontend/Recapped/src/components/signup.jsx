@@ -1,7 +1,7 @@
 import './css/auth.css';
 import NavBar from './navbar.jsx';
 import {Link, useNavigate} from 'react-router-dom';
-import {useEffect, useState } from 'react';
+import { useState } from 'react';
 import api from '../api/axios.jsx';
 
 

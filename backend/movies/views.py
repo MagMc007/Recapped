@@ -138,7 +138,7 @@ class GenreFilterSeries(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        genre = self.request.query_params("g", "")
+        genre = self.request.query_params.get("g", "")
         return Movies.objects.filter(genre__name__icontains=genre, is_series=True)
 
     def list(self, request, *args, **kwargs):
