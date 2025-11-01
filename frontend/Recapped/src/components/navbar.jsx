@@ -1,6 +1,6 @@
 import './css/navbar.css'
 import { Link } from "react-router-dom"
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
@@ -8,7 +8,9 @@ export default function NavBar({light, setLight, genre, setGenre}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoveron, setHoveron ] = useState(false);
     const Token = sessionStorage.getItem("Token");
+    const timer = useRef(null);
     const navigate = useNavigate();
+
     const GENRE_OPTIONS = [
         { value: "action", label: "Action" },
         { value: "horror", label: "Horror" },
@@ -22,6 +24,8 @@ export default function NavBar({light, setLight, genre, setGenre}) {
         { value: "mystery", label: "Mystery" },
         { value: "romance", label: "Romance" },
         { value: "sci-fi", label: "Sci-fi" },
+        { value: "documentary", label: "Documentary" },
+        { value: "animation", label: "Animation" },
     ];
 
 
@@ -39,15 +43,24 @@ export default function NavBar({light, setLight, genre, setGenre}) {
         navigate("/");
         console.log("Logged out");
     }
+
+    function hideOptions() {
+        timer.current = setTimeout(() => {
+            setHoveron(false);
+        }, 500); 
+    }
+
+    function show() {
+        clearTimeout(timer.current);
+        setHoveron(true);
+    }
     
     return (
         <>
-        <div className={hoveron? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"}>
+        <div className={hoveron? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"} onMouseEnter={show} onMouseLeave={hideOptions}>
             {GENRE_OPTIONS.map((gen) => (
                 <div className="single-genre" key={gen.value} onClick={() => {
                     setGenre(gen.value)
-                    
-
                 }}>
                     {gen.label}
                 </div>
@@ -70,7 +83,7 @@ export default function NavBar({light, setLight, genre, setGenre}) {
 
                     <div className="links">
                         <a>Home</a>
-                        <a className="genre"  onClick={() => {setHoveron(!hoveron)}}>Genres</a>
+                        <a className="genre"  onMouseOver={() => setHoveron(true)} onMouseOut={() => {setHoveron(false)}}>Genres</a>
                         <a>Country</a>
                         <a>Year</a>
                     </div>
