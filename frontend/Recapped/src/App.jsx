@@ -22,7 +22,12 @@ function ProtectRoute({children}){
 
 
 function App() {
+  // filters lifted one stage up
   const [genre, setGenre] = useState("");
+  const [ctry, setCtry] = useState("");
+  const [year, setyear] = useState("");
+  // ----------------------------------
+
   const [light, setLight] = useState(() => {
         const saved = localStorage.getItem("light");
         return saved ? JSON.parse(saved) : false; 
@@ -46,7 +51,7 @@ function App() {
         <Route path="/home" exact element=
         {
           <ProtectRoute>
-                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} />
+                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} ctry={ctry} />
           </ProtectRoute>
           }
         />

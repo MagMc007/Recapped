@@ -5,48 +5,57 @@ import { useNavigate } from 'react-router-dom'
 
 // used category to signify series/ movie category
 
-export default function Movies({ category, genre }) {
+export default function Movies({ category, genre, ctry, setCtry, setGenre}) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
-    const [ movies, setMovies] = useState([]);
+    const [ movies, setMovies] = useState();
     const navigate = useNavigate();
+    
 
     const Token = sessionStorage.getItem("Token");
-
-    // save the genre here to do a callback
-    useEffect(() => {
-        const params = {"g":genre};
-    }, [genre])
 
 
     useEffect(() => {
         async function fetchMovies() {
             let endpoint = "";
-            try {
-                if (genre) {
-                     endpoint = category === "movies" ? "api/movies/filter/genre": "api/series/filter/genre";
-                }
-                else{
-                     endpoint = category === "movies" ? "api/movies/": "api/series";
-                }
-                const response = await api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}, params : genre ? { g: genre } : {}})
-                //console.log(response);
-                
-                if (response){
-                    setMessage("");  
-                    setMovies(response.data.results);
+            let params = {};
 
-                    //console.log(response.data.results);
-                    setLoading(false);
-                     
-                }   
-            } catch(error){
-                // console.log(error.response.data.message);
-                setMessage(error.response.data.message);
+            // get the correct endpoint and the params based on the active filter
+            if (genre) {
+                endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
+                params.g = genre;
+                setCtry("");
+                console.log(params)   
+            } else if (ctry) {
+                endpoint = category === "movies" ? "api/movies/filter/country" : "api/series/filter/country";
+                params.c = ctry;
+                setGenre("");
+                console.log(params)
+            } else {
+                endpoint = category === "movies" ? "api/movies/" : "api/series/";
+                console.log(params)
+            }
+            //console.log("genre:", genre, "ctry:", ctry, typeof ctry);
+
+            console.log(endpoint);
+
+            try {
+                const response = await api.get(endpoint, {
+                    headers: { Authorization: `Bearer ${Token}` },
+                    params
+                });
+
+                setMovies(response.data.results);
+                setMessage("");
+                setLoading(false);
+            } catch (error) {
+                setMessage(error.response?.data?.message || "Error fetching movies");
             }
         }
+
         fetchMovies();
-    }, [category, genre])
+    }, [category, genre, ctry]); 
+
 
     if (loading) {
         return (

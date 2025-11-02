@@ -4,7 +4,7 @@ import {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
-export default function NavBar({light, setLight, setGenre}) {
+export default function NavBar({light, setLight, setGenre, setCtry}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoverongen, setHoverongen ] = useState(false);
     const [hoveronctry, setHoveronctry] = useState(false);
@@ -84,7 +84,7 @@ export default function NavBar({light, setLight, setGenre}) {
         <div className={hoverongen? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"} onMouseEnter={() => show("g")} onMouseLeave={() => hideOptions("g")}>
             {GENRE_OPTIONS.map((gen) => (
                 <div className="single-filter-opt" key={gen.value} onClick={() => {
-                    setGenre(gen.value)
+                    setGenre(gen.value);
                 }}>
                     {gen.label}
                 </div>
@@ -94,7 +94,8 @@ export default function NavBar({light, setLight, setGenre}) {
         <div className={hoveronctry ? "filters-cont country country-visible": "filters-cont country country-hidden"} onMouseEnter={() => show("c")} onMouseLeave={() => hideOptions("c")}>
             {COUNTRY_OPTIONS.map((country) => (
                 <div className="single-filter-opt" key={country.value} onClick={() => {
-                    setGenre(country.value)
+                    setGenre("");
+                    setCtry(country.value);
                 }}>
                     {country.label}
                 </div>

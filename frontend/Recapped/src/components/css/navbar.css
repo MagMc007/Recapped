@@ -281,7 +281,7 @@
 }
 
 
-single-filter-opt:hover {
+.single-filter-opt:hover {
     background-color: rgba(135, 133, 133, 0.411);
 }
 
