@@ -147,7 +147,7 @@ class GenreFilterSeries(ListAPIView):
 
         if not queryset.exists():
             return Response(
-                {"message": f"No movies with genre: `{genre}` yet."},
+                {"message": f"No series with genre: `{genre}` yet."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         page = self.paginate_queryset(queryset)

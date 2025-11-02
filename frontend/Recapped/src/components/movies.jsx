@@ -9,7 +9,6 @@ export default function Movies({ category, genre }) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState([]);
-    const [filters, setFilters] = useState({ category: "", genre: "" }); // for genre and 
     const navigate = useNavigate();
 
     const Token = sessionStorage.getItem("Token");
@@ -30,9 +29,9 @@ export default function Movies({ category, genre }) {
                 else{
                      endpoint = category === "movies" ? "api/movies/": "api/series";
                 }
-
                 const response = await api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}, params : genre ? { g: genre } : {}})
                 //console.log(response);
+                
                 if (response){
                     setMessage("");  
                     setMovies(response.data.results);

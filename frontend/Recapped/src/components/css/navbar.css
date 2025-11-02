@@ -274,14 +274,14 @@
     box-shadow: 0px 0px 10px black;
 }
 
-.single-genre {
+.single-filter-opt {
     border: 1px solid rgba(39, 14, 150, 0.405);
     text-align: center;
     cursor: pointer;
 }
 
 
-.single-genre:hover {
+single-filter-opt:hover {
     background-color: rgba(135, 133, 133, 0.411);
 }
 
@@ -290,8 +290,6 @@
     display: none;
 }
 
-gen-visible {
-    display: block;
+.country-hidden {
+    display: none;
 }
-
-

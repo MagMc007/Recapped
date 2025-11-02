@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 
 export default function NavBar({light, setLight, setGenre}) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [hoveron, setHoveron ] = useState(false);
+    const [hoverongen, setHoverongen ] = useState(false);
+    const [hoveronctry, setHoveronctry] = useState(false);
     const Token = sessionStorage.getItem("Token");
     const timer = useRef(null);
     const navigate = useNavigate();
@@ -28,6 +29,26 @@ export default function NavBar({light, setLight, setGenre}) {
         { value: "animation", label: "Animation" },
     ];
 
+    const COUNTRY_OPTIONS = [
+        { value: "United States", label: "United States" },
+        { value: "India", label: "India" },
+        { value: "United Kingdom", label: "United Kingdom" },
+        { value: "Canada", label: "Canada" },
+        { value: "Australia", label: "Australia" },
+        { value: "Germany", label: "Germany" },
+        { value: "France", label: "France" },
+        { value: "Brazil", label: "Brazil" },
+        { value: "Japan", label: "Japan" },
+        { value: "South Korea", label: "South Korea" },
+        { value: "Russia", label: "Russia" },
+        { value: "Mexico", label: "Mexico" },
+        { value: "Spain", label: "Spain" },
+        { value: "Italy", label: "Italy" },
+        { value: "Netherlands", label: "Netherlands" },
+        { value: "Sweden", label: "Sweden" },
+        { value: "Saudi Arabia", label: "Saudi Arabia" },
+        { value: "United Arab Emirates", label: "United Arab Emirates" },
+    ];
 
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
@@ -40,27 +61,44 @@ export default function NavBar({light, setLight, setGenre}) {
         console.log("Logged out");
     }
 
-    function hideOptions() {
-        timer.current = setTimeout(() => {
-            setHoveron(false);
-        }, 500); 
+    function hideOptions(filter) {
+        if (filter === "g") {
+            timer.current = setTimeout(() => {
+            setHoverongen(false);}, 500);
+        }
+         
+        if (filter === "c") {
+            timer.current = setTimeout(() => {
+            setHoveronctry(false);}, 500);
+        };
     }
 
-    function show() {
+    function show(filter) {
         clearTimeout(timer.current);
-        setHoveron(true);
+        if (filter === "g") {setHoverongen(true)};
+        if (filter === "c") {setHoveronctry(true)};
     }
     
     return (
         <>
-        <div className={hoveron? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"} onMouseEnter={show} onMouseLeave={hideOptions}>
+        <div className={hoverongen? "filters-cont genres gen-visible": "filters-cont genres gen-hidden"} onMouseEnter={() => show("g")} onMouseLeave={() => hideOptions("g")}>
             {GENRE_OPTIONS.map((gen) => (
-                <div className="single-genre" key={gen.value} onClick={() => {
+                <div className="single-filter-opt" key={gen.value} onClick={() => {
                     setGenre(gen.value)
                 }}>
                     {gen.label}
                 </div>
             ))}    
+        </div>
+   
+        <div className={hoveronctry ? "filters-cont country country-visible": "filters-cont country country-hidden"} onMouseEnter={() => show("c")} onMouseLeave={() => hideOptions("c")}>
+            {COUNTRY_OPTIONS.map((country) => (
+                <div className="single-filter-opt" key={country.value} onClick={() => {
+                    setGenre(country.value)
+                }}>
+                    {country.label}
+                </div>
+            ))}     
         </div>
 
 
@@ -79,13 +117,11 @@ export default function NavBar({light, setLight, setGenre}) {
 
                     <div className="links">
                         <a>Home</a>
-                        <a className="genre"  onMouseOver={() => setHoveron(true)} onMouseOut={() => {setHoveron(false)}}>Genres</a>
-                        <a>Country</a>
+                        <a className="genre"  onMouseOver={() => setHoverongen(true)} onMouseOut={() => {setHoverongen(false)}}>Genres</a>
+                        <a className="country"  onMouseOver={() => setHoveronctry(true)} onMouseOut={() => {setHoveronctry(false)}}>Country</a>
                         <a>Year</a>
                     </div>
                 </div>
-
-
 
                 <div className="mode" onClick={() => {setLight(!light)}}>
                         <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>

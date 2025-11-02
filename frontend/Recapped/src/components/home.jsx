@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 export default function Home({ light, setLight, genre, setGenre }) {
     document.title = "Home";
-    const [selected, setSelected] = useState("movies");
+    const [selected, setSelected] = useState("movies")
 
     return (
         <>
