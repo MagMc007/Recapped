@@ -8,6 +8,7 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoverongen, setHoverongen ] = useState(false);
     const [hoveronctry, setHoveronctry] = useState(false);
+    const [hoveronyr, setHoveronyr] = useState(false);
     const Token = sessionStorage.getItem("Token");
     const timer = useRef(null);
     const navigate = useNavigate();
@@ -50,6 +51,25 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
         { value: "United Arab Emirates", label: "United Arab Emirates" },
     ];
 
+    const YEAR_OPTIONS = [
+        { value: "1979", label: "1979" }, { value: "1980", label: "1980" }, { value: "1981", label: "1981" },
+        { value: "1982", label: "1982" }, { value: "1983", label: "1983" }, { value: "1984", label: "1984" },
+        { value: "1985", label: "1985" }, { value: "1986", label: "1986" }, { value: "1987", label: "1987" },
+        { value: "1988", label: "1988" }, { value: "1989", label: "1989" }, { value: "1990", label: "1990" },
+        { value: "1991", label: "1991" }, { value: "1992", label: "1992" }, { value: "1993", label: "1993" },
+        { value: "1994", label: "1994" }, { value: "1995", label: "1995" }, { value: "1996", label: "1996" },
+        { value: "1997", label: "1997" }, { value: "1998", label: "1998" }, { value: "1999", label: "1999" },
+        { value: "2000", label: "2000" }, { value: "2001", label: "2001" }, { value: "2002", label: "2002" },
+        { value: "2003", label: "2003" }, { value: "2004", label: "2004" }, { value: "2005", label: "2005" },
+        { value: "2006", label: "2006" }, { value: "2007", label: "2007" }, { value: "2008", label: "2008" },
+        { value: "2009", label: "2009" }, { value: "2010", label: "2010" }, { value: "2011", label: "2011" },
+        { value: "2012", label: "2012" }, { value: "2013", label: "2013" }, { value: "2014", label: "2014" },
+        { value: "2015", label: "2015" }, { value: "2016", label: "2016" }, { value: "2017", label: "2017" },
+        { value: "2018", label: "2018" }, { value: "2019", label: "2019" }, { value: "2020", label: "2020" },
+        { value: "2021", label: "2021" }, { value: "2022", label: "2022" }, { value: "2023", label: "2023" },
+        { value: "2024", label: "2024" }, { value: "2025", label: "2025" }
+    ];
+
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode"
     }, [light]); 
@@ -71,12 +91,17 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
             timer.current = setTimeout(() => {
             setHoveronctry(false);}, 500);
         };
+        if (filter === "y") {
+            timer.current = setTimeout(() => {
+            setHoveronyr(false);}, 500);
+        };
     }
 
     function show(filter) {
         clearTimeout(timer.current);
         if (filter === "g") {setHoverongen(true)};
         if (filter === "c") {setHoveronctry(true)};
+        if (filter === "y") {setHoveronyr(true)};
     }
     
     return (
@@ -102,6 +127,17 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
             ))}     
         </div>
 
+        <div className={hoveronyr ? "filters-cont yr yr-visible": "filters-cont yr yr-hidden"} onMouseEnter={() => show("y")} onMouseLeave={() => hideOptions("y")}>
+            {YEAR_OPTIONS.map((year) => (
+                <div className="single-filter-opt" key={year.value} onClick={() => {
+                    setGenre("");
+                    setCtry(year.value);
+                }}>
+                    {year.label}
+                </div>
+            ))}     
+        </div>
+
 
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
@@ -116,11 +152,11 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
                         </form>
                     </div>
 
-                    <div className="links">
-                        <a>Home</a>
+                    <div className={light? "links links-light":"links links-dark"}>
+                        <a href="/home">Home</a>
                         <a className="genre"  onMouseOver={() => setHoverongen(true)} onMouseOut={() => {setHoverongen(false)}}>Genres</a>
                         <a className="country"  onMouseOver={() => setHoveronctry(true)} onMouseOut={() => {setHoveronctry(false)}}>Country</a>
-                        <a>Year</a>
+                        <a className="year" onMouseOver={() => setHoveronyr(true)} onMouseOut={() => {setHoveronyr(false)}}>Year</a>
                     </div>
                 </div>
 

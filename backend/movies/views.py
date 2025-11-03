@@ -267,7 +267,7 @@ class CountryFilterSeries(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        country = self.request.query_params("c", "")
+        country = self.request.query_params.get("c", "")
         return Movies.objects.filter(country__icontains=country, is_series=True)
 
     def list(self, request, *args, **kwargs):

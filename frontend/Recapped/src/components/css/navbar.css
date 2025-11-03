@@ -48,6 +48,7 @@
     height: 100%;
 }
 
+
 .links-cont .links{
     display: flex;
     justify-content: center;
@@ -55,6 +56,18 @@
     gap: 50px;
     padding: 10px; 
     cursor: pointer;
+    text-decoration: none;
+}
+
+.links-cont .links a {
+     text-decoration: none;
+}
+
+.links-cont  .links-light a{
+    color: black;
+}
+.links-cont  .links-dark a{
+    color: white;
 }
 
 .links-cont .search-bar {
@@ -291,5 +304,15 @@
 }
 
 .country-hidden {
+    display: none;
+}
+
+.yr {
+    top: 11.5vh;
+    left: 43vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.yr-hidden {
     display: none;
 }
