@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 // used category to signify series/ movie category
 
-export default function Movies({ category, genre, ctry, setCtry, setGenre}) {
+export default function Movies({ category, genre, ctry, setCtry, setGenre, year}) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState();
@@ -25,23 +25,29 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre}) {
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
                 setCtry("");
-                console.log(params)   
+                //console.log(params)   
             } else if (ctry) {
                 endpoint = category === "movies" ? "api/movies/filter/country" : "api/series/filter/country";
                 params.c = ctry;
                 setGenre("");
-                console.log(params)
+                //console.log(params)
+            } else if (year) {
+                endpoint = category === "movies" ? "api/movies/filter/year" : "api/series/filter/year";
+                params.y = year;
+                setGenre("");
+                setCtry("");
+                //console.log(params)
             } else {
                 endpoint = category === "movies" ? "api/movies/" : "api/series/";
-                console.log(params)
+                //console.log(params)
             }
             //console.log("genre:", genre, "ctry:", ctry, typeof ctry);
 
-            console.log(endpoint);
+            //console.log(endpoint);
 
             try {
                 const response = await api.get(endpoint, {
-                    headers: { Authorization: `Bearer ${Token}` },
+                    headers: { Authorization: `Bearer ${Token}`},
                     params
                 });
 
@@ -54,7 +60,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre}) {
         }
 
         fetchMovies();
-    }, [category, genre, ctry]); 
+    }, [category, genre, ctry, year]); 
 
 
     if (loading) {

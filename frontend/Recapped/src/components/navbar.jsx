@@ -4,7 +4,7 @@ import {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
-export default function NavBar({light, setLight, setGenre, setCtry}) {
+export default function NavBar({light, setLight, setGenre, setCtry, setYear}) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [hoverongen, setHoverongen ] = useState(false);
     const [hoveronctry, setHoveronctry] = useState(false);
@@ -71,7 +71,7 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
     ];
 
     useEffect(() => {
-        document.body.className = light ? "lightmode": "darkmode"
+        document.body.className = light ? "lightmode": "darkmode";
     }, [light]); 
 
 
@@ -131,7 +131,8 @@ export default function NavBar({light, setLight, setGenre, setCtry}) {
             {YEAR_OPTIONS.map((year) => (
                 <div className="single-filter-opt" key={year.value} onClick={() => {
                     setGenre("");
-                    setCtry(year.value);
+                    setCtry("");
+                    setYear(year.value);
                 }}>
                     {year.label}
                 </div>

@@ -25,7 +25,7 @@ function App() {
   // filters lifted one stage up
   const [genre, setGenre] = useState("");
   const [ctry, setCtry] = useState("");
-  const [year, setyear] = useState("");
+  const [year, setYear] = useState("");
   // ----------------------------------
 
   const [light, setLight] = useState(() => {
@@ -51,7 +51,7 @@ function App() {
         <Route path="/home" exact element=
         {
           <ProtectRoute>
-                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} ctry={ctry} />
+                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} ctry={ctry} year={year} setYear={setYear}/>
           </ProtectRoute>
           }
         />

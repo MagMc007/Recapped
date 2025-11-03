@@ -5,19 +5,19 @@ import Movies from './movies.jsx'
 import { useState } from 'react'
 
 
-export default function Home({ light, setLight, genre, setGenre, ctry, setCtry}) {
+export default function Home({ light, setLight, genre, setGenre, ctry, setCtry, year, setYear}) {
     document.title = "Home";
     const [selected, setSelected] = useState("movies")
 
     return (
         <>
-            <NavBar light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} />
+            <NavBar light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} setYear={setYear}/>
             
             <div className="home-cont">
                 <div className="home-choices">
                    <Choices onSelect={setSelected} choice={selected} />
                 </div>
-                <Movies category={selected} genre={genre} ctry={ctry} setGenre={setGenre} setCtry={setCtry}/>
+                <Movies category={selected} genre={genre} ctry={ctry} setGenre={setGenre} setCtry={setCtry} year={year} setYear={setYear}/>
             </div> 
         </>
     )
