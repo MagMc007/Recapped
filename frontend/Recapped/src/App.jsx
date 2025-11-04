@@ -26,6 +26,7 @@ function App() {
   const [genre, setGenre] = useState("");
   const [ctry, setCtry] = useState("");
   const [year, setYear] = useState("");
+  const [search, setSearch] = useState("");
   // ----------------------------------
 
   const [light, setLight] = useState(() => {
@@ -51,7 +52,7 @@ function App() {
         <Route path="/home" exact element=
         {
           <ProtectRoute>
-                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} ctry={ctry} year={year} setYear={setYear}/>
+                <Home light={light} setLight={setLight} genre={genre} setGenre={setGenre} setCtry={setCtry} ctry={ctry} year={year} setYear={setYear} search={search} setSearch={setSearch}/>
           </ProtectRoute>
           }
         />

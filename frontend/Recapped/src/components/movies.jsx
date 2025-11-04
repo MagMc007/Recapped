@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 // used category to signify series/ movie category
 
-export default function Movies({ category, genre, ctry, setCtry, setGenre, year}) {
+export default function Movies({ category, genre, ctry, setCtry, setGenre, year, search, setSearch, setYear}) {
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState();
@@ -36,7 +36,15 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year}
                 params.y = year;
                 setGenre("");
                 setCtry("");
+                setSearch("");
                 //console.log(params)
+            } else if (search) {
+                endpoint = category === "movies" ? "api/movies/search" : "api/series/search";
+                params.q = search;
+                setGenre("");
+                setCtry("");
+                setYear("");
+                console.log(params)
             } else {
                 endpoint = category === "movies" ? "api/movies/" : "api/series/";
                 //console.log(params)
@@ -60,7 +68,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year}
         }
 
         fetchMovies();
-    }, [category, genre, ctry, year]); 
+    }, [category, genre, ctry, year, search]); 
 
 
     if (loading) {
