@@ -17,7 +17,7 @@ export default function Home({ light, setLight, genre, setGenre, ctry, setCtry, 
                 <div className="home-choices">
                    <Choices onSelect={setSelected} choice={selected} />
                 </div>
-                <Movies category={selected} genre={genre} ctry={ctry} setGenre={setGenre} setCtry={setCtry} year={year} setYear={setYear} search={search} setSearch={setSearch}/>
+                <Movies category={selected} genre={genre} ctry={ctry} setGenre={setGenre} setCtry={setCtry} year={year} setYear={setYear} search={search} setSearch={setSearch} setYear={setYear}/>
             </div> 
         </>
     )
