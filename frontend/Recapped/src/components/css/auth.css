@@ -1,0 +1,76 @@
+.authentication-cont {
+    margin-top: 15vh;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+
+.login-auth-cont { 
+    width: 30vw;
+    height: 50vh;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+ 
+.login-auth-cont form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.login-auth-cont form input {
+    width: 100%;
+    border: 1px solid rgb(41, 7, 235);
+    background-color: rgba(240, 248, 255, 0);
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+}
+
+
+.login-auth-cont form button {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+
+.message {
+    background-color: rgba(230, 2, 2, 0.549);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    color: rgb(246, 241, 241);
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.show-pwd {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    gap: 5px;
+    padding-right: 2px;
+}
+
+.show-pwd i {
+    padding: 9px;
+    border: 1px solid rgb(41, 7, 235);
+    border-radius: 5px;
+    cursor: pointer;
+}

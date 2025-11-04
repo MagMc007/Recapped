@@ -138,7 +138,7 @@ class GenreFilterSeries(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        genre = self.request.query_params("g", "")
+        genre = self.request.query_params.get("g", "")
         return Movies.objects.filter(genre__name__icontains=genre, is_series=True)
 
     def list(self, request, *args, **kwargs):
@@ -147,7 +147,7 @@ class GenreFilterSeries(ListAPIView):
 
         if not queryset.exists():
             return Response(
-                {"message": f"No movies with genre: `{genre}` yet."},
+                {"message": f"No series with genre: `{genre}` yet."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         page = self.paginate_queryset(queryset)
@@ -267,7 +267,7 @@ class CountryFilterSeries(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        country = self.request.query_params("c", "")
+        country = self.request.query_params.get("c", "")
         return Movies.objects.filter(country__icontains=country, is_series=True)
 
     def list(self, request, *args, **kwargs):

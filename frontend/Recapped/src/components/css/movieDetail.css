@@ -1,0 +1,144 @@
+.detail-movie-cont {
+    margin-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 98vw;
+    height: 100vh;
+    padding: 10px;
+}
+
+.detail-movie p{
+        font-size: 1rem;
+        font-weight: 700;
+}
+
+.video-cont {
+    background-color: rgba(240, 248, 255, 0.224);
+    width: 95%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+}
+
+.video iframe {
+    width: 100%;
+}
+
+.detail-exp-cont {
+    border: 1px solid rgba(0, 0, 0, 0.307);
+    width: 95%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+}
+
+
+.detail-exp-cont .movie-img-cont {
+    width: 20%;
+    height: 100%;
+}
+
+
+.detail-exp-cont .movie-img-cont img {
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+.detail-exp-cont .detail-movie {
+    border: 1px solid rgba(255, 255, 255, 0.165);
+    border-radius: 5px;
+    width: 80%;
+    height: 100%;
+    padding: 10px;
+}
+
+.other-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #e3e3e5;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+
+.options {
+    height: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.other-sources {
+    padding-top: 5px;
+    width: auto;
+}
+
+
+.single-option {   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.318);
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+@media (max-width: 870px) {
+    .single-option {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .detail-movie p{
+        font-size: 0.9rem;
+    }
+
+    .detail-exp-cont {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-exp-cont .detail-movie  {
+        width: 100%;
+    }
+}
+
+@media (max-height: 600px) {
+    .detail-exp-cont {
+        margin-top: 100px;
+    }
+    .video-cont {
+        background-color: rgba(255, 255, 255, 0) ;
+    }
+}
