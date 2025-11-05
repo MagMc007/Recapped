@@ -59,7 +59,40 @@ class SearchMovieView(ListAPIView):
     # set queryset to filter the search value
     def get_queryset(self):
         query = self.request.query_params.get("q", "")
-        queryset = Movies.objects.filter(name__icontains=query)
+        queryset = Movies.objects.filter(name__icontains=query, is_movie=True)
+        return queryset
+
+    # handle case if no such movie is found
+    def list(self, request, *args, **kwargs):
+        query = request.query_params.get("q", "")
+        queryset = self.get_queryset()
+        # no movies for search
+        if not queryset.exists():
+            return Response(
+                {"message": f"No results for `{query}`."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        # apply pagination
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+class SearchSeriesView(ListAPIView):
+    """view to respond to searches"""
+
+    serializer_class = MovieSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+
+    # set queryset to filter the search value
+    def get_queryset(self):
+        query = self.request.query_params.get("q", "")
+        queryset = Movies.objects.filter(name__icontains=query, is_series=True)
         return queryset
 
     # handle case if no such movie is found
