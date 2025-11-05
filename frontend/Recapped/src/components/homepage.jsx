@@ -1,13 +1,16 @@
 import './css/homepage.css'
 import NavBar from './navbar.jsx'
 import {Link} from 'react-router-dom'
+import {useEffect} from 'react';
 
 
 export default function HomePage({light, setLight}) {
-
+    useEffect(() => {
+        document.body.className = light ? "lightmode": "darkmode";
+    }, [light]);
     return (
         <>
-            <NavBar  light={light} setLight={setLight} />
+            
             <div className="homepage-cont">
                 <div className="info-cont">
                     <h1>Welcome to <span>Recapped</span></h1><br />

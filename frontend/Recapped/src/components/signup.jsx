@@ -3,6 +3,7 @@ import NavBar from './navbar.jsx';
 import {Link, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import api from '../api/axios.jsx';
+import {useEffect} from 'react';
 
 
 export default function SignUp({light, setLight}){
@@ -12,6 +13,9 @@ export default function SignUp({light, setLight}){
     const [message, setMessage] = useState("");
     const [showing, setShowing] =  useState(false);
 
+    useEffect(() => {
+        document.body.className = light ? "lightmode": "darkmode";
+    }, [light]);
 
     async function handleSubmit(e) {
         sessionStorage.setItem("Token","");
@@ -47,8 +51,10 @@ export default function SignUp({light, setLight}){
 
     return (
         <>
-            <NavBar light={light} setLight={setLight} />
             <div className={light? "authentication-cont light-img": "authentication-cont dark-img"}>
+                <div className="top-img">
+                    <img src={light? "whiteLogo.png":"blackLogo.png"} />
+                </div>
                 <div className="login-auth-cont">
                     <h1>Sign Up</h1>
                     <div className={ message ? "message show": "message hide" }>
