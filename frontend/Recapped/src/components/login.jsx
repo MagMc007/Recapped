@@ -3,6 +3,7 @@ import NavBar from './navbar.jsx'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import api from '../api/axios.jsx'
+import {useEffect} from 'react';
 
 
 export default function Login({light, setLight}){
@@ -10,6 +11,10 @@ export default function Login({light, setLight}){
     const [showing, setShowing] =  useState(false);
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.body.className = light ? "lightmode": "darkmode";
+    }, [light]);
 
     async function handleSubmit(e) {
         setMessage("");
@@ -37,8 +42,10 @@ export default function Login({light, setLight}){
 
     return (
         <>
-            <NavBar light={light} setLight={setLight} />
             <div className={light? "authentication-cont light-img": "authentication-cont dark-img"}>
+                <div className="top-img">
+                    <img src={light? "whiteLogo.png":"blackLogo.png"} />
+                </div>
                 <div className="login-auth-cont">
                     <h1>Login</h1>
                     <div className={ message ? "message show": "message hide" }>

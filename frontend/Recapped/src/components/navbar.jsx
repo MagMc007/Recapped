@@ -170,43 +170,19 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
                 </div>
                 {
                     menuOpen ? (
-                        Token ? (
-                            <div className="menu-open">
+                        <div className="menu-open">
                                 <div className="auth logout-cont" onClick={() => {logout()}}>
                                     Logout
                                 </div>  
                             </div>
-                        ):(
-                        <div className="menu-open">
-                            <Link to="/login" className="auth login-cont">
-                                Login
-                            </Link>
-                            <Link to="/signup" className="auth signup-cont">
-                                Sign Up
-                            </Link>
-                        </div>)
                     ): ("")
                 }
-
-                {
-                    Token ? (
-                        <div className="user-cont">
-                            <div className="auth logout-cont" onClick={() => {logout()}}>
-                                Logout
-                            </div>  
-                        </div>
-                    ): (
-                        <div className="user-cont">
-                            <Link to="/login" className={light? "auth login-cont light": "auth login-cont dark"}>
-                                Login
-                            </Link>
-                            <Link to="/signup" className={light? "auth signup-cont light": "auth signup-cont dark"}>
-                                Sign Up
-                            </Link>
-                        </div>
-                    )
-                }
-                
+                <div className="user-cont">
+                    <div className="auth logout-cont" onClick={() => {logout()}}>
+                        Logout
+                    </div>  
+                </div>
+   
             </div>
         </nav>  
         </>
