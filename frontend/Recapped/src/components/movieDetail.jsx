@@ -16,6 +16,10 @@ export default function MovieDetail({ light, setLight}) {
     const parts = path.split("/").filter(Boolean);
     const [category, name] = parts;
 
+    //change the title
+    const title = name.split("%20").join(" ")
+    document.title = title;
+
     const [loading, setLoading] = useState(true);
     const [ message, setMessage ] = useState("");
     const [ movie, setMovie] = useState([]);
@@ -66,6 +70,7 @@ export default function MovieDetail({ light, setLight}) {
     }
 
     //console.log(movie.youtube_details.slice(1));
+    
 
     return ( 
         <>
