@@ -57,6 +57,7 @@
     height: 350px;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .single-movie:hover {
@@ -86,4 +87,16 @@
     overflow: hidden;
     text-align: center;
     color: white;
+}
+
+.adds {
+    position: absolute;
+    top: 0px;
+    background-color: #030ab841;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.ratings {
+    right: 0px;
 }

@@ -99,7 +99,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
     return (
         <>
             <div className="movies-cont">
-                {  
+                {
                 movies.map((item) => (
                     <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
                         <div className="movie-img-cont">
@@ -108,6 +108,9 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
                         <div className="movie-detail-cont">
                             <span>{item.name.slice(0,20)}</span>
                         </div>
+                        <div className="adds ratings">
+                            {item.average_rating ? "⭐" + item.average_rating: "⭐-.-"} </div>
+                        <div className="adds year">{item.year}</div>
                     </div>
                 )
                 )
