@@ -5,6 +5,7 @@ import {useEffect} from 'react';
 
 
 export default function HomePage({light, setLight}) {
+    document.title = "Welcome";
     useEffect(() => {
         document.body.className = light ? "lightmode": "darkmode";
     }, [light]);

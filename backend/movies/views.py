@@ -115,24 +115,6 @@ class SearchSeriesView(ListAPIView):
         return Response(serializer.data)
 
 
-class RecentMovies(ListAPIView):
-    """gets uset the mosst recent movies"""
-
-    serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated]
-    queryset = Movies.objects.filter(is_movie=True).order_by("-year")
-    pagination_class = PageNumberPagination
-
-
-class RecentSeries(ListAPIView):
-    """gets the recent series"""
-
-    serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated]
-    queryset = Movies.objects.filter(is_series=True).order_by("-year")
-    pagination_class = PageNumberPagination
-
-
 class GenreFilterMovies(ListAPIView):
     """filters both movies and series based on genre"""
 

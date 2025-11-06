@@ -113,7 +113,6 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
                 )
             }
             </div>
-
         </>
     )
 }
