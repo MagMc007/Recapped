@@ -473,7 +473,7 @@ response: 201 CREATED
 ### 2. Get the rating of a movie or series
 #### provides the rating of a movie from users
 
-#### ENDPOINT: api/reviews/moviesmovie_name/ratings/ or api/reviews/series/series_name/ratings/
+#### ENDPOINT: api/reviews/movies/movie_name/ratings/ or api/reviews/series/series_name/ratings/
 
 method: GET
 

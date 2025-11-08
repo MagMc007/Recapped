@@ -4,7 +4,7 @@ import YouTube from "react-youtube"
 import { useState, useEffect } from 'react'
 import api from '../api/axios.jsx'
 import React from 'react';
-import ReactStars from 'react-stars';
+import ReactStars from 'react-stars'
 
 export default function MovieDetail({ light, setLight}) {
     const opts = {
@@ -13,10 +13,11 @@ export default function MovieDetail({ light, setLight}) {
         playerVars: { autoplay: 0 },
     };
 
-    // get the category and name 
+    // get the category and name || use it for fetching the movie rating too
     const path = window.location.pathname;
     const parts = path.split("/").filter(Boolean);
     const [category, name] = parts;
+
 
     //change the title
     const title = name.split("%20").join(" ")
@@ -27,9 +28,14 @@ export default function MovieDetail({ light, setLight}) {
     const [ movie, setMovie] = useState([]);
     // manip youtube to dislay different YT 
     const [currentVid, setCurrentVid] = useState("");
+    // for the rating
+    const [rating, setRating] = useState(0);
+    const [score, setScore] = useState(0);
 
     const Token = sessionStorage.getItem("Token");
 
+
+    // fetch the movie
     useEffect(() => {
         async function fetchMovie() {
             try {
@@ -48,6 +54,24 @@ export default function MovieDetail({ light, setLight}) {
         }
         fetchMovie();
     }, [])
+
+
+    // fetch the movies rating
+    useEffect(() => {
+        async function fetchRating() {
+            try {
+                const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
+                const responseRating = api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
+                setRating(responseRating.results[0].score)
+            }catch (error) {
+                console.log(error);
+            }
+        }
+         fetchRating();
+    }, [])
+
+    // send the rating of the user
+    
 
     if (loading) {
         return (
@@ -73,8 +97,8 @@ export default function MovieDetail({ light, setLight}) {
 
     //console.log(movie.youtube_details.slice(1));
     const ratingChanged = (newRating) => {
-  console.log(newRating);
-};
+        console.log(newRating);
+    };
     
 
     return ( 
@@ -112,16 +136,17 @@ export default function MovieDetail({ light, setLight}) {
                         }
                     </div>
                     <div className="ratings">
-                Your Rating:
-                <ReactStars
-                    count={5}
-                    onChange={ratingChanged}
-                    size={30}
-                    color="#e0e0e0"           
-                    activeColor="#ffd700"     
-                    edit={true}
-                />
-                </div>
+                        Your Rating:
+                        <ReactStars
+                            count={5}
+                            onChange={ratingChanged}
+                            value={rating}
+                            size={30}
+                            color="#e0e0e0"           
+                            activeColor="#ffd700"     
+                            edit={true}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
