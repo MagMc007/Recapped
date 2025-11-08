@@ -3,6 +3,8 @@ import NavBar from './navbar.jsx'
 import YouTube from "react-youtube"
 import { useState, useEffect } from 'react'
 import api from '../api/axios.jsx'
+import React from 'react';
+import ReactStars from 'react-stars';
 
 export default function MovieDetail({ light, setLight}) {
     const opts = {
@@ -32,7 +34,7 @@ export default function MovieDetail({ light, setLight}) {
         async function fetchMovie() {
             try {
                 const response = await api.get(`api/${category}/${name}`, {headers:{ Authorization: `Bearer ${Token}`}})
-                console.log(response);
+                //console.log(response);
                 if (response){
                     setMovie(response.data);
                     setCurrentVid(response.data.youtube_details[0].video_id);
@@ -70,6 +72,9 @@ export default function MovieDetail({ light, setLight}) {
     }
 
     //console.log(movie.youtube_details.slice(1));
+    const ratingChanged = (newRating) => {
+  console.log(newRating);
+};
     
 
     return ( 
@@ -105,8 +110,18 @@ export default function MovieDetail({ light, setLight}) {
                                 )
                             )
                         }
-                        
                     </div>
+                    <div className="ratings">
+                Your Rating:
+                <ReactStars
+                    count={5}
+                    onChange={ratingChanged}
+                    size={30}
+                    color="#e0e0e0"           
+                    activeColor="#ffd700"     
+                    edit={true}
+                />
+                </div>
                 </div>
             </div>
         </div>

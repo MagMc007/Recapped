@@ -112,6 +112,23 @@
     
 }
 
+.single-option:hover {
+    background-color: rgb(96, 96, 136);
+}
+
+.detail-movie .ratings {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ensure stars are visible */
+.react-stars {
+    line-height: 1 !important;
+}
+
+
 @media (max-width: 870px) {
     .single-option {
         font-size: 0.9rem;

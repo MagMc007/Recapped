@@ -109,7 +109,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
                             <span>{item.name.slice(0,20)}</span>
                         </div>
                         <div className="adds ratings">
-                            {item.average_rating ? "⭐" + item.average_rating: "⭐-.-"} </div>
+                            {item.average_rating ? "⭐" + item.average_rating.toFixed(1): "⭐-.-"} </div>
                         <div className="adds year">{item.year}</div>
                     </div>
                 )
