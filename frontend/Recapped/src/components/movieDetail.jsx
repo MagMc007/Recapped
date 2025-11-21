@@ -3,6 +3,8 @@ import NavBar from './navbar.jsx'
 import YouTube from "react-youtube"
 import { useState, useEffect } from 'react'
 import api from '../api/axios.jsx'
+import React from 'react';
+import ReactStars from 'react-stars'
 
 export default function MovieDetail({ light, setLight}) {
     const opts = {
@@ -11,10 +13,11 @@ export default function MovieDetail({ light, setLight}) {
         playerVars: { autoplay: 0 },
     };
 
-    // get the category and name 
+    // get the category and name || use it for fetching the movie rating too
     const path = window.location.pathname;
     const parts = path.split("/").filter(Boolean);
     const [category, name] = parts;
+
 
     //change the title
     const title = name.split("%20").join(" ")
@@ -25,14 +28,19 @@ export default function MovieDetail({ light, setLight}) {
     const [ movie, setMovie] = useState([]);
     // manip youtube to dislay different YT 
     const [currentVid, setCurrentVid] = useState("");
+    // for the rating
+    const [rating, setRating] = useState(0);
+    const [score, setScore] = useState(0);
 
     const Token = sessionStorage.getItem("Token");
 
+
+    // fetch the movie
     useEffect(() => {
         async function fetchMovie() {
             try {
                 const response = await api.get(`api/${category}/${name}`, {headers:{ Authorization: `Bearer ${Token}`}})
-                console.log(response);
+                //console.log(response);
                 if (response){
                     setMovie(response.data);
                     setCurrentVid(response.data.youtube_details[0].video_id);
@@ -46,6 +54,57 @@ export default function MovieDetail({ light, setLight}) {
         }
         fetchMovie();
     }, [])
+
+
+    // fetch the movies rating
+    useEffect(() => {
+        async function fetchRating() {
+            try {
+                const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
+                const response = api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
+                setRating(response.data[0]?.score ?? 0);
+            }catch (error) {
+                console.log(error);
+            }
+        }
+         fetchRating();
+    }, [])
+
+
+
+    const handleRatingChange = async (newRating) => {
+    setRating(newRating);
+
+    try {
+        const endpoint =
+            category === "movies"
+                ? `api/reviews/movies/${name}/ratings/`
+                : `api/reviews/series/${name}/ratings/`;
+
+        await api.post(
+            endpoint,
+            { score: newRating },
+            { headers: { Authorization: `Bearer ${Token}` } }
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+    // // send the rating of the user
+    // useEffect(() => {
+    //     async function sendRating() {
+    //         try {
+    //             const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
+    //             const responseRating = api.post(endpoint, { score }, {headers:{ Authorization: `Bearer ${Token}`}})
+    //             setRating(responseRating.results[0].score)
+    //         }catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     //sendRating();
+    // }, [])
 
     if (loading) {
         return (
@@ -70,7 +129,6 @@ export default function MovieDetail({ light, setLight}) {
     }
 
     //console.log(movie.youtube_details.slice(1));
-    
 
     return ( 
         <>
@@ -105,7 +163,19 @@ export default function MovieDetail({ light, setLight}) {
                                 )
                             )
                         }
-                        
+                    </div>
+                    <div className="ratings">
+                        Your Rating:
+                        <ReactStars
+                            count={5}
+                            onChange={handleRatingChange}
+                            value={rating}
+                            size={30}
+                            color="#e0e0e0"           
+                            activeColor="#ffd700"     
+                            edit={true}
+                            half={false}
+                        />
                     </div>
                 </div>
             </div>
