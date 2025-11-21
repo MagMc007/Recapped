@@ -174,6 +174,7 @@ export default function MovieDetail({ light, setLight}) {
                             color="#e0e0e0"           
                             activeColor="#ffd700"     
                             edit={true}
+                            half={false}
                         />
                     </div>
                 </div>
