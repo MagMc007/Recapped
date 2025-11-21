@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ReviewSerializer
 from .models import Rating, Movies
+from urllib.parse import unquote
 
 
 class ListCreateRatingView(generics.ListCreateAPIView):
@@ -14,7 +15,19 @@ class ListCreateRatingView(generics.ListCreateAPIView):
         return Rating.objects.filter(movie__name=movie_name)
 
     def perform_create(self, serializer):
-        movie_name = self.kwargs['movie_name']
+        movie_name = unquote(self.kwargs['movie_name'])
         movie = Movies.objects.get(name=movie_name)
-        serializer.save(user=self.request.user, movie=movie)
+        user = self.request.user
+
+        # Check if rating already exists for this user/movie
+        existing = Rating.objects.filter(movie=movie, user=user).first()
+
+        if existing:
+            # Update existing rating
+            existing.score = serializer.validated_data['score']
+            existing.save()
+            return existing
+
+        # Otherwise create a new rating
+        serializer.save(user=user, movie=movie)
 
