@@ -61,8 +61,8 @@ export default function MovieDetail({ light, setLight}) {
         async function fetchRating() {
             try {
                 const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
-                const responseRating = api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
-                setRating(responseRating.results[0].score)
+                const response = api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
+                setRating(response.data[0]?.score ?? 0);
             }catch (error) {
                 console.log(error);
             }
@@ -70,8 +70,41 @@ export default function MovieDetail({ light, setLight}) {
          fetchRating();
     }, [])
 
-    // send the rating of the user
-    
+
+
+    const handleRatingChange = async (newRating) => {
+    setRating(newRating);
+
+    try {
+        const endpoint =
+            category === "movies"
+                ? `api/reviews/movies/${name}/ratings/`
+                : `api/reviews/series/${name}/ratings/`;
+
+        await api.post(
+            endpoint,
+            { score: newRating },
+            { headers: { Authorization: `Bearer ${Token}` } }
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+    // // send the rating of the user
+    // useEffect(() => {
+    //     async function sendRating() {
+    //         try {
+    //             const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
+    //             const responseRating = api.post(endpoint, { score }, {headers:{ Authorization: `Bearer ${Token}`}})
+    //             setRating(responseRating.results[0].score)
+    //         }catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     //sendRating();
+    // }, [])
 
     if (loading) {
         return (
@@ -96,10 +129,6 @@ export default function MovieDetail({ light, setLight}) {
     }
 
     //console.log(movie.youtube_details.slice(1));
-    const ratingChanged = (newRating) => {
-        console.log(newRating);
-    };
-    
 
     return ( 
         <>
@@ -139,7 +168,7 @@ export default function MovieDetail({ light, setLight}) {
                         Your Rating:
                         <ReactStars
                             count={5}
-                            onChange={ratingChanged}
+                            onChange={handleRatingChange}
                             value={rating}
                             size={30}
                             color="#e0e0e0"           
