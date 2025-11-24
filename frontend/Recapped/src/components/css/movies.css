@@ -100,3 +100,9 @@
 .ratings {
     right: 0px;
 }
+
+.pagination-cont {
+    padding-top: 20px 0px;
+    display: flex;
+    justify-content: center;
+}

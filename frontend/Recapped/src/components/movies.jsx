@@ -97,25 +97,36 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
     }
 
     return (
-        <>
+        <div>
             <div className="movies-cont">
                 {
-                movies.map((item) => (
-                    <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
-                        <div className="movie-img-cont">
-                            <img src={item.poster_url} alt="image" />
+                    movies.map((item) => (
+                        <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
+                            <div className="movie-img-cont">
+                                <img src={item.poster_url} alt="image" />
+                            </div>
+                            <div className="movie-detail-cont">
+                                <span>{item.name.slice(0,20)}</span>
+                            </div>
+                            <div className="adds ratings">
+                                {item.average_rating ? "⭐" + item.average_rating.toFixed(1): "⭐-.-"} </div>
+                            <div className="adds year">{item.year}</div>
                         </div>
-                        <div className="movie-detail-cont">
-                            <span>{item.name.slice(0,20)}</span>
-                        </div>
-                        <div className="adds ratings">
-                            {item.average_rating ? "⭐" + item.average_rating.toFixed(1): "⭐-.-"} </div>
-                        <div className="adds year">{item.year}</div>
-                    </div>
-                )
-                )
-            }
+                        )
+                    )
+                }
             </div>
-        </>
+            <div className="pagination-cont">
+                <div>
+                    <ul className="pagination">
+                        <li className="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li className="page-item"><a class="page-link" href="#">1</a></li>
+                        <li className="page-item"><a class="page-link" href="#">2</a></li>
+                        <li className="page-item"><a class="page-link" href="#">3</a></li>
+                        <li className="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     )
 }
