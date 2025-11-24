@@ -15,32 +15,37 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
     
 
     const Token = sessionStorage.getItem("Token");
-    const fetchMovies = async (url = category === "movies" ? "api/movies/" : "api/series/") => {
+    const fetchMovies = async (url = null) => {
             setLoading(true);
             let endpoint = "";
             let params = {};
 
             // determine URL or endpoint
-            if (url) {
+            if (url != null) {
                 const baseURL = "http://127.0.0.1:8000/"; 
                 endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
             } else if (genre) {
+                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
                 setCtry("");
             } else if (ctry) {
+                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/country" : "api/series/filter/country";
                 params.c = ctry;
                 setGenre("");
             } else if (year) {
+                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/year" : "api/series/filter/year";
                 params.y = year;
                 setGenre(""); setCtry(""); setSearch("");
             } else if (search) {
+                url = null;
                 endpoint = category === "movies" ? "api/movies/search" : "api/series/search";
                 params.q = search;
                 setGenre(""); setCtry(""); setYear("");
             } else {
+                url = null;
                 endpoint = category === "movies" ? "api/movies/" : "api/series/";
             }
 
