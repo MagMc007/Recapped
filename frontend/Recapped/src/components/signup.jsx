@@ -35,7 +35,7 @@ export default function SignUp({light, setLight}){
             // try sending the data
             try {
                 const response = await api.post("api/auth/register/", formData);
-                console.log(response);
+                //console.log(response);
                 // store token in session, pretection reason
                 sessionStorage.setItem("Token", response.data.access_token);
                 sessionStorage.setItem("Username", response.data.user.username)

@@ -8,6 +8,10 @@
     color: black;
 }
 
+.bi {
+    color: white;
+    /* margin-left: 10px; */
+}
 .navbar-cont {
     position: fixed;
     top: 0px;
@@ -23,13 +27,14 @@
     font-style: normal;  
     box-shadow: 0px 0px 10px black;
     border-radius: 0px 0px 10px 10px;
+    padding: 0px 0px 0px 5px;
 }
 
 .navbar-cont .logo-cont {
     width: 10%;
     height: 100%;
-    background-color: black;
     border-radius: 10px;
+    margin-left: 2px;
 }
 
 .navbar-cont .logo-cont img{
@@ -40,9 +45,13 @@
     max-width: 100%;
     border-radius: 0px 0px 0px 10px;
     border: 0px;
-
+    cursor: pointer;
 }
 
+.navbar-cont .logo-cont img:hover {
+    padding-bottom: 5px;
+    transform: rotate(-5deg);
+}
 .navbar-cont .links-cont {
     width: 70%;
     height: 100%;

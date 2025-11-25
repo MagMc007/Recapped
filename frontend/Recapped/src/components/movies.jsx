@@ -10,63 +10,60 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
     const [ message, setMessage ] = useState("");
     const [ movies, setMovies] = useState();
     const navigate = useNavigate();
+    const [nextPage, setNextPage] = useState(null);
+    const [prevPage, setPrevPage] = useState(null);
     
 
     const Token = sessionStorage.getItem("Token");
-
-
-    useEffect(() => {
-        async function fetchMovies() {
+    const fetchMovies = async (url = null) => {
+            setLoading(true);
             let endpoint = "";
             let params = {};
 
-            // get the correct endpoint and the params based on the active filter
-            if (genre) {
+            // determine URL or endpoint
+            if (url) {
+                const baseURL = "http://127.0.0.1:8000/"; 
+                endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
+            } else if (genre) {
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
                 setCtry("");
-                //console.log(params)   
             } else if (ctry) {
                 endpoint = category === "movies" ? "api/movies/filter/country" : "api/series/filter/country";
                 params.c = ctry;
                 setGenre("");
-                //console.log(params)
             } else if (year) {
                 endpoint = category === "movies" ? "api/movies/filter/year" : "api/series/filter/year";
                 params.y = year;
-                setGenre("");
-                setCtry("");
-                setSearch("");
-                //console.log(params)
+                setGenre(""); setCtry(""); setSearch("");
             } else if (search) {
                 endpoint = category === "movies" ? "api/movies/search" : "api/series/search";
                 params.q = search;
-                setGenre("");
-                setCtry("");
-                setYear("");
-                console.log(params)
+                setGenre(""); setCtry(""); setYear("");
             } else {
                 endpoint = category === "movies" ? "api/movies/" : "api/series/";
-                //console.log(params)
             }
-            //console.log("genre:", genre, "ctry:", ctry, typeof ctry);
-
-            //console.log(endpoint);
 
             try {
-                const response = await api.get(endpoint, {
-                    headers: { Authorization: `Bearer ${Token}`},
+                const response = await api.get(
+                    endpoint, {
+                    headers: { Authorization: `Bearer ${Token}` },
                     params
                 });
-
+                //console.log(response);
                 setMovies(response.data.results);
+                setNextPage(response.data.next);
+                setPrevPage(response.data.previous);
                 setMessage("");
-                setLoading(false);
             } catch (error) {
                 setMessage(error.response?.data?.message || "Error fetching movies");
+            } finally {
+                setLoading(false);
             }
-        }
+            };
 
+
+    useEffect(() => {
         fetchMovies();
     }, [category, genre, ctry, year, search]); 
 
@@ -97,25 +94,41 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
     }
 
     return (
-        <>
+        <div>
             <div className="movies-cont">
                 {
-                movies.map((item) => (
-                    <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
-                        <div className="movie-img-cont">
-                            <img src={item.poster_url} alt="image" />
+                    movies.map((item) => (
+                        <div className="single-movie" key={item.id} onClick={() => goToMovie(category, item.name)}>
+                            <div className="movie-img-cont">
+                                <img src={item.poster_url} alt="image" />
+                            </div>
+                            <div className="movie-detail-cont">
+                                <span>{item.name.slice(0,20)}</span>
+                            </div>
+                            <div className="adds ratings">
+                                {item.average_rating ? "⭐" + item.average_rating.toFixed(1): "⭐-.-"} </div>
+                            <div className="adds year">{item.year}</div>
                         </div>
-                        <div className="movie-detail-cont">
-                            <span>{item.name.slice(0,20)}</span>
-                        </div>
-                        <div className="adds ratings">
-                            {item.average_rating ? "⭐" + item.average_rating.toFixed(1): "⭐-.-"} </div>
-                        <div className="adds year">{item.year}</div>
-                    </div>
-                )
-                )
-            }
+                        )
+                    )
+                }
             </div>
-        </>
+            <div className="pagination-cont">
+                <div>
+                    <ul className="pagination">
+                        <li className={`page-item ${!prevPage && "disabled"}`}>
+                            <button className="page-link" onClick={() => prevPage && fetchMovies(prevPage)}>
+                                Previous
+                            </button>
+                        </li>
+                        <li className={`page-item ${!nextPage && "disabled"}`}>
+                            <button className="page-link" onClick={() => nextPage && fetchMovies(nextPage)}>
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     )
 }
