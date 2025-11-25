@@ -87,7 +87,8 @@ export default function MovieDetail({ light, setLight}) {
             { headers: { Authorization: `Bearer ${Token}` } }
         );
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+        setMessage(error);
     }
 };
 

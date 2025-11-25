@@ -21,31 +21,26 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
             let params = {};
 
             // determine URL or endpoint
-            if (url != null) {
+            if (url) {
                 const baseURL = "http://127.0.0.1:8000/"; 
                 endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
             } else if (genre) {
-                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
                 setCtry("");
             } else if (ctry) {
-                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/country" : "api/series/filter/country";
                 params.c = ctry;
                 setGenre("");
             } else if (year) {
-                url = null;
                 endpoint = category === "movies" ? "api/movies/filter/year" : "api/series/filter/year";
                 params.y = year;
                 setGenre(""); setCtry(""); setSearch("");
             } else if (search) {
-                url = null;
                 endpoint = category === "movies" ? "api/movies/search" : "api/series/search";
                 params.q = search;
                 setGenre(""); setCtry(""); setYear("");
             } else {
-                url = null;
                 endpoint = category === "movies" ? "api/movies/" : "api/series/";
             }
 

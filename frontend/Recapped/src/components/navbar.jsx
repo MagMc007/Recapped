@@ -67,7 +67,7 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
     function logout() {
         sessionStorage.clear();
         navigate("/");
-        console.log("Logged out");
+        //console.log("Logged out");
     }
 
     function hideOptions(filter) {
@@ -97,7 +97,7 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
     function handleSearch(e){
         e.preventDefault();
         const movieName = e.target.q.value;
-        console.log(movieName);
+        //console.log(movieName);
         setSearch(movieName);
         e.target.reset()
     }
@@ -141,9 +141,9 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
 
         <nav>
             <div className={ light ? "navbar-cont lightmode": "navbar-cont darkmode"}>
-                <div className="logo-cont">
+                <a className={light? "logo-cont lightmode": "logo-cont darkmode"} href="/home">
                     <img src={light ? "/whiteLogo.png":"/blackLogo.png"} alt="logo" />
-                </div>
+                </a>
                 <div className="links-cont">
                     <div className={light? "search-bar light":"search-bar dark"}>
                         <form  onSubmit={(e) => {handleSearch(e)}}>
@@ -161,8 +161,7 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
                 </div>
 
                 <div className="mode" onClick={() => {setLight(!light)}}>
-                        <i className={light ? "bi bi-toggle-off lightmode": "bi bi-toggle-on darkmode"}></i>
-                        <span>{light? "light": "dark"}</span>
+                        <i className={light ? "bi bi-brightness-high-fill lightmode": "bi bi-moon-stars-fill darkmode"}></i>
                 </div>
 
                 <div className="humburger" onClick={() => {setMenuOpen(!menuOpen)}}>
