@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: my_project_db
+    restart: always
+    environment:
+      - POSTGRES_DB=recap
+      - POSTGRES_USER=supermag
+      - POSTGRES_PASSWORD=qwerty1234@#
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./backend
+    container_name: my_django_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_DB=recap
+      - POSTGRES_USER=supermag
+      - POSTGRES_PASSWORD=qwerty1234@#
+      - POSTGRES_HOST=db
+volumes:
+  postgres_data:
