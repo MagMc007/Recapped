@@ -106,12 +106,20 @@ class Command(BaseCommand):
 
                 # Step 2: OpenAI extraction
                 parsed = extract_movie_info(yt_title, yt_desc)
-                if parsed and parsed.get("movie_title"):
-                    movie_title = parsed["movie_title"]
-                    year_hint = parsed.get("year")
-                else:
-                    movie_title = fallback_title_from_yt(yt_title)
-                    year_hint = None
+                if not parsed:
+                    self.stdout.write("Skipping — AI extraction failed")
+                    continue
+
+                if not parsed.get("movie_title"):
+                    self.stdout.write("Skipping — no movie title extracted")
+                    continue
+
+                if parsed.get("confidence", 0) < 0.65:
+                    self.stdout.write("Skipping — low confidence")
+                    continue
+
+                movie_title = parsed["movie_title"]
+                year_hint = parsed.get("year")      
 
                 self.stdout.write(
                     f"Candidate title: {movie_title} (year hint: {year_hint})"

@@ -1,17 +1,20 @@
 import os
 import json
+# from openai import OpenAI
+
 import google.generativeai as genai
 
-# Load your API key (set it in your .env)
-# genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+#Load your API key (set it in your .env)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 GENAI_KEYS = [
-    os.getenv("GEMINI_API_KEY_1"),
-    os.getenv("GEMINI_API_KEY_2"),
+    # os.getenv("GEMINI_API_KEY_1"),
+    # os.getenv("GEMINI_API_KEY_2"),
     os.getenv("GEMINI_API_KEY_3"),
-    os.getenv("GEMINI_API_KEY_4"),
-    os.getenv("GEMINI_API_KEY_5"),
-]
+    # os.getenv("GEMINI_API_KEY_4"),
+    # os.getenv("GEMINI_API_KEY_5"),
 
+]
+# client = OpenAI(api_key=os.getenv("GEMINI_API_KEY_5"))
 
 def extract_movie_info(video_title, video_description):
     combined_text = f"{video_title}\n\n{video_description}"
@@ -50,3 +53,44 @@ def extract_movie_info(video_title, video_description):
 
     # if all keys fail
     return None
+    # combined_text = f"{video_title}\n\n{video_description}"
+
+    # prompt = (
+    #     "You are extracting the EXACT official movie or TV show title.\n\n"
+
+    #     "Rules (must follow strictly):\n"
+    #     "1. The output title must be a real, officially released movie or TV show.\n"
+    #     "2. DO NOT paraphrase, summarize, or reuse the YouTube title.\n"
+    #     "3. If the official title cannot be identified with high confidence, "
+    #     "set movie_title to null.\n"
+    #     "4. Never invent a title.\n\n"
+
+    #     "Return ONLY valid JSON with:\n"
+    #     "- movie_title (string or null)\n"
+    #     "- year (number or null)\n"
+    #     "- confidence (0–1)\n\n"
+
+    #     f"Input:\n{combined_text}"
+    # )
+
+
+    # try:
+    #     response = client.responses.create(
+    #         model="gpt-4.1-mini",  # fast & cheap, good for extraction
+    #         input=prompt,
+    #         max_output_tokens=300,
+    #     )
+
+    #     text = response.output_text.strip()
+
+    #     # Extract JSON safely
+    #     json_start = text.find("{")
+    #     json_end = text.rfind("}") + 1
+    #     if json_start == -1 or json_end == -1:
+    #         return None
+
+    #     return json.loads(text[json_start:json_end])
+
+    # except Exception as e:
+    #     print(f"OpenAI API error: {e}")
+    #     return None
