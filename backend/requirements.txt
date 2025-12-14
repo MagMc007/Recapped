@@ -5,4 +5,4 @@ python-dotenv
 psycopg2-binary
 djangorestframework-simplejwt
 requests
-google-generativeai
+google-genai

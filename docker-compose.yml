@@ -30,5 +30,14 @@ services:
       - DB_USER=supermag
       - DB_PASSWORD=qwerty1234@#
       - DB_HOST=db
+
+  frontend:
+    build:
+      context: ./frontend/Recapped
+    container_name: my_front_end
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
 volumes:
   postgres_data:
