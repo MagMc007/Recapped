@@ -2,24 +2,38 @@ import os
 import json
 # from openai import OpenAI
 
-import google.generativeai as genai
+from google import genai
+import time
 
-#Load your API key (set it in your .env)
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Load your API key (set it in your .env)
+
+# genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 GENAI_KEYS = [
-    # os.getenv("GEMINI_API_KEY_1"),
-    # os.getenv("GEMINI_API_KEY_2"),
+    os.getenv("GEMINI_API_KEY_2"),
+    os.getenv("GEMINI_API_KEY_1"),
     os.getenv("GEMINI_API_KEY_3"),
-    # os.getenv("GEMINI_API_KEY_4"),
-    # os.getenv("GEMINI_API_KEY_5"),
+    os.getenv("GEMINI_API_KEY_4"),
+    os.getenv("GEMINI_API_KEY_5"),
 
 ]
-# client = OpenAI(api_key=os.getenv("GEMINI_API_KEY_5"))
+
+
+def api_key_iterator(keys):
+    """ iterates over api key to deal with quota"""
+    while True:
+        for key in keys:
+            if key:
+                yield key
+
+
+key_gen = api_key_iterator(GENAI_KEYS)
+
 
 def extract_movie_info(video_title, video_description):
+    """Leverages ai model and gives the name """
     combined_text = f"{video_title}\n\n{video_description}"
 
-    model = genai.GenerativeModel("gemini-2.5-pro")  # or gemini-1.5-flash (faster & free)
+    # model = genai.GenerativeModel("gemini-2.5-pro")  # or gemini-1.5-flash (faster & free)
 
     prompt = (
         "Extract movie or series information from the provided YouTube title and description. "
@@ -31,66 +45,49 @@ def extract_movie_info(video_title, video_description):
         f"Input:\n{combined_text}"
     )
 
-    for key in GENAI_KEYS:
-        genai.configure(api_key=key)
-        model = genai.GenerativeModel("gemini-2.5-pro")
-        try:
-            response = model.generate_content(prompt)
-            text = response.text.strip()
-            
-            # Extract JSON safely
-            json_start = text.find("{")
-            json_end = text.rfind("}") + 1
-            if json_start == -1 or json_end == -1:
-                continue  # try next key
+    retries = 0
+    max_retries = 5
+    while retries < max_retries:
+        key = next(key_gen)
+        client = genai.Client(api_key=key)
 
-            parsed = json.loads(text[json_start:json_end])
+        try:
+            response = client.models.generate_content(
+                model="models/gemini-2.5-flash",
+                contents=prompt
+            )
+            text = response.text.strip()
+
+            # Extract JSON safely
+            start = text.find("{")
+            end = text.rfind("}") + 1
+            if start == -1 or end == -1:
+                raise ValueError("Invalid JSON returned")
+
+            parsed = json.loads(text[start:end])
+            if parsed.get("movie_title") is None:
+                raise ValueError("movie_title missing in response")
+
             return parsed
 
         except Exception as e:
-            print(f"Gemini API error with key {key}: {e}")
-            continue  # try next key
+            err_str = str(e)
+            if "RESOURCE_EXHAUSTED" in err_str or "429" in err_str:
+                # Wait for the suggested retry delay or default to 35s
+                delay = 35
+                if "retryDelay" in err_str:
+                    try:
+                        delay = float(err_str.split("retryDelay")[1].split("s")[0])
+                    except (IndexError, ValueError):
+                        delay = 35
+                print(f"Quota hit on key {key}, retrying in {delay:.1f}s...")
+                time.sleep(delay)
+                retries += 1
+            else:
+                print(f"Gemini API error with key {key}: {e}")
+                retries += 1
+                time.sleep(5)
 
-    # if all keys fail
+    # If all retries fail
+    print("All retries exhausted, skipping extraction.")
     return None
-    # combined_text = f"{video_title}\n\n{video_description}"
-
-    # prompt = (
-    #     "You are extracting the EXACT official movie or TV show title.\n\n"
-
-    #     "Rules (must follow strictly):\n"
-    #     "1. The output title must be a real, officially released movie or TV show.\n"
-    #     "2. DO NOT paraphrase, summarize, or reuse the YouTube title.\n"
-    #     "3. If the official title cannot be identified with high confidence, "
-    #     "set movie_title to null.\n"
-    #     "4. Never invent a title.\n\n"
-
-    #     "Return ONLY valid JSON with:\n"
-    #     "- movie_title (string or null)\n"
-    #     "- year (number or null)\n"
-    #     "- confidence (0–1)\n\n"
-
-    #     f"Input:\n{combined_text}"
-    # )
-
-
-    # try:
-    #     response = client.responses.create(
-    #         model="gpt-4.1-mini",  # fast & cheap, good for extraction
-    #         input=prompt,
-    #         max_output_tokens=300,
-    #     )
-
-    #     text = response.output_text.strip()
-
-    #     # Extract JSON safely
-    #     json_start = text.find("{")
-    #     json_end = text.rfind("}") + 1
-    #     if json_start == -1 or json_end == -1:
-    #         return None
-
-    #     return json.loads(text[json_start:json_end])
-
-    # except Exception as e:
-    #     print(f"OpenAI API error: {e}")
-    #     return None
