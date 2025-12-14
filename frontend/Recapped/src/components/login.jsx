@@ -28,13 +28,20 @@ export default function Login({light, setLight}){
         //console.log(formData);
         try {
             const response = await api.post("api/auth/login/", formData)
-            //console.log(response);
+            console.log(response);
             sessionStorage.setItem("Token", response.data.access_token)
             sessionStorage.setItem("Username", response.data.user.username)
             navigate("/home");
         } catch (error) {
-            //console.log(error.response.data.non_field_errors[0]);
-            setMessage(error.response.data.non_field_errors[0]);
+            const data = error.response?.data;
+
+            if (data?.non_field_errors?.length) {
+                setMessage(data.non_field_errors[0]);
+            } else if (data?.detail) {
+                setMessage(data.detail);
+            } else {
+                setMessage("Login failed");
+            }
         } finally {
             e.target.reset();
         }

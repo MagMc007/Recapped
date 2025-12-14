@@ -14,7 +14,6 @@ GENAI_KEYS = [
     os.getenv("GEMINI_API_KEY_3"),
     os.getenv("GEMINI_API_KEY_4"),
     os.getenv("GEMINI_API_KEY_5"),
-
 ]
 
 
