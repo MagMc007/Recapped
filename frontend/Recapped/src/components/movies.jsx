@@ -22,7 +22,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
 
             // determine URL or endpoint
             if (url) {
-                const baseURL = "http://127.0.0.1:8000/"; 
+                const baseURL = "http://backend:8000/api/";
                 endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
             } else if (genre) {
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";

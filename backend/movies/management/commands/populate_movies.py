@@ -74,12 +74,12 @@ class Command(BaseCommand):
             # {"name": "Man of Recaps", "id": "UCNCTxLZ3EKKry-oWgLlsYsw", "handle": "@ManofRecaps"},
             # {"name": "Series Recaped", "id": "UCkIsEaii5bDIvg4MhdsefNQ", "handle": "@SeriesRecapEng"},
             # # Normal Movies Channels
-            {
-                "name": "Film Recaps Here",
-                "id": "UCjyv8n7SQOXD75SW0EiAYxA",
-                "handle": "@FilmRecapsHere",
-            },
-            # {"name": "DiTi Recap", "id": "UCXCMsg0nxg2LhMd6xo4X6cQ", "handle": "@DiTiRecap96"},
+            # {
+            #     "name": "Film Recaps Here",
+            #     "id": "UCjyv8n7SQOXD75SW0EiAYxA",
+            #     "handle": "@FilmRecapsHere",
+            # },
+            {"name": "DiTi Recap", "id": "UCXCMsg0nxg2LhMd6xo4X6cQ", "handle": "@DiTiRecap96"},
             # {"name": "5 Star Movie Reviews", "id": "UCzH26iTdfnAhJDvK1BW7ntQ", "handle": "@5starmoviereviews"},
             # {"name": "TheCutFrame", "id": "UCBlOaRIEDAE55yPcdTVeVlg", "handle": "@ThecutFrame"},
             # {"name": "PRO Movie Recap","id": "UCexI9V_LWVL6pb1V-0cvOuw",  "handle": "@PROMovieRecapp"},
