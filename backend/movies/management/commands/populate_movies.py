@@ -79,9 +79,9 @@ class Command(BaseCommand):
             #     "id": "UCjyv8n7SQOXD75SW0EiAYxA",
             #     "handle": "@FilmRecapsHere",
             # },
-            {"name": "DiTi Recap", "id": "UCXCMsg0nxg2LhMd6xo4X6cQ", "handle": "@DiTiRecap96"},
+            # {"name": "DiTi Recap", "id": "UCXCMsg0nxg2LhMd6xo4X6cQ", "handle": "@DiTiRecap96"},
             # {"name": "5 Star Movie Reviews", "id": "UCzH26iTdfnAhJDvK1BW7ntQ", "handle": "@5starmoviereviews"},
-            # {"name": "TheCutFrame", "id": "UCBlOaRIEDAE55yPcdTVeVlg", "handle": "@ThecutFrame"},
+            {"name": "TheCutFrame", "id": "UCBlOaRIEDAE55yPcdTVeVlg", "handle": "@ThecutFrame"},
             # {"name": "PRO Movie Recap","id": "UCexI9V_LWVL6pb1V-0cvOuw",  "handle": "@PROMovieRecapp"},
             # {"name": "RecapRecap","id": "UCnO4gbApZNUu_ekkEeyXsdA",  "handle": "@recaprecap99"},
             # {"name": "Show Time", "id": "UCMKeaq0NVkOTQjyMVz-EG3Q", "handle": "@Itsshowtimerecaps"}

@@ -22,8 +22,10 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
 
             // determine URL or endpoint
             if (url) {
-                const baseURL = "http://backend:8000/api/";
-                endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
+                // const baseURL = "http://backend:8000/api/";
+                // endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
+                const urlObj = new URL(url);
+                endpoint = (urlObj.pathname + urlObj.search).substring(1);
             } else if (genre) {
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
@@ -48,7 +50,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
                 const response = await api.get(
                     endpoint, {
                     headers: { Authorization: `Bearer ${Token}` },
-                    params
+                    params: url ? {} : params
                 });
                 //console.log(response);
                 setMovies(response.data.results);
