@@ -40,15 +40,12 @@ export default function MovieDetail({ light, setLight}) {
         async function fetchMovie() {
             try {
                 const response = await api.get(`api/${category}/${name}`, {headers:{ Authorization: `Bearer ${Token}`}})
-                //console.log(response);
                 if (response){
                     setMovie(response.data);
                     setCurrentVid(response.data.youtube_details[0].video_id);
-                    //console.log(response.data.results);
                     setLoading(false);   
                 }   
             } catch(error){
-                console.log(error)
                 setMessage("Sorry, Something went wrong")
             }
         }
@@ -64,7 +61,6 @@ export default function MovieDetail({ light, setLight}) {
                 const response = api.get(endpoint, {headers:{ Authorization: `Bearer ${Token}`}})
                 setRating(response.data[0]?.score ?? 0);
             }catch (error) {
-                console.log(error);
             }
         }
          fetchRating();
@@ -87,25 +83,10 @@ export default function MovieDetail({ light, setLight}) {
             { headers: { Authorization: `Bearer ${Token}` } }
         );
     } catch (error) {
-        // console.log(error);
         setMessage(error);
     }
-};
+    };
 
-
-    // // send the rating of the user
-    // useEffect(() => {
-    //     async function sendRating() {
-    //         try {
-    //             const endpoint = category === "movies" ?  `api/reviews/movies/${name}/ratings/`: `api/reviews/series/${name}/ratings/`
-    //             const responseRating = api.post(endpoint, { score }, {headers:{ Authorization: `Bearer ${Token}`}})
-    //             setRating(responseRating.results[0].score)
-    //         }catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     //sendRating();
-    // }, [])
 
     if (loading) {
         return (
@@ -129,7 +110,7 @@ export default function MovieDetail({ light, setLight}) {
         )
     }
 
-    //console.log(movie.youtube_details.slice(1));
+    //(movie.youtube_details.slice(1));
 
     return ( 
         <>

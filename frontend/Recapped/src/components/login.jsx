@@ -25,10 +25,8 @@ export default function Login({light, setLight}){
 
         const formData = {username, password};
 
-        //console.log(formData);
         try {
             const response = await api.post("api/auth/login/", formData)
-            console.log(response);
             sessionStorage.setItem("Token", response.data.access_token)
             sessionStorage.setItem("Username", response.data.user.username)
             navigate("/home");

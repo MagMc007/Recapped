@@ -22,10 +22,14 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
 
             // determine URL or endpoint
             if (url) {
-                // const baseURL = "http://backend:8000/api/";
-                // endpoint = url.startsWith(baseURL) ? url.slice(baseURL.length) : url;
-                const urlObj = new URL(url);
-                endpoint = (urlObj.pathname + urlObj.search).substring(1);
+                try{
+                    // extract the URL and the page
+                    const urlObj = new URL(url);
+                    const fullPath = urlObj.pathname + urlObj.search;
+                    endpoint = fullPath.replace(/^\//, "");
+                } catch (e) {
+                    endpoint = url.replace(/^\//, "");
+            }
             } else if (genre) {
                 endpoint = category === "movies" ? "api/movies/filter/genre" : "api/series/filter/genre";
                 params.g = genre;
@@ -52,7 +56,6 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
                     headers: { Authorization: `Bearer ${Token}` },
                     params: url ? {} : params
                 });
-                //console.log(response);
                 setMovies(response.data.results);
                 setNextPage(response.data.next);
                 setPrevPage(response.data.previous);
@@ -89,7 +92,7 @@ export default function Movies({ category, genre, ctry, setCtry, setGenre, year,
             </>
         )
     }
-    // console.log("movies", movies)
+    // ("movies", movies)
 
     function goToMovie(category, name) {
         navigate(`/${category}/${name}`)

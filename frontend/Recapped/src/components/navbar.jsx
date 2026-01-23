@@ -67,7 +67,7 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
     function logout() {
         sessionStorage.clear();
         navigate("/");
-        //console.log("Logged out");
+        //("Logged out");
     }
 
     function hideOptions(filter) {
@@ -97,7 +97,6 @@ export default function NavBar({light, setLight, setGenre, setCtry, setYear, set
     function handleSearch(e){
         e.preventDefault();
         const movieName = e.target.q.value;
-        //console.log(movieName);
         setSearch(movieName);
         e.target.reset()
     }
