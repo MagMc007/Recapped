@@ -62,8 +62,8 @@ RECAPPED puts context firstso users know exactly what they’re about to watch.
 
 **Backend**
 
-- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" height="18" alt="django logo"  /> Django
-- 🔧 height="18" alt=""  />Django REST Framework (DRF)
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" height="18" alt="django logo" /> Django
+- 🔧 Django REST Framework (DRF)
 - 🔐 JWT Authentication
 
 **APIs & Services**
@@ -106,6 +106,9 @@ RECAPPED puts context firstso users know exactly what they’re about to watch.
 4. Stores structured data in a relational database  
 5. Exposes everything via a REST API consumed by React
 
+<p align="center">
+  <img src="./imgs/DataFlow.png" alt="Data Flow" width="1200"/>
+</p>
 ---
 
 
