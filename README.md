@@ -1,22 +1,21 @@
 # 🎬 RECAPPED
-
 **RECAPPED** is a web platform that helps users discover *high-quality movie recaps* without clickbait, misleading thumbnails, or endless trial-and-error.
-
----
 
 ## 🚀 Elevator Pitch
 
 A curated movie-recap platform that lets users explore, filter, and watch YouTube movie recaps with full context—before committing their time.
 
----
-
-## 🎥 Visuals (to be done next)
+## 🎥 Demo
 
 <p align="center">
-  <!-- Main user flow GIF here -->
+  <a href="https://youtu.be/NPWakxQMpGM">
+    <img 
+      src="https://img.youtube.com/vi/NPWakxQMpGM/maxresdefault.jpg"
+      width="900"
+      alt="Watch the demo"
+    />
+  </a>
 </p>
-
----
 
 ## 📖 About The Project
 
@@ -34,7 +33,7 @@ Movie recap lovers face a surprisingly frustrating experience:
 
 I found myself constantly abandoning recaps halfway through—not because the movies were bad, but because the **discovery process was broken**.
 
----
+
 
 ### The Solution
 
@@ -48,8 +47,6 @@ Instead of chasing random videos, users can:
 - Rate movies to help future users
 
 RECAPPED puts context firstso users know exactly what they’re about to watch.
-
----
 
 
 ## 🛠 Built With
@@ -75,7 +72,7 @@ RECAPPED puts context firstso users know exactly what they’re about to watch.
 - <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="20" alt="docker logo"  />
   <img width="12" />Docker
 - <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" height="15" alt="postgresql logo"  /> PostgreSQL(image)
----
+
 
 ## ✨ Key Features
 
@@ -91,7 +88,7 @@ RECAPPED puts context firstso users know exactly what they’re about to watch.
 - ✅ Clean REST API built with DRF
 - ✅ Fully containerized with Docker
 
----
+
 
 ## 🧠 How It Works (High Level)
 
@@ -109,6 +106,84 @@ RECAPPED puts context firstso users know exactly what they’re about to watch.
 <p align="center">
   <img src="./imgs/DataFlow.png" alt="Data Flow" width="1200"/>
 </p>
----
+
+## 🔮 What's Next
+
+The project is still evolving, and several improvements are planned for the next stages:
+
+- **Containerized deployment** – The application has been Dockerized to ensure consistent environments across development and production.
+- **Cloud deployment** – The next step is deploying the platform to a cloud provider (May be AWS) to make it publicly accessible.
+- **Public access** – Once deployed, the platform will be available for movie recap lover and for all who enjoy story telling to explore and discover high-quality recap content.
+- **Feature expansion** – Add more filtering options, improved recommendations, and better recap discovery tools.
+
+The goal is to make **RECAPPED** a reliable place where people can easily discover quality movie recaps without the usual noise of clickbait content on youtube.
+
+## ▶️ Running the Project Locally
+
+You can run the entire project locally using Docker.
+
+### 1. Clone the repository
+
+```bash
+git clone <https://github.com/MagMc007/Recapped>
+```
+2. Enter the Recapped folder
+```
+cd Recapped
+```
+Then Run
+```
+docker-compose up
+```
+This will run database, backend and frontend services
+
+## 📥 Populating Movies
+
+If you want to automatically populate the database with movie recap data, follow the steps below.
+
+### 1. Set up the environment file
+
+Create an environment file and add the required API keys:
+
+```
+YOUTUBE_API_KEY=...
+OMBD_API_KEY=...
+GEMINI_API_KEY_1=....
+GEMINI_API_KEY_2=....
+```
+It is recommended to prepare **at least 4 Gemini API keys**, since you may run out of request quota during the process.
+### 2. Select the YouTube channel source
+
+Then proceed to the folder: 
+```
+./backend/movies/management/commands/
+```
+Open the file:
+```
+populate_movies.py
+```
+Inside this file you will find a **dictionary containing selected YouTube channels**.  
+These channels are chosen because they provide **accurate descriptions of the movies they recap**, which increases the likelihood that the AI can correctly identify the movie.
+
+Choose **one channel** from the dictionary and **comment out the others**.
+
+### 3. Enter the backend container
+
+Navigate to the backend directory:
 
 
+Then go back to the folder: 
+```
+../backend
+```
+Then open a shell inside the Django container:
+
+```
+docker exec -it my_django_backend bash
+```
+
+then run the population command:
+```
+python manage.py populate_movies
+```
+This will trigger the automatic process described in the data flow diagram.
