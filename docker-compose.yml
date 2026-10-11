@@ -26,18 +26,10 @@ services:
     depends_on:
       - db
     environment:
-      - DB_NAME=recap
-      - DB_USER=supermag
-      - DB_PASSWORD=qwerty1234@#
-      - DB_HOST=db
-
-  frontend:
-    build:
-      context: ./frontend/Recapped
-    container_name: my_front_end
-    ports:
-      - "3000:80"
-    restart: unless-stopped
+      DB_NAME: recap
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
 
 volumes:
   postgres_data:
