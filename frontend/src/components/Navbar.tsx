@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               textDecoration: 'none',
             }}
           >
-            <RecappedLogo size={38} />
+            <RecappedLogo size={65} />
           </Link>
 
           {/* Desktop Nav Links */}

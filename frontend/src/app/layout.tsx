@@ -18,7 +18,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: 'Recapped — Spoilers Ahead, Watch Out and Take Care',
+  title: 'Recapped',
   description:
     'Context-first movie and series recaps from YouTube with official posters, verified metadata, multi-creator sources, and spoiler alerts.',
 };

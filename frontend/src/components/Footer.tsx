@@ -67,8 +67,8 @@ export const Footer: React.FC = () => {
               <a href="https://www.youtube.com/@DanielCCMovie" target="_blank" rel="noopener noreferrer" style={footerA}>
                 Daniel CC Movie ↗
               </a>
-              <a href="https://www.youtube.com/@CinemaSummary" target="_blank" rel="noopener noreferrer" style={footerA}>
-                Cinema Summary ↗
+              <a href="https://www.youtube.com/@FilmRecaps" target="_blank" rel="noopener noreferrer" style={footerA}>
+                Film Recaps ↗
               </a>
             </div>
           </div>
