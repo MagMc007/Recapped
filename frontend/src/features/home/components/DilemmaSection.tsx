@@ -95,7 +95,7 @@ export const DilemmaSection: React.FC = () => {
                 color: '#ff8585',
               }}
             >
-              ❌ Result: 25 minutes lost on low-budget duds you never meant to watch.
+              ❌ Result: 25 minutes lost on reppeling recaps you never meant to watch.
             </div>
           </div>
 

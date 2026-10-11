@@ -171,7 +171,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuth }) => {
           {[
             ['500+', 'Recaps Curated'],
             ['20+', 'Global Origins'],
-            ['100%', 'Spoiler']
+            ['100%', 'Spoilers']
           ].map(([n, l]) => (
             <div key={l} style={{ textAlign: 'center' }}>
               <div
