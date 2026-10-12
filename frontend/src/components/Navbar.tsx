@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { RecappedLogo } from './RecappedLogo';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 interface NavbarProps {
   onOpenAuth?: () => void;
@@ -17,23 +18,37 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
 }) => {
   const pathname = usePathname();
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const auth = useAuth();
+  const activeUser =
+    currentUser ??
+    (auth.user
+      ? {
+          name: auth.user.username,
+          email: auth.user.email || '',
+        }
+      : null);
+  const handleLogout = onLogout ?? auth.logout;
+
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    try {
+      const savedTheme = localStorage.getItem('recapped_theme') as 'dark' | 'light' | null;
+      if (savedTheme) return savedTheme;
+      return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Initialize theme from localStorage or document attribute
-  useEffect(() => {
-    try {
-      const savedTheme = localStorage.getItem('recapped_theme') as 'dark' | 'light' | null;
-      if (savedTheme) {
-        setTheme(savedTheme);
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      } else {
-        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-        setTheme(isDark ? 'dark' : 'light');
-      }
-    } catch {}
-  }, []);
+  // Close menus on route change without triggering useEffect setState cascading renders
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setMobileMenuOpen(false);
+  }
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -49,11 +64,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
-
-  // Close menus on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   const isHome = pathname === '/';
   const isMovies = pathname === '/movies';
@@ -184,14 +194,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Desktop Auth Buttons */}
             <div className="nav-desktop-auth items-center gap-2">
-              {currentUser ? (
+              {activeUser ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{ fontSize: 12, color: 'var(--text)', fontWeight: 600 }}>
-                    {currentUser.name}
+                    {activeUser.name}
                   </span>
-                  {onLogout && (
+                  {handleLogout && (
                     <button
-                      onClick={onLogout}
+                      onClick={handleLogout}
                       style={{ ...ghostBtn, padding: '5px 10px', fontSize: 11 }}
                     >
                       Log out
@@ -376,13 +386,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Mobile Auth actions */}
             <div style={{ display: 'flex', gap: 8, marginTop: 8, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-              {currentUser ? (
+              {activeUser ? (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                   <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 600 }}>
-                    Signed in as {currentUser.name}
+                    Signed in as {activeUser.name}
                   </span>
-                  {onLogout && (
-                    <button onClick={onLogout} style={ghostBtn}>
+                  {handleLogout && (
+                    <button onClick={handleLogout} style={ghostBtn}>
                       Log out
                     </button>
                   )}
