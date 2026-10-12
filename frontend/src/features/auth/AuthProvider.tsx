@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { User } from '@/types/api';
 import { logoutAction } from './actions';
-import { USER_COOKIE } from '@/lib/auth';
+import { USER_COOKIE } from '@/lib/auth-constants';
 
 export interface AuthContextType {
   user: User | null;

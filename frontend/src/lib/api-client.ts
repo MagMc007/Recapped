@@ -130,6 +130,10 @@ export async function apiClient<T>(
   }
 
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== 'undefined') {
+      document.cookie = 'recapped_token=; path=/; max-age=0';
+      document.cookie = 'recapped_user=; path=/; max-age=0';
+    }
     const message = extractErrorMessage(responseData, response.statusText);
     throw new ApiError(message, response.status, responseData);
   }

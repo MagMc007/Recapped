@@ -1,10 +1,9 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { User, AuthResponse } from '@/types/api';
+import { AUTH_COOKIE, REFRESH_COOKIE, USER_COOKIE } from './auth-constants';
 
-export const AUTH_COOKIE = 'recapped_token';
-export const REFRESH_COOKIE = 'recapped_refresh';
-export const USER_COOKIE = 'recapped_user';
+export { AUTH_COOKIE, REFRESH_COOKIE, USER_COOKIE };
 
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
