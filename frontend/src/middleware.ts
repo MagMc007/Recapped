@@ -10,7 +10,8 @@ export function middleware(request: NextRequest) {
 
   // If already logged in, redirect away from /login and /register
   if (isAuthRoute && token) {
-    const redirectTo = request.nextUrl.searchParams.get('redirect') || '/';
+    const redirectParam = request.nextUrl.searchParams.get('redirect');
+    const redirectTo = redirectParam && redirectParam !== '/' ? redirectParam : '/movies';
     return NextResponse.redirect(new URL(redirectTo, request.url));
   }
 

@@ -11,7 +11,8 @@ import { useAuth } from '../hooks/useAuth';
 export const LoginForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect') || '/';
+  const redirectParam = searchParams.get('redirect');
+  const redirectTo = redirectParam && redirectParam !== '/' ? redirectParam : '/movies';
   const { setUser } = useAuth();
 
   const [username, setUsername] = useState('');

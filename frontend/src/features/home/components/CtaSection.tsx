@@ -1,7 +1,19 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const CtaSection: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const hideAuth = mounted && isAuthenticated;
+
   return (
     <section
       style={{
@@ -91,24 +103,26 @@ export const CtaSection: React.FC = () => {
             <span style={{ fontSize: 16 }}>▶</span>
           </Link>
 
-          <Link
-            href="/register"
-            style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              color: 'var(--text)',
-              textDecoration: 'none',
-              padding: '13px 28px',
-              borderRadius: 10,
-              fontSize: 14,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            <span>Create Free Account</span>
-          </Link>
+          {!hideAuth && (
+            <Link
+              href="/register"
+              style={{
+                background: 'var(--surface)',
+                border: '1px solid var(--border)',
+                color: 'var(--text)',
+                textDecoration: 'none',
+                padding: '13px 28px',
+                borderRadius: 10,
+                fontSize: 14,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <span>Create Free Account</span>
+            </Link>
+          )}
         </div>
       </div>
     </section>
