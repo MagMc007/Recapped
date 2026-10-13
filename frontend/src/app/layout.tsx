@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { DM_Sans, Bebas_Neue } from 'next/font/google';
 import './globals.css';
@@ -33,7 +34,9 @@ export default function RootLayout({
     <html lang="en" className={`${dmSans.variable} ${bebasNeue.variable}`}>
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
-          <Navbar />
+          <Suspense fallback={<header style={{ height: 64, background: 'var(--surface)' }} />}>
+            <Navbar />
+          </Suspense>
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
         </AuthProvider>

@@ -61,7 +61,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
   const session = await getSession();
 
   if (!session) {
-    redirect(`/login?redirect=/movies/${id}`);
+    redirect(`/api/auth/logout?redirect=/movies/${id}`);
   }
 
   const numId = parseInt(id, 10);
@@ -74,7 +74,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
     movie = await getMovieById(numId);
   } catch (error) {
     if (error instanceof ApiError && error.status === 401) {
-      redirect(`/login?redirect=/movies/${id}`);
+      redirect(`/api/auth/logout?redirect=/movies/${id}`);
     }
     throw error;
   }
