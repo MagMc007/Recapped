@@ -72,15 +72,11 @@ export const FeaturedSection: React.FC = () => {
         </Link>
       </div>
 
-      {/* Responsive Cards Grid */}
+      {/* Responsive 6-Cards Grid */}
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))',
-          gap: 16,
-        }}
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
       >
-        {SAMPLE_MEDIA.map((movie, idx) => (
+        {SAMPLE_MEDIA.slice(0, 6).map((movie, idx) => (
           <MovieCard
             key={movie.id}
             movie={movie}
@@ -89,6 +85,7 @@ export const FeaturedSection: React.FC = () => {
           />
         ))}
       </div>
+
     </section>
   );
 };

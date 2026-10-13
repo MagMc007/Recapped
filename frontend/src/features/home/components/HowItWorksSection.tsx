@@ -15,18 +15,6 @@ export const HowItWorksSection: React.FC = () => {
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
-          <div
-            style={{
-              fontSize: 11,
-              color: 'var(--accent-light)',
-              textTransform: 'uppercase',
-              letterSpacing: 2,
-              fontWeight: 600,
-              marginBottom: 6,
-            }}
-          >
-            ◈ The Solution Architecture
-          </div>
           <h2
             className="font-bebas"
             style={{

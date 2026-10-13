@@ -47,11 +47,12 @@ export function movieToMediaItem(movie: Movie): MediaItem {
     posterUrl: movie.poster_url || '',
     backdropUrl: movie.poster_url || '',
     omdbRating: {
-      imdb: movie.average_rating != null ? String(movie.average_rating) : 'N/A',
+      imdb: movie.average_rating != null ? `${movie.average_rating} ` : 'N/A',
       rottenTomatoes: movie.average_rating != null ? `${Math.round(movie.average_rating * 20)}%` : 'N/A',
       metacritic: movie.average_rating != null ? `${Math.round(movie.average_rating * 18)}` : 'N/A',
       votes: '',
     },
+
     communityRating: {
       average: movie.average_rating ?? 0,
       count: movie.average_rating != null ? 1 : 0,

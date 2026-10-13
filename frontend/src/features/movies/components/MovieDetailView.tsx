@@ -748,7 +748,7 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
                 </div>
 
                 <div style={{ fontSize: 11, color: 'var(--gold)', fontWeight: 600 }}>
-                  ★ {activeAverageRating} / 5
+                  ★ {activeAverageRating} 
                 </div>
 
                 {ratingMessage && (
