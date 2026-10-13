@@ -247,7 +247,7 @@ export const DilemmaSection: React.FC = () => {
               <li>✓ Poster: Official Theatrical Release Artwork</li>
               <li>✓ Metadata: South Korea · 132 min · 8.6 IMDb · 99% Rotten Tomatoes</li>
               <li>✓ Quality: Certified masterworks upfront before committing watch time</li>
-              <li>✓ Sources: Toggle between 3 different verified recap narrators</li>
+              <li>✓ Sources: Toggle between 3 different  recap narrators</li>
             </ul>
           </div>
         </div>

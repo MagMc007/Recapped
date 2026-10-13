@@ -36,7 +36,7 @@ export const FeaturedSection: React.FC = () => {
               fontWeight: 600,
             }}
           >
-            ◈ Verified Cinema Archive
+            ◈  Cinema Archive
           </div>
           <h2
             className="font-bebas"

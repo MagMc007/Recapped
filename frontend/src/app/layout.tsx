@@ -21,7 +21,7 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: 'Recapped',
   description:
-    'Context-first movie and series recaps from YouTube with official posters, verified metadata, multi-creator sources, and spoiler alerts.',
+    'Context-first movie and series recaps from YouTube with official posters,  metadata, multi-creator sources, and spoiler alerts.',
 };
 
 export default function RootLayout({

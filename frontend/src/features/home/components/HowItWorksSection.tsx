@@ -49,7 +49,7 @@ export const HowItWorksSection: React.FC = () => {
             }}
           >
             We take fragmented video recaps on YouTube and map them directly to official theatrical archives,
-            verified ratings, and multi-creator players.
+             ratings, and multi-creator players.
           </p>
         </div>
 
@@ -91,7 +91,7 @@ export const HowItWorksSection: React.FC = () => {
               Official Theatrical Posters
             </h3>
             <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6 }}>
-              No sensationalist arrows or AI faces. Every recap is matched with verified high-definition promotional
+              No sensationalist arrows or AI faces. Every recap is matched with  high-definition promotional
               posters and official festival selections.
             </p>
           </div>
@@ -122,7 +122,7 @@ export const HowItWorksSection: React.FC = () => {
               📊
             </div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
-              Verified OMDb &amp; IMDb Context
+               OMDb &amp; IMDb Context
             </h3>
             <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6 }}>
               Check real audience and critic ratings, Rotten Tomatoes percentages, release years, directors, and principal
@@ -225,7 +225,7 @@ export const HowItWorksSection: React.FC = () => {
               CHOOSE NARRATOR
             </div>
             <p style={{ color: 'var(--muted)', fontSize: 12, lineHeight: 1.5, margin: 0 }}>
-              Select whether you want a quick 15-minute plot recap or a detailed 25-minute twist breakdown from verified creators.
+              Select whether you want a quick 15-minute plot recap or a detailed 25-minute twist breakdown from  creators.
             </p>
           </div>
 

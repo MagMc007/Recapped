@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import type { MediaItem, RecapSource } from '@/types/media';
 import { rateMovie } from '@/features/movies/api';
@@ -19,7 +19,7 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
     channelName: 'Recapped Library',
     channelAvatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=recapped',
     channelUrl: 'https://www.youtube.com',
-    channelSubscribers: 'Verified Recap',
+    channelSubscribers: ' Recap',
     recapTitle: `${movie.title} Story Breakdown`,
     recapDuration: 'Recap',
     recapStyle: 'Plot Recap',
@@ -33,6 +33,7 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
     : fallbackSource;
 
   const [selectedSource, setSelectedSource] = useState<RecapSource>(initialSource);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isTheater, setIsTheater] = useState(false);
   const [userRating, setUserRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
@@ -40,7 +41,79 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
   const [ratingMessage, setRatingMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
+  const pathname = usePathname();
+  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+
+  const stopPlayback = React.useCallback(() => {
+    setIsPlaying(false);
+    const iframe = iframeRef.current;
+    if (iframe) {
+      try {
+        iframe.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'stopVideo', args: '' }),
+          '*'
+        );
+      } catch {}
+      try {
+        iframe.src = 'about:blank';
+      } catch {}
+    }
+  }, []);
+
+  // 1. Teardown active playback whenever isPlaying switches to false or component unmounts
+  React.useEffect(() => {
+    if (!isPlaying) return;
+    const currentIframe = iframeRef.current;
+    return () => {
+      if (currentIframe) {
+        try {
+          currentIframe.contentWindow?.postMessage(
+            JSON.stringify({ event: 'command', func: 'stopVideo', args: '' }),
+            '*'
+          );
+        } catch {}
+        try {
+          currentIframe.src = 'about:blank';
+        } catch {}
+      }
+    };
+  }, [isPlaying]);
+
+  // 2. Stop playback whenever pathname changes
+  React.useEffect(() => {
+    return () => {
+      stopPlayback();
+    };
+  }, [pathname, stopPlayback]);
+
+  // 3. Global capture: halt playback immediately as soon as ANY navigation link or anchor is clicked
+  React.useEffect(() => {
+    const handleGlobalClick = (e: MouseEvent) => {
+      const link = (e.target as HTMLElement)?.closest('a');
+      if (link) {
+        const href = link.getAttribute('href');
+        if (href && (href.startsWith('/') || !href.includes('://')) && !href.startsWith('#')) {
+          stopPlayback();
+        }
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClick, { capture: true });
+    window.addEventListener('popstate', stopPlayback);
+    window.addEventListener('pagehide', stopPlayback);
+    window.addEventListener('beforeunload', stopPlayback);
+
+    return () => {
+      document.removeEventListener('click', handleGlobalClick, { capture: true });
+      window.removeEventListener('popstate', stopPlayback);
+      window.removeEventListener('pagehide', stopPlayback);
+      window.removeEventListener('beforeunload', stopPlayback);
+    };
+  }, [stopPlayback]);
+
+
   const handleBack = () => {
+    stopPlayback();
     if (window.history.length > 1) {
       router.back();
     } else {
@@ -300,25 +373,10 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
                 paddingBottom: isTheater ? '50%' : '56.25%',
                 height: 0,
                 background: '#000',
+                overflow: 'hidden',
               }}
             >
-              {selectedSource.youtubeVideoId ? (
-                <iframe
-                  key={selectedSource.youtubeVideoId}
-                  src={`https://www.youtube-nocookie.com/embed/${selectedSource.youtubeVideoId}?rel=0&modestbranding=1&color=white&autoplay=1&playsinline=1`}
-                  title={selectedSource.recapTitle || `${movie.title} Recap`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                  }}
-                />
-              ) : (
+              {!selectedSource.youtubeVideoId ? (
                 <div
                   style={{
                     position: 'absolute',
@@ -339,8 +397,138 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
                     A video recap for this title has not been linked yet.
                   </div>
                 </div>
+              ) : !isPlaying ? (
+                <div
+                  onClick={() => setIsPlaying(true)}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {/* Background preview thumbnail */}
+                  <img
+                    src={`https://img.youtube.com/vi/${selectedSource.youtubeVideoId}/hqdefault.jpg`}
+                    alt={selectedSource.recapTitle || movie.title}
+                    onError={(e) => {
+                      if (movie.backdropUrl || movie.posterUrl) {
+                        e.currentTarget.src = movie.backdropUrl || movie.posterUrl;
+                      }
+                    }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      filter: 'brightness(0.5)',
+                      transition: 'transform 0.4s ease, filter 0.4s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.03)';
+                      e.currentTarget.style.filter = 'brightness(0.65)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.filter = 'brightness(0.5)';
+                    }}
+                  />
+
+                  {/* Vignette Overlay */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(7,13,26,0.85) 100%)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  {/* Play Button & Call to Action */}
+                  <div
+                    style={{
+                      position: 'relative',
+                      zIndex: 3,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 14,
+                      textAlign: 'center',
+                      padding: '0 20px',
+                    }}
+                  >
+                    <button
+                      type="button"
+                      aria-label="Play Recap Video"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPlaying(true);
+                      }}
+                      style={{
+                        width: 76,
+                        height: 76,
+                        borderRadius: '50%',
+                        background: 'var(--accent)',
+                        color: '#fff',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        boxShadow: '0 0 36px var(--accent-glow), 0 8px 30px rgba(0,0,0,0.7)',
+                        transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.12)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                    >
+                      <span style={{ fontSize: 28, marginLeft: 4, lineHeight: 1 }}>▶</span>
+                    </button>
+
+                    <div>
+                      <div
+                        className="font-bebas"
+                        style={{
+                          fontSize: 'clamp(22px, 4.5vw, 32px)',
+                          letterSpacing: 2,
+                          color: '#fff',
+                          textShadow: '0 2px 12px rgba(0,0,0,0.9)',
+                          lineHeight: 1.1,
+                        }}
+                      >
+                        Click to Play Recap Stream
+                      </div>
+                      <div style={{ fontSize: 13, color: 'var(--accent-light)', marginTop: 4, fontWeight: 500 }}>
+                        Narrated by <span style={{ color: '#fff', fontWeight: 600 }}>{selectedSource.channelName}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <iframe
+                  ref={iframeRef}
+                  key={selectedSource.youtubeVideoId}
+                  src={`https://www.youtube-nocookie.com/embed/${selectedSource.youtubeVideoId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&color=white&playsinline=1`}
+                  title={selectedSource.recapTitle || `${movie.title} Recap`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                  }}
+                />
               )}
+
             </div>
+
           </div>
         </section>
 
@@ -649,56 +837,6 @@ export const MovieDetailView: React.FC<MovieDetailViewProps> = ({ movie }) => {
                     "{movie.tagline}"
                   </div>
                 )}
-              </div>
-
-              {/* Ratings Deck */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(4, 1fr)',
-                  gap: 8,
-                  background: 'var(--bg2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 8,
-                  padding: '10px 14px',
-                  textAlign: 'center',
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: 9, color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 700 }}>
-                    IMDb Score
-                  </div>
-                  <div className="font-bebas" style={{ fontSize: 20, color: 'var(--gold)', letterSpacing: 0.5, marginTop: 2 }}>
-                    ★ {movie.omdbRating?.imdb || 'N/A'}
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: 9, color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 700 }}>
-                    Rotten Tomatoes
-                  </div>
-                  <div className="font-bebas" style={{ fontSize: 20, color: '#ff6b6b', letterSpacing: 0.5, marginTop: 2 }}>
-                    {movie.omdbRating?.rottenTomatoes || 'N/A'}
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: 9, color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 700 }}>
-                    Metacritic
-                  </div>
-                  <div className="font-bebas" style={{ fontSize: 20, color: '#4ade80', letterSpacing: 0.5, marginTop: 2 }}>
-                    {movie.omdbRating?.metacritic || 'N/A'}
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: 9, color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 700 }}>
-                    Community
-                  </div>
-                  <div className="font-bebas" style={{ fontSize: 20, color: 'var(--accent-light)', letterSpacing: 0.5, marginTop: 2 }}>
-                    ★ {activeAverageRating}
-                  </div>
-                </div>
               </div>
 
               {/* Genres & Production Specifications */}

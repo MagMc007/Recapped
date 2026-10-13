@@ -20,7 +20,7 @@ export function movieToMediaItem(movie: Movie): MediaItem {
     channelName: yt.source_channel || 'Recapped Creator',
     channelAvatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${yt.source_channel_id || yt.source_channel || 'recap'}`,
     channelUrl: yt.source_channel_id ? `https://www.youtube.com/channel/${yt.source_channel_id}` : `https://www.youtube.com/results?search_query=${encodeURIComponent(yt.source_channel || 'recap')}`,
-    channelSubscribers: 'Verified Creator',
+    channelSubscribers: ' Creator',
     recapTitle: `${movie.name} Recap & Breakdown`,
     recapDuration: 'Full Recap',
     recapStyle: 'Plot Recap' as const,
@@ -50,7 +50,7 @@ export function movieToMediaItem(movie: Movie): MediaItem {
       imdb: movie.average_rating != null ? String(movie.average_rating) : 'N/A',
       rottenTomatoes: movie.average_rating != null ? `${Math.round(movie.average_rating * 20)}%` : 'N/A',
       metacritic: movie.average_rating != null ? `${Math.round(movie.average_rating * 18)}` : 'N/A',
-      votes: 'Verified',
+      votes: '',
     },
     communityRating: {
       average: movie.average_rating ?? 0,

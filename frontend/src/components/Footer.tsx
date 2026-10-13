@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p style={{ lineHeight: 1.6, fontSize: 13 }}>
-              Context-first cinema recaps. Replacing clickbait thumbnails with real posters, verified IMDb scores, and multi-creator selection.
+              Context-first cinema recaps. Replacing clickbait thumbnails with real posters, IMDb scores, and multi-creator selection.
             </p>
           </div>
 

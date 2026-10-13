@@ -88,7 +88,7 @@ export const CreatorsSection: React.FC = () => {
               lineHeight: 1.5,
             }}
           >
-            Recapped credits and embeds verified YouTube narrators. Discover the creators behind the voices and pick your storytelling style.
+            Recapped credits and embeds  YouTube narrators. Discover the creators behind the voices and pick your storytelling style.
           </p>
         </div>
 
