@@ -42,18 +42,6 @@ export const CtaSection: React.FC = () => {
       />
 
       <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        <div
-          style={{
-            fontSize: 11,
-            color: 'var(--accent-light)',
-            textTransform: 'uppercase',
-            letterSpacing: 2,
-            fontWeight: 700,
-            marginBottom: 10,
-          }}
-        >
-          ◈ Start Your Journey
-        </div>
 
         <h2
           className="font-bebas"

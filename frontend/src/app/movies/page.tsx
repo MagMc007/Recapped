@@ -7,7 +7,7 @@ import { MoviesPagination } from '@/features/movies/components/MoviesPagination'
 import { FiltersBar } from '@/features/filters/components/FiltersBar';
 import { getFilterOptions } from '@/features/filters/api';
 import type { MediaTypeFilter } from '@/features/filters/types';
-import { getSession, clearSession } from '@/lib/auth';
+import { getSession } from '@/lib/auth';
 import { ApiError } from '@/lib/api-client';
 import { FilmStrip } from '@/components/FilmStrip';
 
@@ -32,7 +32,7 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
   // Require auth — redirect to login if no session
   const session = await getSession();
   if (!session) {
-    redirect('/login?redirect=/movies');
+    redirect('/api/auth/logout?redirect=/movies');
   }
 
   const params = await searchParams;
@@ -53,8 +53,11 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
     ]);
   } catch (error) {
     if (error instanceof ApiError && error.status === 401) {
-      await clearSession();
-      redirect('/login?redirect=/movies');
+      // IMPORTANT: clearSession() cannot be called during a Server Component render —
+      // Next.js only allows cookie mutation in Server Actions and Route Handlers.
+      // Redirect to the logout route handler which safely clears cookies then sends
+      // the user to /login.
+      redirect('/api/auth/logout?redirect=/movies');
     }
     throw error;
   }

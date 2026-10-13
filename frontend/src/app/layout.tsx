@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { DM_Sans, Bebas_Neue } from 'next/font/google';
 import './globals.css';
@@ -21,7 +22,7 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: 'Recapped',
   description:
-    'Context-first movie and series recaps from YouTube with official posters, verified metadata, multi-creator sources, and spoiler alerts.',
+    'Context-first movie and series recaps from YouTube with official posters,  metadata, multi-creator sources, and spoiler alerts.',
 };
 
 export default function RootLayout({
@@ -33,7 +34,9 @@ export default function RootLayout({
     <html lang="en" className={`${dmSans.variable} ${bebasNeue.variable}`}>
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
-          <Navbar />
+          <Suspense fallback={<header style={{ height: 64, background: 'var(--surface)' }} />}>
+            <Navbar />
+          </Suspense>
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
         </AuthProvider>

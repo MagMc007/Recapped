@@ -66,18 +66,56 @@ export async function getSeriesMovies(page = 1) {
 }
 
 /**
- * Fetches a single movie by its ID via the list endpoint.
- * The backend detail route uses the movie name, but since we have the full
- * list we can use pagination. For now we fetch from the list and find by id.
+ * Fetches a single movie or series by its ID.
+ * First checks movies list; if not found, checks series list.
  */
 export async function getMovieById(id: number): Promise<Movie | null> {
-  let page = 1;
-  while (true) {
-    const data = await apiClient.get<PaginatedResponse<Movie>>(`api/movies/?page=${page}`);
-    const found = data.results.find((m) => m.id === id);
-    if (found) return found;
-    if (!data.next) return null;
-    page++;
-    if (page > 20) return null;
+  // First search in movies
+  try {
+    let page = 1;
+    while (page <= 20) {
+      const data = await apiClient.get<PaginatedResponse<Movie>>(`api/movies/?page=${page}`);
+      const found = data.results.find((m) => m.id === id);
+      if (found) return found;
+      if (!data.next) break;
+      page++;
+    }
+  } catch (error) {
+    if (!(error instanceof ApiError && error.status === 404)) {
+      throw error;
+    }
   }
+
+  // Fallback search in series
+  try {
+    let page = 1;
+    while (page <= 20) {
+      const data = await apiClient.get<PaginatedResponse<Movie>>(`api/series/?page=${page}`);
+      const found = data.results.find((m) => m.id === id);
+      if (found) return found;
+      if (!data.next) break;
+      page++;
+    }
+  } catch (error) {
+    if (!(error instanceof ApiError && error.status === 404)) {
+      throw error;
+    }
+  }
+
+  return null;
 }
+
+/**
+ * Submit a 1-5 star user rating for a movie or series.
+ */
+export async function rateMovie(
+  name: string,
+  score: number,
+  isSeries = false
+): Promise<{ success: boolean; score: number }> {
+  const entity = isSeries ? 'series' : 'movies';
+  const endpoint = `api/reviews/${entity}/${encodeURIComponent(name)}/ratings/`;
+  await apiClient.post(endpoint, { score });
+  return { success: true, score };
+}
+

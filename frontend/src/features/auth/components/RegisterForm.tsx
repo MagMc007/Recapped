@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { User as UserIcon, Mail, Lock, Loader2 } from 'lucide-react';
+import { User as UserIcon, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { RecappedLogo } from '@/components/RecappedLogo';
 import { registerAction } from '../actions';
 import { useAuth } from '../hooks/useAuth';
@@ -18,6 +18,7 @@ export const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [isPending, startTransition] = useTransition();
@@ -259,7 +260,7 @@ export const RegisterForm: React.FC = () => {
             <input
               id="password"
               name="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoComplete="new-password"
               value={password}
@@ -270,13 +271,37 @@ export const RegisterForm: React.FC = () => {
                 background: 'var(--bg2)',
                 border: fieldErrors.password ? '1px solid #ff8080' : '1px solid var(--border)',
                 borderRadius: 8,
-                padding: '10px 14px 10px 38px',
+                padding: '10px 40px 10px 38px',
                 color: 'var(--text)',
                 fontSize: 14,
                 outline: 'none',
                 boxSizing: 'border-box',
               }}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              style={{
+                position: 'absolute',
+                right: 12,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted)')}
+            >
+              {showPassword ? <EyeOff style={{ width: 16, height: 16 }} /> : <Eye style={{ width: 16, height: 16 }} />}
+            </button>
           </div>
           {fieldErrors.password && (
             <p style={{ color: '#ff8080', fontSize: 12, marginTop: 4 }}>{fieldErrors.password[0]}</p>

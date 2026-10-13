@@ -55,18 +55,6 @@ export const CreatorsSection: React.FC = () => {
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div
-            style={{
-              fontSize: 11,
-              color: 'var(--accent-light)',
-              textTransform: 'uppercase',
-              letterSpacing: 2,
-              fontWeight: 600,
-              marginBottom: 6,
-            }}
-          >
-            ◈ The Storytelling Ecosystem
-          </div>
           <h2
             className="font-bebas"
             style={{
@@ -88,7 +76,7 @@ export const CreatorsSection: React.FC = () => {
               lineHeight: 1.5,
             }}
           >
-            Recapped credits and embeds verified YouTube narrators. Discover the creators behind the voices and pick your storytelling style.
+            Recapped credits and embeds  YouTube narrators. Discover the creators behind the voices and pick your storytelling style.
           </p>
         </div>
 

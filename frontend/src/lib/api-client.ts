@@ -130,22 +130,13 @@ export async function apiClient<T>(
   }
 
   if (!response.ok) {
-    if (response.status === 401) {
-      if (typeof window !== 'undefined') {
-        document.cookie = 'recapped_token=; path=/; max-age=0';
-        document.cookie = 'recapped_refresh=; path=/; max-age=0';
-        document.cookie = 'recapped_user=; path=/; max-age=0';
-      } else {
-        try {
-          const { cookies } = await import('next/headers');
-          const cookieStore = await cookies();
-          cookieStore.delete('recapped_token');
-          cookieStore.delete('recapped_refresh');
-          cookieStore.delete('recapped_user');
-        } catch {
-          // Cookies cannot be modified in read-only server contexts
-        }
-      }
+    if (response.status === 401 && typeof window !== 'undefined') {
+      // Client-side only: clear stale cookies so the browser stops sending them.
+      // Server-side cookie clearing must happen in a Route Handler or Server Action
+      // (see /api/auth/logout), not here — Next.js forbids cookie mutation during render.
+      document.cookie = 'recapped_token=; path=/; max-age=0';
+      document.cookie = 'recapped_refresh=; path=/; max-age=0';
+      document.cookie = 'recapped_user=; path=/; max-age=0';
     }
     const message = extractErrorMessage(responseData, response.statusText);
     throw new ApiError(message, response.status, responseData);
