@@ -1,4 +1,4 @@
-version: '3.8'
+name: recapped
 
 services:
   db:
@@ -16,20 +16,22 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: .
     container_name: my_django_backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/app
+      - .:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
     environment:
-      DB_NAME: recap
-      DB_USER: supermag
-      DB_PASSWORD: qwerty1234@#
-      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
 
 volumes:
   postgres_data:
+    name: recapped_postgres_data
+    external: true
