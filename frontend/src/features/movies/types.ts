@@ -1,9 +1,9 @@
 import type { Movie } from '@/types/api';
 import type { MediaItem } from '@/types/media';
 
-export interface GetMoviesParams {
-  page?: number;
-}
+import type { FilterParams } from '@/features/filters/types';
+
+export interface GetMoviesParams extends FilterParams {}
 
 export interface MoviesPageData {
   count: number;

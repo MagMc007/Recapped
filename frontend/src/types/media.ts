@@ -9,7 +9,7 @@ export interface RecapSource {
   channelSubscribers: string;
   recapTitle: string;
   recapDuration: string;
-  recapStyle: 'Cinematic Storytelling' | 'Fast 15-min Deep Dive' | 'Twist & Ending Breakdown' | 'Comedy & Roasting';
+  recapStyle: 'Cinematic Storytelling' | 'Fast 15-min Deep Dive' | 'Twist & Ending Breakdown' | 'Comedy & Roasting' | 'Plot Recap';
   viewsCount: string;
   uploadDate: string;
   summaryHighlight: string;

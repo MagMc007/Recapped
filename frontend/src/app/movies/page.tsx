@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation';
 import { getMovies } from '@/features/movies/api';
 import { MovieGrid } from '@/features/movies/components/MovieGrid';
 import { MoviesPagination } from '@/features/movies/components/MoviesPagination';
+import { FiltersBar } from '@/features/filters/components/FiltersBar';
+import { getFilterOptions } from '@/features/filters/api';
+import type { MediaTypeFilter } from '@/features/filters/types';
 import { getSession } from '@/lib/auth';
 import { FilmStrip } from '@/components/FilmStrip';
 
@@ -14,7 +17,14 @@ export const metadata: Metadata = {
 };
 
 interface MoviesPageProps {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    search?: string;
+    genre?: string;
+    year?: string;
+    country?: string;
+    type?: string;
+  }>;
 }
 
 export default async function MoviesPage({ searchParams }: MoviesPageProps) {
@@ -26,10 +36,19 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
 
   const params = await searchParams;
   const page = Math.max(1, parseInt(params.page || '1', 10) || 1);
+  const search = params.search?.trim() || undefined;
+  const genre = params.genre?.trim() || undefined;
+  const year = params.year?.trim() || undefined;
+  const country = params.country?.trim() || undefined;
+  const type = (params.type === 'series' ? 'series' : 'movies') as MediaTypeFilter;
 
-  const data = await getMovies({ page });
+  const [data, filterOptions] = await Promise.all([
+    getMovies({ page, search, genre, year, country, type }),
+    getFilterOptions(),
+  ]);
 
-  const PAGE_SIZE = data.results.length || 10;
+  const PAGE_SIZE = 18;
+  const hasActiveFilters = Boolean(search || genre || year || country || params.type === 'series');
 
   return (
     <div style={{ paddingTop: 64, minHeight: '100vh', background: 'var(--bg)' }}>
@@ -40,7 +59,7 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
         <div
           className="fade-up"
           style={{
-            marginBottom: 32,
+            marginBottom: 24,
             display: 'flex',
             alignItems: 'flex-end',
             justifyContent: 'space-between',
@@ -70,7 +89,7 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
                 margin: 0,
               }}
             >
-              ALL RECAPS
+              {type === 'series' ? 'ALL SERIES RECAPS' : 'ALL MOVIE RECAPS'}
             </h1>
             <p style={{ color: 'var(--muted)', marginTop: 6, fontSize: 13 }}>
               {data.count} title{data.count !== 1 ? 's' : ''} available
@@ -78,8 +97,13 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
           </div>
         </div>
 
+        {/* Filter Bar */}
+        <Suspense fallback={null}>
+          <FiltersBar options={filterOptions} />
+        </Suspense>
+
         {/* Movie grid */}
-        <MovieGrid movies={data.results} />
+        <MovieGrid movies={data.results} hasFilters={hasActiveFilters} />
 
         {/* Pagination */}
         <Suspense>
