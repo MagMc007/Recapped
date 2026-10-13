@@ -1,14 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { RecappedLogo } from '@/components/RecappedLogo';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 interface HeroSectionProps {
   onOpenAuth?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuth }) => {
+  const { isAuthenticated } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const hideAuth = mounted && isAuthenticated;
   return (
     <section
       id="hero"
@@ -146,14 +155,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuth }) => {
             <span style={{ fontSize: 16 }}>▶</span>
           </Link>
 
-          {onOpenAuth ? (
-            <button type="button" style={heroGhostBtn} onClick={onOpenAuth}>
-              <span>Sign In / Register</span>
-            </button>
-          ) : (
-            <Link href="/login" style={heroGhostBtn}>
-              <span>Sign In / Register</span>
-            </Link>
+          {!hideAuth && (
+            onOpenAuth ? (
+              <button type="button" style={heroGhostBtn} onClick={onOpenAuth}>
+                <span>Sign In / Register</span>
+              </button>
+            ) : (
+              <Link href="/login" style={heroGhostBtn}>
+                <span>Sign In / Register</span>
+              </Link>
+            )
           )}
         </div>
 

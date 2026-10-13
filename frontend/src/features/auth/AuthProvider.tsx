@@ -48,6 +48,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     try {
       await logoutAction();
       setUser(null);
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     } finally {
       setIsLoading(false);
     }

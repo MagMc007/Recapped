@@ -7,7 +7,8 @@ import { MoviesPagination } from '@/features/movies/components/MoviesPagination'
 import { FiltersBar } from '@/features/filters/components/FiltersBar';
 import { getFilterOptions } from '@/features/filters/api';
 import type { MediaTypeFilter } from '@/features/filters/types';
-import { getSession } from '@/lib/auth';
+import { getSession, clearSession } from '@/lib/auth';
+import { ApiError } from '@/lib/api-client';
 import { FilmStrip } from '@/components/FilmStrip';
 
 export const metadata: Metadata = {
@@ -42,10 +43,21 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
   const country = params.country?.trim() || undefined;
   const type = (params.type === 'series' ? 'series' : 'movies') as MediaTypeFilter;
 
-  const [data, filterOptions] = await Promise.all([
-    getMovies({ page, search, genre, year, country, type }),
-    getFilterOptions(),
-  ]);
+  let data;
+  let filterOptions;
+
+  try {
+    [data, filterOptions] = await Promise.all([
+      getMovies({ page, search, genre, year, country, type }),
+      getFilterOptions(),
+    ]);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 401) {
+      await clearSession();
+      redirect('/login?redirect=/movies');
+    }
+    throw error;
+  }
 
   const PAGE_SIZE = 18;
   const hasActiveFilters = Boolean(search || genre || year || country || params.type === 'series');
