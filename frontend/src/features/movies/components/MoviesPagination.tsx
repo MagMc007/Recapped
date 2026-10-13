@@ -63,7 +63,7 @@ export const MoviesPagination: React.FC<MoviesPaginationProps> = ({
   const activeBtn: React.CSSProperties = {
     ...btnBase,
     background: 'var(--accent)',
-    borderColor: 'var(--accent)',
+    border: '1px solid var(--accent)',
     color: '#fff',
     fontWeight: 700,
     boxShadow: '0 0 12px var(--accent-glow)',

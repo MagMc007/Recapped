@@ -29,19 +29,25 @@ export const Navbar: React.FC<NavbarProps> = ({
       : null);
   const handleLogout = onLogout ?? auth.logout;
 
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof window === 'undefined') return 'dark';
-    try {
-      const savedTheme = localStorage.getItem('recapped_theme') as 'dark' | 'light' | null;
-      if (savedTheme) return savedTheme;
-      return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    } catch {
-      return 'dark';
-    }
-  });
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [mounted, setMounted] = useState(false);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const savedTheme = localStorage.getItem('recapped_theme') as 'dark' | 'light' | null;
+      if (savedTheme) {
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        const docTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        setTheme(docTheme);
+      }
+    } catch {}
+  }, []);
 
   // Close menus on route change without triggering useEffect setState cascading renders
   const [prevPath, setPrevPath] = useState(pathname);
@@ -194,7 +200,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Desktop Auth Buttons */}
             <div className="nav-desktop-auth items-center gap-2">
-              {activeUser ? (
+              {mounted && activeUser ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{ fontSize: 12, color: 'var(--text)', fontWeight: 600 }}>
                     {activeUser.name}
@@ -386,7 +392,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Mobile Auth actions */}
             <div style={{ display: 'flex', gap: 8, marginTop: 8, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-              {activeUser ? (
+              {mounted && activeUser ? (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                   <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 600 }}>
                     Signed in as {activeUser.name}
