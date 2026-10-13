@@ -130,9 +130,22 @@ export async function apiClient<T>(
   }
 
   if (!response.ok) {
-    if (response.status === 401 && typeof window !== 'undefined') {
-      document.cookie = 'recapped_token=; path=/; max-age=0';
-      document.cookie = 'recapped_user=; path=/; max-age=0';
+    if (response.status === 401) {
+      if (typeof window !== 'undefined') {
+        document.cookie = 'recapped_token=; path=/; max-age=0';
+        document.cookie = 'recapped_refresh=; path=/; max-age=0';
+        document.cookie = 'recapped_user=; path=/; max-age=0';
+      } else {
+        try {
+          const { cookies } = await import('next/headers');
+          const cookieStore = await cookies();
+          cookieStore.delete('recapped_token');
+          cookieStore.delete('recapped_refresh');
+          cookieStore.delete('recapped_user');
+        } catch {
+          // Cookies cannot be modified in read-only server contexts
+        }
+      }
     }
     const message = extractErrorMessage(responseData, response.statusText);
     throw new ApiError(message, response.status, responseData);
