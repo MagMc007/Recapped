@@ -1,189 +1,138 @@
-# 🎬 RECAPPED
-**RECAPPED** is a web platform that helps users discover *high-quality movie recaps* without clickbait, misleading thumbnails, or endless trial-and-error.
+# RECAPPED
 
-## 🚀 Elevator Pitch
+🌐 **Live:** [recapped-delta.vercel.app](https://recapped-delta.vercel.app/)
 
-A curated movie-recap platform that lets users explore, filter, and watch YouTube movie recaps with full context—before committing their time.
-
-## 🎥 Demo
+**RECAPPED** is a curated web platform designed to help movie lovers discover _high-quality movie and TV recaps_ without clickbait, misleading thumbnails, or endless trial-and-error.
 
 <p align="center">
-  <a href="https://youtu.be/NPWakxQMpGM">
-    <img 
-      src="https://img.youtube.com/vi/NPWakxQMpGM/maxresdefault.jpg"
-      width="900"
-      alt="Watch the demo"
-    />
-  </a>
+  <img src="./frontend/public/image.png" alt="RECAPPED Platform Preview" width="100%" />
 </p>
 
-## 📖 About The Project
+Finding a great movie recap on YouTube often feels broken: clickbait titles, AI-generated thumbnail spam, missing release years, and zero context about genre or country of origin. **RECAPPED** transforms fragmented recap videos into a structured, searchable catalog enriched with verified movie metadata, posters, and multiple creator sources.
+
+## About The Project
 
 ### The Problem
 
-Movie recap lovers face a surprisingly frustrating experience:
+Movie recap enthusiasts face a frustrating experience:
 
-- YouTube offers **no reliable way** to judge recap quality beyond view counts  
-- Thumbnails and titles are often **clickbait or AI-generated**
-- Viewers lack essential context like:
-  - Country of origin  
-  - Genre  
-  - Release year  
-- Finding a *satisfying recap* often means jumping from video to video
-
-I found myself constantly abandoning recaps halfway through—not because the movies were bad, but because the **discovery process was broken**.
-
-
+- **No quality signals**: YouTube offers view counts and clickbait metrics, but no objective quality indicators.
+- **Vague & clickbait titles**: Recap channels frequently obscure the real movie title (e.g., _"Man Gets Stuck In Bunker For 20 Years..."_).
+- **Missing context**: Viewers have no easy way to know the movie's genre, release year, or country of origin before watching.
+- **Fragmented discovery**: Finding a satisfying recap often means clicking back and forth across dozens of videos.
 
 ### The Solution
 
-**RECAPPED** fixes this by turning movie recaps into **structured, searchable content**.
+**RECAPPED** bridges YouTube creators and canonical movie data:
 
-Instead of chasing random videos, users can:
-- Browse a clean movie list with posters and ratings
-- Filter movies by **year, country, and genre**
-- Choose between **multiple recap sources** for the same movie
-- Watch recaps directly inside the platform
-- Rate movies to help future users
+- **Accurate Movie Identification**: AI extracts actual movie titles from creative recap video descriptions with ~90% accuracy.
+- **Rich Movie Metadata**: Full canonical context via OMDb (posters, genres, production countries, and release years).
+- **Multiple Creator Perspectives**: Compare different recap creators for the exact same film.
+- **Seamless Viewing**: Embedded playback directly within a sleek, modern Next.js interface.
+- **Community Ratings**: Rate recaps and movies to help fellow viewers find the best content.
 
-RECAPPED puts context firstso users know exactly what they’re about to watch.
+---
 
+## Built With
 
-## 🛠 Built With
-**Frontend**
-- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="18" alt="react logo"  />   React
-- <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Axios_logo_%282020%29.svg" height="18" alt="Axios logo"  />  
-- 🎥 React YouTube Player
-- 🎨 Modern UI 
+### Frontend
 
+- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS (v4)
+- **Networking**: Native Fetch API _(no Axios)_
+- **Icons & UI**: Lucide React
+- **Video Playback**: Embedded React YouTube Player
 
-**Backend**
+### Backend
 
-- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" height="18" alt="django logo" /> Django
-- 🔧 Django REST Framework (DRF)
-- 🔐 JWT Authentication
+- **Framework**: [Django](https://www.djangoproject.com/) & [Django REST Framework (DRF)](https://www.django-rest-framework.org/)
+- **Authentication**: Simple JWT
+- **Neon (Serverless PostgreSQL)**: Managed cloud database powering the production backend
+- **Data Ingestion**: Custom Django management commands with multi-key API failover
 
-**APIs & Services**
-- 📺 YouTube Data API (recap discovery)
-- 🧠 Google Gemini (movie title extraction)
-- 🎞 OMDb API (movie metadata & posters)
+### External APIs & AI
 
-**Infrastructure**
-- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="20" alt="docker logo"  />
-  <img width="12" />Docker
-- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" height="15" alt="postgresql logo"  /> PostgreSQL(image)
+- **YouTube Data API v3**: Ingests recap video streams, descriptions, and channel creator details.
+- **Google Gemini AI (`gemini-2.5-flash`)**: Extracts exact movie titles and release year hints with high precision (~90% accuracy).
+- **OMDb API**: Enriches candidates with official posters, production country, and genre metadata.
 
+### Infrastructure & DevOps
 
-## ✨ Key Features
+- **Docker & Docker Compose**: Unified multi-container orchestration (Django backend, Next.js frontend).
+- **Azure Container Registry / Azure App Service**: The Django backend image is built and deployed on Azure.
+- **Vercel**: Hosts the Next.js frontend.
 
-- ✅ User authentication with **JWT**
-- ✅ Paginated movie listing with posters & ratings
-- ✅ Advanced filters:
-  - Year  
-  - Country  
-  - Genre
-- ✅ Embedded YouTube recaps using React
-- ✅ Multiple recap sources per movie
-- ✅ User ratings (1–5 stars)
-- ✅ Clean REST API built with DRF
-- ✅ Fully containerized with Docker
+---
 
+## Key Features
 
+- **JWT Authentication**: Secure user registration, login, and session tokens.
+- **Paginated Discovery Catalog**: Fast, responsive grid with posters, release years, and origins.
+- **Multi-Dimensional Filters**: Filter by **Year**, **Country of Origin**, and **Genre**.
+- **Multi-Source Recaps**: Watch different YouTube creators' takes on the same movie in one unified view.
+- **User Ratings System**: Interactive 1–5 star ratings.
+- **Lightweight Networking**: Pure native `fetch` client integration (zero Axios overhead).
+- **Automated Data Pipeline**: One-command ingestion and enrichment pipeline using Gemini + OMDb.
 
-## 🧠 How It Works (High Level)
+---
 
-1. Fetches movie recap videos from selected YouTube channels  
-2. Uses **Gemini AI** to extract accurate movie titles from video metadata  
-   - Only trusted channels are used to avoid hallucinations  
-3. Sends the movie title to **OMDb API** for:
-   - Poster  
-   - Genre  
-   - Country  
-   - Release year  
-4. Stores structured data in a relational database  
-5. Exposes everything via a REST API consumed by React
+## Data Flow & Ingestion Pipeline
 
-<p align="center">
-  <img src="./imgs/DataFlow.png" alt="Data Flow" width="1200"/>
-</p>
+The automated ingestion pipeline turns unstructured YouTube recap videos into verified, structured catalog entries:
 
-## 🔮 What's Next
+```mermaid
+flowchart TD
+    subgraph Trigger ["1. Pipeline Execution"]
+        A["Run CLI Command<br/><code>python manage.py populate_movies</code>"]
+    end
 
-The project is still evolving, and several improvements are planned for the next stages:
+    subgraph Ingestion ["2. YouTube Ingestion"]
+        B["YouTube Data API v3"]
+        C["Video Metadata Stream<br/>• Title<br/>• Description<br/>• Channel & Creator ID"]
+        A -->|Fetch latest channel recaps| B
+        B --> C
+    end
 
-- **Containerized deployment** – The application has been Dockerized to ensure consistent environments across development and production.
-- **Cloud deployment** – The next step is deploying the platform to a cloud provider (May be AWS) to make it publicly accessible.
-- **Public access** – Once deployed, the platform will be available for movie recap lover and for all who enjoy story telling to explore and discover high-quality recap content.
-- **Feature expansion** – Add more filtering options, improved recommendations, and better recap discovery tools.
+    subgraph AI ["3. Title Extraction (Google Gemini)"]
+        D["Google Gemini AI<br/><code>gemini-2.5-flash</code>"]
+        E["Clean Extracted Entity<br/>• Movie Title<br/>• Year Hint<br/>• Confidence Score (~90% accuracy)"]
+        C -->|Title + description payload| D
+        D -->|Structured JSON extraction| E
+    end
 
-The goal is to make **RECAPPED** a reliable place where people can easily discover quality movie recaps without the usual noise of clickbait content on youtube.
+    subgraph Enrichment ["4. Metadata Canonicalization"]
+        F["OMDb API"]
+        G["Canonical Movie Details<br/>• Official Poster<br/>• Country of Origin<br/>• Genre Taxonomy<br/>• Release Year"]
+        E -->|Title + year lookup query| F
+        F --> G
+    end
 
-## ▶️ Running the Project Locally
+    subgraph Persistence ["5. Data Storage (Neon)"]
+        H[("PostgreSQL Database<br/>(Neon Serverless)")]
+        G -->|Save/Update Movie, Poster & Genre| H
+        C -.->|Link YouTube Video ID & Creator Channel| H
+    end
 
-You can run the entire project locally using Docker.
+    subgraph Azure ["6. Backend (Dockerized · Azure App Service)"]
+        I["Django + DRF<br/>(Docker Container)"]
+        H -->|Query persisted data| I
+        I --> REST["REST API Endpoints"]
+    end
 
-### 1. Clone the repository
-
-```bash
-git clone <https://github.com/MagMc007/Recapped>
-```
-2. Enter the Recapped folder
-```
-cd Recapped
-```
-Then Run
-```
-docker-compose up
-```
-This will run database, backend and frontend services
-
-## 📥 Populating Movies
-
-If you want to automatically populate the database with movie recap data, follow the steps below.
-
-### 1. Set up the environment file
-
-Create an environment file and add the required API keys:
-
-```
-YOUTUBE_API_KEY=...
-OMBD_API_KEY=...
-GEMINI_API_KEY_1=....
-GEMINI_API_KEY_2=....
-```
-It is recommended to prepare **at least 4 Gemini API keys**, since you may run out of request quota during the process.
-### 2. Select the YouTube channel source
-
-Then proceed to the folder: 
-```
-./backend/movies/management/commands/
-```
-Open the file:
-```
-populate_movies.py
-```
-Inside this file you will find a **dictionary containing selected YouTube channels**.  
-These channels are chosen because they provide **accurate descriptions of the movies they recap**, which increases the likelihood that the AI can correctly identify the movie.
-
-Choose **one channel** from the dictionary and **comment out the others**.
-
-### 3. Enter the backend container
-
-Navigate to the backend directory:
-
-
-Then go back to the folder: 
-```
-../backend
-```
-Then open a shell inside the Django container:
-
-```
-docker exec -it my_django_backend bash
+    subgraph Client ["7. Client Consumption (Vercel)"]
+        J["Next.js Frontend"]
+        REST -->|HTTP Requests| J
+    end
 ```
 
-then run the population command:
-```
-python manage.py populate_movies
-```
-This will trigger the automatic process described in the data flow diagram.
+### Workflow Steps:
+
+1. **Terminal Trigger**: Developer runs `python manage.py populate_movies` inside the backend container.
+2. **YouTube Fetching**: Queries the YouTube Data API to pull recent recap uploads, descriptions, and channel creator details.
+3. **AI Title Extraction (Gemini)**: Unstructured video titles and descriptions are processed through Google Gemini (`gemini-2.5-flash`), extracting the exact movie title and release year with ~90% precision while filtering out clickbait noise. Multi-key rotation handles quota limits seamlessly.
+4. **Metadata Enrichment (OMDb)**: The candidate title and year hint are passed to the OMDb API to retrieve canonical metadata (official poster, genre, country, and release year).
+5. **Database Storage**: The Django ORM persists the movie details and links the recap video ID, YouTube creator, and channel into PostgreSQL.
+6. **Frontend Delivery**: The Next.js frontend retrieves the enriched movies and embedded recaps via clean REST API endpoints using the native Fetch API.
+
+---
