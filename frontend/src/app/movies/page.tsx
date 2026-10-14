@@ -69,12 +69,12 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
     <div style={{ paddingTop: 64, minHeight: '100vh', background: 'var(--bg)' }}>
       <FilmStrip />
 
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 16px 80px' }}>
+      <div className="max-w-[1280px] mx-auto px-3.5 sm:px-4 md:px-6 py-5 sm:py-8 pb-16 sm:pb-20">
         {/* Page header */}
         <div
           className="fade-up"
           style={{
-            marginBottom: 24,
+            marginBottom: 20,
             display: 'flex',
             alignItems: 'flex-end',
             justifyContent: 'space-between',
@@ -98,8 +98,8 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
             <h1
               className="font-bebas"
               style={{
-                fontSize: 'clamp(36px, 8vw, 64px)',
-                letterSpacing: 2,
+                fontSize: 'clamp(28px, 7vw, 56px)',
+                letterSpacing: 1.5,
                 lineHeight: 1,
                 margin: 0,
               }}

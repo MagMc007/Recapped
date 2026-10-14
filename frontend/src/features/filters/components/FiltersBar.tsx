@@ -34,19 +34,14 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
     outline: 'none',
     cursor: 'pointer',
     transition: 'border-color 0.2s ease, background 0.2s ease',
-    minWidth: 140,
   };
 
   return (
     <div
+      className="p-3.5 sm:p-5 mb-7 rounded-xl relative overflow-hidden"
       style={{
         background: 'var(--surface)',
         border: '1px solid var(--border)',
-        borderRadius: 'var(--radius)',
-        padding: '16px 20px',
-        marginBottom: 28,
-        position: 'relative',
-        overflow: 'hidden',
         boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
       }}
     >
@@ -67,20 +62,11 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
       )}
 
       {/* Row 1: Type Segmented Control + Search Bar */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 16,
-          marginBottom: 14,
-        }}
-      >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-3.5 sm:mb-4">
         {/* Type Toggle: Movies / Series */}
         <div
+          className="flex w-full sm:w-auto"
           style={{
-            display: 'inline-flex',
             background: 'var(--bg2)',
             borderRadius: 8,
             padding: 3,
@@ -90,6 +76,7 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
           <button
             type="button"
             onClick={() => setType('movies')}
+            className="flex-1 sm:flex-initial justify-center"
             style={{
               padding: '6px 16px',
               borderRadius: 6,
@@ -110,6 +97,7 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
           <button
             type="button"
             onClick={() => setType('series')}
+            className="flex-1 sm:flex-initial justify-center"
             style={{
               padding: '6px 16px',
               borderRadius: 6,
@@ -130,7 +118,7 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
         </div>
 
         {/* Search input with icons */}
-        <div style={{ position: 'relative', flex: '1 1 280px', maxWidth: 420 }}>
+        <div className="relative w-full sm:flex-1 sm:max-w-[420px]">
           <span
             style={{
               position: 'absolute',
@@ -188,72 +176,70 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
       </div>
 
       {/* Row 2: Filter Selectors (Genre, Year, Country) + Clear Button */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: 12,
-        }}
-      >
-        {/* Genre Select */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <label htmlFor="filter-genre" style={{ fontSize: 12, color: 'var(--muted)' }}>
-            Genre:
-          </label>
-          <select
-            id="filter-genre"
-            value={currentGenre}
-            onChange={(e) => setFilter('genre', e.target.value)}
-            style={selectStyle}
-          >
-            <option value="">All Genres</option>
-            {options.genres.map((g) => (
-              <option key={g.value} value={g.value}>
-                {g.label}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-1 sm:flex sm:items-center sm:flex-wrap gap-2.5 sm:gap-3 flex-1">
+          {/* Genre Select */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+            <label htmlFor="filter-genre" className="text-xs text-[var(--muted)] shrink-0 w-14 sm:w-auto">
+              Genre:
+            </label>
+            <select
+              id="filter-genre"
+              value={currentGenre}
+              onChange={(e) => setFilter('genre', e.target.value)}
+              className="w-full sm:w-auto sm:min-w-[130px]"
+              style={selectStyle}
+            >
+              <option value="">All Genres</option>
+              {options.genres.map((g) => (
+                <option key={g.value} value={g.value}>
+                  {g.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Year Select */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <label htmlFor="filter-year" style={{ fontSize: 12, color: 'var(--muted)' }}>
-            Year:
-          </label>
-          <select
-            id="filter-year"
-            value={currentYear}
-            onChange={(e) => setFilter('year', e.target.value)}
-            style={selectStyle}
-          >
-            <option value="">All Years</option>
-            {options.years.map((y) => (
-              <option key={y.value} value={y.value}>
-                {y.label}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* Year Select */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+            <label htmlFor="filter-year" className="text-xs text-[var(--muted)] shrink-0 w-14 sm:w-auto">
+              Year:
+            </label>
+            <select
+              id="filter-year"
+              value={currentYear}
+              onChange={(e) => setFilter('year', e.target.value)}
+              className="w-full sm:w-auto sm:min-w-[120px]"
+              style={selectStyle}
+            >
+              <option value="">All Years</option>
+              {options.years.map((y) => (
+                <option key={y.value} value={y.value}>
+                  {y.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Country Select */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <label htmlFor="filter-country" style={{ fontSize: 12, color: 'var(--muted)' }}>
-            Country:
-          </label>
-          <select
-            id="filter-country"
-            value={currentCountry}
-            onChange={(e) => setFilter('country', e.target.value)}
-            style={selectStyle}
-          >
-            <option value="">All Countries</option>
-            {options.countries.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
-          </select>
+          {/* Country Select */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+            <label htmlFor="filter-country" className="text-xs text-[var(--muted)] shrink-0 w-14 sm:w-auto">
+              Country:
+            </label>
+            <select
+              id="filter-country"
+              value={currentCountry}
+              onChange={(e) => setFilter('country', e.target.value)}
+              className="w-full sm:w-auto sm:min-w-[130px]"
+              style={selectStyle}
+            >
+              <option value="">All Countries</option>
+              {options.countries.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Clear All Button */}
@@ -261,8 +247,8 @@ export const FiltersBar: React.FC<FiltersBarProps> = ({ options }) => {
           <button
             type="button"
             onClick={clearAllFilters}
+            className="w-full sm:w-auto sm:ml-auto justify-center"
             style={{
-              marginLeft: 'auto',
               background: 'rgba(255, 77, 77, 0.12)',
               border: '1px solid rgba(255, 77, 77, 0.3)',
               color: '#ff6b6b',

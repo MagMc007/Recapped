@@ -109,19 +109,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({
       )}
 
       {/* Rating badge top-left */}
-      <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 2 }}>
+      <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-[2]">
         <RatingBadge rating={movie.omdbRating?.imdb || 'N/A'} animate={hovered} />
       </div>
 
       {/* Type badge top-right */}
-      <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+      <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-[2]">
         <span
           style={{
             background: movie.type === 'series' ? 'var(--accent2)' : 'rgba(0,0,0,0.7)',
             backdropFilter: 'blur(6px)',
             border: '1px solid rgba(255,255,255,0.1)',
             borderRadius: 4,
-            padding: '2px 7px',
+            padding: '2px 6px',
             fontSize: 10,
             color: '#fff',
             fontWeight: 600,
@@ -135,24 +135,25 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
       {/* Bottom info */}
       <div
+        className="p-2.5 pt-6 sm:p-3.5 sm:pt-8"
         style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
           right: 0,
           background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%)',
-          padding: '32px 14px 14px',
           zIndex: 2,
         }}
       >
         <div
+          className="truncate"
           style={{
-            fontSize: 11,
+            fontSize: 10,
             color: 'var(--accent-light)',
             textTransform: 'uppercase',
-            letterSpacing: 2,
+            letterSpacing: 1.5,
             fontWeight: 600,
-            marginBottom: 4,
+            marginBottom: 3,
           }}
         >
           {movie.year} · {movie.genres?.[0] || 'Movie'}
@@ -160,10 +161,14 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         <div
           className="font-bebas"
           style={{
-            fontSize: 22,
-            letterSpacing: 1.5,
+            fontSize: 'clamp(16px, 3.8vw, 22px)',
+            letterSpacing: 1.2,
             color: '#fff',
             lineHeight: 1.1,
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
           }}
         >
           {movie.title}

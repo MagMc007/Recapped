@@ -77,56 +77,55 @@ export const MoviesPagination: React.FC<MoviesPaginationProps> = ({
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 6,
-        marginTop: 48,
-        flexWrap: 'wrap',
-      }}
-    >
-      {/* Previous */}
-      {hasPrevious ? (
-        <Link href={buildPageUrl(currentPage - 1)} style={btnBase}>
-          ← Prev
-        </Link>
-      ) : (
-        <span style={disabledBtn}>← Prev</span>
-      )}
-
-      {/* Page numbers */}
-      {pages.map((p, i) =>
-        p === '...' ? (
-          <span
-            key={`ellipsis-${i}`}
-            style={{ ...btnBase, cursor: 'default', pointerEvents: 'none', background: 'transparent', border: 'none' }}
-          >
-            …
-          </span>
-        ) : (
-          <Link
-            key={p}
-            href={buildPageUrl(p as number)}
-            style={p === currentPage ? activeBtn : btnBase}
-          >
-            {p}
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-12">
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+        {/* Previous */}
+        {hasPrevious ? (
+          <Link href={buildPageUrl(currentPage - 1)} style={btnBase} className="px-2 sm:px-2.5 h-8 sm:h-9 min-w-[32px] sm:min-w-[36px] text-xs sm:text-sm">
+            ← Prev
           </Link>
-        )
-      )}
+        ) : (
+          <span style={disabledBtn} className="px-2 sm:px-2.5 h-8 sm:h-9 min-w-[32px] sm:min-w-[36px] text-xs sm:text-sm">
+            ← Prev
+          </span>
+        )}
 
-      {/* Next */}
-      {hasNext ? (
-        <Link href={buildPageUrl(currentPage + 1)} style={btnBase}>
-          Next →
-        </Link>
-      ) : (
-        <span style={disabledBtn}>Next →</span>
-      )}
+        {/* Page numbers */}
+        {pages.map((p, i) =>
+          p === '...' ? (
+            <span
+              key={`ellipsis-${i}`}
+              style={{ ...btnBase, cursor: 'default', pointerEvents: 'none', background: 'transparent', border: 'none' }}
+              className="h-8 sm:h-9 min-w-[24px] sm:min-w-[30px] text-xs sm:text-sm"
+            >
+              …
+            </span>
+          ) : (
+            <Link
+              key={p}
+              href={buildPageUrl(p as number)}
+              style={p === currentPage ? activeBtn : btnBase}
+              className="px-2 sm:px-2.5 h-8 sm:h-9 min-w-[32px] sm:min-w-[36px] text-xs sm:text-sm"
+            >
+              {p}
+            </Link>
+          )
+        )}
+
+        {/* Next */}
+        {hasNext ? (
+          <Link href={buildPageUrl(currentPage + 1)} style={btnBase} className="px-2 sm:px-2.5 h-8 sm:h-9 min-w-[32px] sm:min-w-[36px] text-xs sm:text-sm">
+            Next →
+          </Link>
+        ) : (
+          <span style={disabledBtn} className="px-2 sm:px-2.5 h-8 sm:h-9 min-w-[32px] sm:min-w-[36px] text-xs sm:text-sm">
+            Next →
+          </span>
+        )}
+      </div>
 
       {/* Count label */}
-      <span style={{ fontSize: 12, color: 'var(--muted)', marginLeft: 8 }}>
+      <span className="text-xs text-[var(--muted)] whitespace-nowrap">
         Page {currentPage} of {totalPages} &middot; {totalCount} titles
       </span>
     </div>
