@@ -1,19 +1,6 @@
 name: recapped
 
 services:
-  db:
-    image: postgres:15
-    container_name: my_project_db
-    restart: always
-    environment:
-      - POSTGRES_DB=recap
-      - POSTGRES_USER=supermag
-      - POSTGRES_PASSWORD=qwerty1234@#
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   backend:
     build:
       context: .
@@ -23,15 +10,10 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     environment:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
-
-volumes:
-  postgres_data:
-    name: recapped_postgres_data
-    external: true
+      DB_PORT: ${DB_PORT:-5432}
+      DB_SSLMODE: ${DB_SSLMODE:-require}

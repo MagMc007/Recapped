@@ -15,8 +15,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv 
 from datetime import timedelta
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
@@ -94,11 +92,15 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME", "recap"),
         "USER": os.getenv("DB_USER", "supermag"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "qwerty1234@#"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": "5432",
+        "PORT": os.getenv("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": os.getenv("DB_SSLMODE", "prefer"),
+        },
     }
 }
+
 
 
 # DATABASES = {
@@ -178,15 +180,20 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 18,
 }
 
-
 CORS_ALLOW_ALL_ORIGINS = False
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://recapped-delta.vercel.app",
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://recapped-[a-zA-Z0-9-]+\.vercel\.app$",
+]
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', "recapped-aca.blackwater-99aa4fe6.spaincentral.azurecontainerapps.io"]
 
 CORS_ALLOW_CREDENTIALS = True
