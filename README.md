@@ -60,7 +60,7 @@ Movie recap enthusiasts face a frustrating experience:
 ### Infrastructure & DevOps
 
 - **Docker & Docker Compose**: Unified multi-container orchestration (Django backend, Next.js frontend).
-- **Azure Container Registry / Azure App Service**: The Django backend image is built and deployed on Azure.
+- **Github Container Registry / Azure App Service**: The Django backend image is built and deployed on gcontainer registry and hosted on azure continer app.
 - **Vercel**: Hosts the Next.js frontend.
 
 ---
